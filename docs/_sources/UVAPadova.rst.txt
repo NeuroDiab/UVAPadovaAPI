@@ -1,0 +1,29 @@
+UVAPadova package
+=================
+
+Submodules
+----------
+
+UVAPadova.VirtualPatientT1DMS module
+------------------------------------
+
+.. automodule:: UVAPadova.VirtualPatientT1DMS
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+UVAPadova.uva\_padova\_simulator module
+---------------------------------------
+
+.. automodule:: UVAPadova.uva_padova_simulator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: UVAPadova
+   :members:
+   :undoc-members:
+   :show-inheritance:

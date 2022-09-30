@@ -1,0 +1,7 @@
+uva\_padova\_API module
+=======================
+
+.. automodule:: uva_padova_API
+   :members:
+   :undoc-members:
+   :show-inheritance:

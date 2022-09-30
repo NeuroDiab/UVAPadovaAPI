@@ -1,0 +1,29 @@
+OESimulator.DataProcessing package
+==================================
+
+Submodules
+----------
+
+OESimulator.DataProcessing.DBFile module
+----------------------------------------
+
+.. automodule:: OESimulator.DataProcessing.DBFile
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+OESimulator.DataProcessing.ErrorCodes module
+--------------------------------------------
+
+.. automodule:: OESimulator.DataProcessing.ErrorCodes
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: OESimulator.DataProcessing
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <title>Simulator.UVAPadova package</title>
+    
+
+    <link rel="stylesheet" href="_static/css/redactor.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/css/redactor.css" type="text/css" />
+    
+    
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="UVA/Padova API  documentation" href="index.html"/>
+    <link rel="prev" title="UVAPadovaAPIWrapper module" href="UVAPadovaAPIWrapper.html"/> 
+</head>
+
+<body role="document">
+     
+
+    
+<a href="#" id="js-navigation-toggle" class="navigation-toggle">
+    <i class="mdi mdi-menu"></i><i class="mdi mdi-close"></i>
+</a>
+
+<section class="site-sidebar">
+
+<nav>
+
+
+    <a href="index.html" class="branding-link">
+    
+        UVA/Padova API
+    
+    
+    
+        
+        
+    
+    </a>
+
+    
+<section role="search">
+    <form action="search.html" method="get" class="site-searchform">
+        <input type="text" name="q" placeholder="Search docs" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+</section>
+
+
+
+    <section class="site-nav">
+    
+    
+        <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="UVAPadovaAPI.html">UVAPadovaAPI module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UVAPadovaAPIWrapper.html">UVAPadovaAPIWrapper module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Simulator.UVAPadova package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Simulator.UVAPadova.UVAPadovaSimulator">Simulator.UVAPadova.UVAPadovaSimulator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Simulator.UVAPadova.VirtualPatientT1DMS">Simulator.UVAPadova.VirtualPatientT1DMS module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Simulator.UVAPadova">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+    
+    </section>
+
+</nav>
+
+</section>
+
+    <main class="site-main" role="main">
+        
+
+
+
+
+
+
+
+
+
+
+
+<nav class="site-breadcrumbs">
+    <ul>
+    
+        <li>
+            <a href="index.html">Docs</a> /
+        </li>
+        
+        <li class="site-breadcrumbs__leaf">Simulator.UVAPadova package</li>
+    
+    </ul>
+</nav>
+        <section class="site-content">
+            <div class="container">
+                
+  <section id="simulator-uvapadova-package">
+<h1>Simulator.UVAPadova package<a class="headerlink" href="#simulator-uvapadova-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-Simulator.UVAPadova.UVAPadovaSimulator">
+<span id="simulator-uvapadova-uvapadovasimulator-module"></span><h2>Simulator.UVAPadova.UVAPadovaSimulator module<a class="headerlink" href="#module-Simulator.UVAPadova.UVAPadovaSimulator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Simulator.UVAPadova.UVAPadovaSimulator.UvaPadovaSimulator">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">Simulator.UVAPadova.UVAPadovaSimulator.</span></span><span class="sig-name descname"><span class="pre">UvaPadovaSimulator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/UVAPadova/UVAPadovaSimulator.html#UvaPadovaSimulator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.UVAPadova.UVAPadovaSimulator.UvaPadovaSimulator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class can be store the current state of a simulation and can extend it by 5 minutes per step.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This class was created exclusively to serve the API.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>patient</strong> (<em>obj</em>) – A VirtualPatientT1DMS object, which represents a virtual patient and controls the MATLAB engine.</p></li>
+<li><p><strong>scenario</strong> (<em>obj</em>) – A Scenario object, which provides a storage and interface for the simulation related information.</p></li>
+<li><p><strong>chLostFlag</strong> (<em>bool</em>) – A flag which indicates whether the meal could be considered according to
+the rules of the UvaPadovaSimulator or not.</p></li>
+<li><p><strong>tEndReal</strong> (<em>int</em>) – The duration of the simulation in minutes.</p></li>
+<li><p><strong>i_times</strong> (<em>list</em><em>(</em><em>int</em><em>)</em>) – The list of minutes when was insulin intake.</p></li>
+<li><p><strong>meals</strong> (<em>list</em><em>(</em><em>float</em><em>)</em>) – The list of the amounts of carbohydrate taken.</p></li>
+<li><p><strong>m_times</strong> (<em>list</em><em>(</em><em>int</em><em>)</em>) – The list of minutes when was carbohydrate intake.</p></li>
+<li><p><strong>insulins</strong> (<em>list</em><em>(</em><em>float</em><em>)</em>) – The list of the amounts of insulin taken.</p></li>
+<li><p><strong>sensor</strong> (<em>str</em>) – The type of the CGM sensor currently in use. Defaults to ‘guardianRT.scs’</p></li>
+<li><p><strong>pump</strong> (<em>str</em>) – The type of the insulin pump currently in use. Defaults to ‘Generic_1.pmp’</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.UVAPadova.UVAPadovaSimulator.UvaPadovaSimulator.doSimulation">
+<span class="sig-name descname"><span class="pre">doSimulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">carbohydrate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">insulin</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/UVAPadova/UVAPadovaSimulator.html#UvaPadovaSimulator.doSimulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.UVAPadova.UVAPadovaSimulator.UvaPadovaSimulator.doSimulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method extends the initialized simulation by 5 minutes.
+The method invokes the MATHLAB engine with an extended Scenario.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>carbohydrate</strong> (<em>float</em>) – The amount of carbohydrate intake, in the last five minutes (in grams).
+Zero if there wasn’t carbohydrate intake.</p></li>
+<li><p><strong>insulin</strong> (<em>float</em>) – The amount of insulin intake, in the last five minutes (in unites).
+Zero if there wasn’t insulin intake.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The blood glucose level value at the end of the simulation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Simulator.UVAPadova.VirtualPatientT1DMS">
+<span id="simulator-uvapadova-virtualpatientt1dms-module"></span><h2>Simulator.UVAPadova.VirtualPatientT1DMS module<a class="headerlink" href="#module-Simulator.UVAPadova.VirtualPatientT1DMS" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Simulator.UVAPadova.VirtualPatientT1DMS.VirtualPatientT1DMS">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">Simulator.UVAPadova.VirtualPatientT1DMS.</span></span><span class="sig-name descname"><span class="pre">VirtualPatientT1DMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patient_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BGinit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/UVAPadova/VirtualPatientT1DMS.html#VirtualPatientT1DMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.UVAPadova.VirtualPatientT1DMS.VirtualPatientT1DMS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>VirtualPatientT1DMS class implements a virtual patient on the basis of the OE simulator, and controls the MATLAB engine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>BGinit</strong> – </p></li>
+<li><p><strong>patient</strong> (<em>str</em>) – Patient ID.</p></li>
+<li><p><strong>eng</strong> – Matlab engine for Python.</p></li>
+<li><p><strong>simulation_data</strong> (<a class="reference internal" href="Simulator.OESimulator.SimulationData.html#Simulator.OESimulator.SimulationData.SimulationData.SimulationData" title="Simulator.OESimulator.SimulationData.SimulationData.SimulationData"><em>SimulationData</em></a>) – Stores all the simulation related data.</p></li>
+<li><p><strong>hardwareN</strong> (<em>dict</em>) – Represents the “hardwareN” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>hardware</strong> (<em>dict</em>) – Represents the “hardware” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>rep</strong> (<em>int</em>) – Represents the “rep” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>bck_meals</strong> (<em>matlab.double</em>) – Represents the “bck_meals” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>bck_meal_announce</strong> (<em>matlab.double</em>) – Represents the “bck_meal_announce” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>bck_SQinsulin</strong> (<em>dict</em>) – Represents the “bck_SQinsulin” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>ind</strong> (<em>int</em>) – Represents the “ind” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>sc</strong> (<em>dict</em>) – Represents the “sc” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>result</strong> (<em>dict</em>) – Represents the “res_aux” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>bg</strong> (<em>np.array</em>) – Stores the simulated blood glucose trajectory.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.UVAPadova.VirtualPatientT1DMS.VirtualPatientT1DMS.plotHistoricalStates">
+<span class="sig-name descname"><span class="pre">plotHistoricalStates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/UVAPadova/VirtualPatientT1DMS.html#VirtualPatientT1DMS.plotHistoricalStates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.UVAPadova.VirtualPatientT1DMS.VirtualPatientT1DMS.plotHistoricalStates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the result of the simulatePatient() function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.UVAPadova.VirtualPatientT1DMS.VirtualPatientT1DMS.simulatePatient">
+<span class="sig-name descname"><span class="pre">simulatePatient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulation_data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/UVAPadova/VirtualPatientT1DMS.html#VirtualPatientT1DMS.simulatePatient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.UVAPadova.VirtualPatientT1DMS.VirtualPatientT1DMS.simulatePatient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulates the patient based on the data given in the simulation_data argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>simulation_data</strong> (<a class="reference internal" href="Simulator.OESimulator.SimulationData.html#Simulator.OESimulator.SimulationData.SimulationData.SimulationData" title="Simulator.OESimulator.SimulationData.SimulationData.SimulationData"><em>SimulationData</em></a>) – Stores the simulation related information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Simulator.UVAPadova">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Simulator.UVAPadova" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+            </div>
+
+        </section>
+
+        
+            <nav class="site-bottom-navigation" role="navigation">
+            
+            
+                <a href="UVAPadovaAPIWrapper.html" class="btn btn--primary btn--prev"
+                    title="UVAPadovaAPIWrapper module" accesskey="p">
+                    Previous
+                </a>
+            
+            </nav>
+        
+
+        
+            <div class="source-link">
+            
+                
+                    <a href="_sources/Simulator.UVAPadova.rst.txt" rel="nofollow">
+                        <i class="mdi mdi-code-tags"></i>
+                        View page source
+                    </a>
+                
+            
+            </div>
+        
+
+
+
+    </main>
+
+    <footer class="site-footer">
+<div class="container">
+
+    <div role="contentinfo">
+        <p>
+                &copy; Copyright 2022, ntoth,msiket,lszasz,knovak,geigner.
+        </p>
+    </div>
+        <p>Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+        <a href="https://github.com/testthedocs/sphinx_ttd_theme">theme</a>
+        provided by <a href="https://testthedocs">TestTheDocs</a>. 
+
+</div>
+</footer>
+
+    
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/theme-min.js"></script> 
+</body>
+</html>

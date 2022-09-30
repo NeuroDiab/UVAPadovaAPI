@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <title>Simulator.UVAPadova.uva_padova_simulator</title>
+    
+
+    <link rel="stylesheet" href="../../../_static/css/redactor.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../../../_static/css/redactor.css" type="text/css" />
+    
+    
+    <link rel="index" title="Index" href="../../../genindex.html"/>
+    <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="uvapadovaAPI  documentation" href="../../../index.html"/>
+    <link rel="up" title="Module code" href="../../index.html"/> 
+</head>
+
+<body role="document">
+     
+
+    
+<a href="#" id="js-navigation-toggle" class="navigation-toggle">
+    <i class="mdi mdi-menu"></i><i class="mdi mdi-close"></i>
+</a>
+
+<section class="site-sidebar">
+
+<nav>
+
+
+    <a href="../../../index.html" class="branding-link">
+    
+        uvapadovaAPI
+    
+    
+    
+        
+        
+    
+    </a>
+
+    
+<section role="search">
+    <form action="../../../search.html" method="get" class="site-searchform">
+        <input type="text" name="q" placeholder="Search docs" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+</section>
+
+
+
+    <section class="site-nav">
+    
+    
+        <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../uva_padova_API.html">uva_padova_API module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../uva_padova_API_Wrapper.html">uva_padova_API_Wrapper module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Simulator.UVAPadova.html">Simulator.UVAPadova package</a></li>
+</ul>
+
+    
+    </section>
+
+</nav>
+
+</section>
+
+    <main class="site-main" role="main">
+        
+
+
+
+
+
+
+
+
+
+
+
+<nav class="site-breadcrumbs">
+    <ul>
+    
+        <li>
+            <a href="../../../index.html">Docs</a> /
+        </li>
+        
+        <li>
+            <a href="../../index.html">Module code</a> /
+        </li>
+        
+        <li class="site-breadcrumbs__leaf">Simulator.UVAPadova.uva_padova_simulator</li>
+    
+    </ul>
+</nav>
+        <section class="site-content">
+            <div class="container">
+                
+  <h1>Source code for Simulator.UVAPadova.uva_padova_simulator</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">..OESimulator.SimulationData.Scenario</span> <span class="kn">import</span> <span class="n">Scenario</span>
+<span class="kn">from</span> <span class="nn">..OESimulator.DataProcessor</span> <span class="kn">import</span> <span class="n">DataProcessor</span>
+<span class="kn">from</span> <span class="nn">.VirtualPatientT1DMS</span> <span class="kn">import</span> <span class="n">VirtualPatientT1DMS</span>
+<span class="kn">import</span> <span class="nn">matlab.engine</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+
+<div class="viewcode-block" id="UvaPadovaSimulator"><a class="viewcode-back" href="../../../Simulator.UVAPadova.html#Simulator.UVAPadova.uva_padova_simulator.UvaPadovaSimulator">[docs]</a><span class="k">class</span> <span class="nc">UvaPadovaSimulator</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This class can be store the current state of a simulation and can extend it by 5 minutes per step.</span>
+
+
+<span class="sd">        Args:</span>
+<span class="sd">            patient_name (str): The identifier of the patient.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This class was created exclusively to serve the API.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            patient (obj) :</span>
+<span class="sd">                A VirtualPatientT1DMS object, which represents a virtual patient and controls the MATLAB engine.</span>
+<span class="sd">            scenario (obj):</span>
+<span class="sd">                A Scenario object, which provides a storage and interface for the simulation related information.</span>
+<span class="sd">            chLostFlag (bool):</span>
+<span class="sd">                A flag which indicates whether the meal could be considered according to</span>
+<span class="sd">                the rules of the UvaPadovaSimulator or not.</span>
+<span class="sd">            tEndReal (int): The duration of the simulation in minutes.</span>
+<span class="sd">            i_times (list(int)): The list of minutes when was insulin intake.</span>
+<span class="sd">            meals (list(float)): The list of the amounts of carbohydrate taken.</span>
+<span class="sd">            m_times (list(int)): The list of minutes when was carbohydrate intake.</span>
+<span class="sd">            insulins (list(float)): The list of the amounts of insulin taken.</span>
+<span class="sd">            sensor (str): The type of the CGM sensor currently in use. Defaults to &#39;guardianRT.scs&#39;</span>
+<span class="sd">            pump (str): The type of the insulin pump currently in use. Defaults to &#39;Generic_1.pmp&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patient_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">patient</span> <span class="o">=</span> <span class="n">VirtualPatientT1DMS</span><span class="p">(</span><span class="n">patient_name</span><span class="o">=</span><span class="n">patient_name</span><span class="p">,</span> <span class="n">BGinit</span><span class="o">=</span><span class="n">matlab</span><span class="o">.</span><span class="n">double</span><span class="p">([]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chLostFlag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tEndReal</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i_times</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_times</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">insulins</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sensor</span> <span class="o">=</span> <span class="s1">&#39;guardianRT.scs&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pump</span> <span class="o">=</span> <span class="s1">&#39;Generic_1.pmp&#39;</span>
+
+<div class="viewcode-block" id="UvaPadovaSimulator.doSimulation"><a class="viewcode-back" href="../../../Simulator.UVAPadova.html#Simulator.UVAPadova.uva_padova_simulator.UvaPadovaSimulator.doSimulation">[docs]</a>    <span class="k">def</span> <span class="nf">doSimulation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">carbohydrate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">insulin</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method extends the initialized simulation by 5 minutes.</span>
+<span class="sd">        The method invokes the MATHLAB engine with an extended Scenario.</span>
+
+
+<span class="sd">        Args:</span>
+<span class="sd">            carbohydrate (float):</span>
+<span class="sd">                The amount of carbohydrate intake, in the last five minutes (in grams).</span>
+<span class="sd">                Zero if there wasn&#39;t carbohydrate intake.</span>
+<span class="sd">            insulin (float):</span>
+<span class="sd">                The amount of insulin intake, in the last five minutes (in unites).</span>
+<span class="sd">                Zero if there wasn&#39;t insulin intake.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The blood glucose level value at the end of the simulation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chLostFlag</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># reset the flag</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__buildScenario</span><span class="p">(</span><span class="n">carbohydrate</span><span class="p">,</span> <span class="n">insulin</span><span class="p">)</span>
+        <span class="n">T1DMSprocessor</span> <span class="o">=</span> <span class="n">DataProcessor</span><span class="p">()</span>
+        <span class="n">T1DMSdata</span><span class="p">,</span> <span class="n">patient_data</span> <span class="o">=</span> <span class="n">T1DMSprocessor</span><span class="o">.</span><span class="n">processData</span><span class="p">(</span><span class="n">scenario</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">patient</span><span class="o">.</span><span class="n">simulatePatient</span><span class="p">(</span><span class="n">simulation_data</span><span class="o">=</span><span class="n">T1DMSdata</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">patient</span><span class="o">.</span><span class="n">bg</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">tEndReal</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="nf">__buildScenario</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">carbohydrate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">insulin</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method builds and the extended Scenario, considering the simulation rules of UvaPadova Simulator.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            carbohydrate (float):</span>
+<span class="sd">                The amount of carbohydrate intake, in the last five minutes (in grams).</span>
+<span class="sd">                Zero if there wasn&#39;t carbohydrate intake.</span>
+<span class="sd">            insulin (float):</span>
+<span class="sd">                The amount of insulin intake, in the last five minutes (in unites).</span>
+<span class="sd">                Zero if there wasn&#39;t insulin intake.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Update values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tEndReal</span> <span class="o">+=</span> <span class="mi">5</span>
+        <span class="k">if</span> <span class="n">carbohydrate</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__newChIsEnabled</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">m_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tEndReal</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">meals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">carbohydrate</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">insulin</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">i_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tEndReal</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">insulins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">insulin</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tEndReal</span> <span class="o">&lt;</span> <span class="mi">30</span><span class="p">:</span>
+            <span class="n">tend</span> <span class="o">=</span> <span class="mi">30</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tend</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tEndReal</span>
+
+        <span class="c1"># Create Scenario</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span> <span class="o">=</span> <span class="n">Scenario</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tend</span><span class="p">,</span> <span class="s2">&quot;t1dms&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">Ts</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">setManualMealScheme</span><span class="p">(</span><span class="n">meal_times</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_times</span><span class="p">),</span> <span class="n">meal_values</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meals</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">setManualBolusScheme</span><span class="p">(</span><span class="n">bolus_times</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">i_times</span><span class="p">),</span> <span class="n">bolus_values</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">insulins</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;U&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">setManualBasalInsulin</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;U/hr&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">setHardware</span><span class="p">(</span><span class="n">sensor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sensor</span><span class="p">,</span> <span class="n">pump</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pump</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">setParamsT1DMS</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__newChIsEnabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;This method checks the meal could be considered according to the rules of the UvaPadova Simulator or not</span>
+<span class="sd">        and sets the chLostFlag&#39;s value.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the carbohydrate intake can be considered. False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tEndReal</span> <span class="o">&gt;=</span> <span class="mi">60</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_times</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tEndReal</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_times</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chLostFlag</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+</pre></div>
+
+            </div>
+
+        </section>
+
+        
+
+        
+            <div class="source-link">
+            
+                
+            
+            </div>
+        
+
+
+
+    </main>
+
+    <footer class="site-footer">
+<div class="container">
+
+    <div role="contentinfo">
+        <p>
+                &copy; Copyright 2022, ntoth,siket,szasz.
+        </p>
+    </div>
+        <p>Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+        <a href="https://github.com/testthedocs/sphinx_ttd_theme">theme</a>
+        provided by <a href="https://testthedocs">TestTheDocs</a>. 
+
+</div>
+</footer>
+
+    
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/js/theme-min.js"></script> 
+</body>
+</html>

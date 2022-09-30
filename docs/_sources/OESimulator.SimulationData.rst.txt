@@ -1,0 +1,93 @@
+OESimulator.SimulationData package
+==================================
+
+Submodules
+----------
+
+OESimulator.SimulationData.CONSTANTS module
+-------------------------------------------
+
+.. automodule:: OESimulator.SimulationData.CONSTANTS
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+OESimulator.SimulationData.DataContainer module
+-----------------------------------------------
+
+.. automodule:: OESimulator.SimulationData.DataContainer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+OESimulator.SimulationData.ParamsT1DMS module
+---------------------------------------------
+
+.. automodule:: OESimulator.SimulationData.ParamsT1DMS
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+OESimulator.SimulationData.PatientData module
+---------------------------------------------
+
+.. automodule:: OESimulator.SimulationData.PatientData
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+OESimulator.SimulationData.PatientParams module
+-----------------------------------------------
+
+.. automodule:: OESimulator.SimulationData.PatientParams
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+OESimulator.SimulationData.Position module
+------------------------------------------
+
+.. automodule:: OESimulator.SimulationData.Position
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+OESimulator.SimulationData.Scenario module
+------------------------------------------
+
+.. automodule:: OESimulator.SimulationData.Scenario
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+OESimulator.SimulationData.SimulationData module
+------------------------------------------------
+
+.. automodule:: OESimulator.SimulationData.SimulationData
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+OESimulator.SimulationData.Timestamp module
+-------------------------------------------
+
+.. automodule:: OESimulator.SimulationData.Timestamp
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+OESimulator.SimulationData.Units module
+---------------------------------------
+
+.. automodule:: OESimulator.SimulationData.Units
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: OESimulator.SimulationData
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,30 @@
+OESimulator package
+===================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   OESimulator.DataProcessing
+   OESimulator.SimulationData
+
+Submodules
+----------
+
+OESimulator.DataProcessor module
+--------------------------------
+
+.. automodule:: OESimulator.DataProcessor
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: OESimulator
+   :members:
+   :undoc-members:
+   :show-inheritance:

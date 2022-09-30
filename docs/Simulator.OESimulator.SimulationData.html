@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <title>Simulator.OESimulator.SimulationData package</title>
+    
+
+    <link rel="stylesheet" href="_static/css/redactor.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/css/redactor.css" type="text/css" />
+    
+    
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="UVA/Padova API  documentation" href="index.html"/> 
+</head>
+
+<body role="document">
+     
+
+    
+<a href="#" id="js-navigation-toggle" class="navigation-toggle">
+    <i class="mdi mdi-menu"></i><i class="mdi mdi-close"></i>
+</a>
+
+<section class="site-sidebar">
+
+<nav>
+
+
+    <a href="index.html" class="branding-link">
+    
+        UVA/Padova API
+    
+    
+    
+        
+        
+    
+    </a>
+
+    
+<section role="search">
+    <form action="search.html" method="get" class="site-searchform">
+        <input type="text" name="q" placeholder="Search docs" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+</section>
+
+
+
+    <section class="site-nav">
+    
+    
+        <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="UVAPadovaAPI.html">UVAPadovaAPI module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UVAPadovaAPIWrapper.html">UVAPadovaAPIWrapper module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Simulator.UVAPadova.html">Simulator.UVAPadova package</a></li>
+</ul>
+
+    
+    </section>
+
+</nav>
+
+</section>
+
+    <main class="site-main" role="main">
+        
+
+
+
+
+
+
+
+
+
+
+
+<nav class="site-breadcrumbs">
+    <ul>
+    
+        <li>
+            <a href="index.html">Docs</a> /
+        </li>
+        
+        <li class="site-breadcrumbs__leaf">Simulator.OESimulator.SimulationData package</li>
+    
+    </ul>
+</nav>
+        <section class="site-content">
+            <div class="container">
+                
+  <section id="simulator-oesimulator-simulationdata-package">
+<h1>Simulator.OESimulator.SimulationData package<a class="headerlink" href="#simulator-oesimulator-simulationdata-package" title="Permalink to this headline">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-Simulator.OESimulator.SimulationData.CONSTANTS">
+<span id="simulator-oesimulator-simulationdata-constants-module"></span><h2>Simulator.OESimulator.SimulationData.CONSTANTS module<a class="headerlink" href="#module-Simulator.OESimulator.SimulationData.CONSTANTS" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.DATETIME_FORMAT">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">DATETIME_FORMAT</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><em class="property"> <span class="pre">=</span> <span class="pre">'%d-%m-%Y</span> <span class="pre">%H:%M:%S'</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.DATETIME_FORMAT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Date format.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MAX_BW">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MAX_BW</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">110.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MAX_BW" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum value of the body weight.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MAX_CI">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MAX_CI</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">3350.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MAX_CI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum value of the insulin clearance.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MAX_EGP">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MAX_EGP</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">2.23</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MAX_EGP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum value of the endogenous glucose production.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MAX_GEZI">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MAX_GEZI</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">0.07</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MAX_GEZI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum value of the glucose consumption at zero insulin level.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MAX_P2">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MAX_P2</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">0.1</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MAX_P2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum value of the rate constant of the insulin effect.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MAX_SI">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MAX_SI</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">0.0021</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MAX_SI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum value of the insulin sensitivity.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MAX_TAU1">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MAX_TAU1</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">70.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MAX_TAU1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum value of the time constant of the insulin absorption in the 1st compartment.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MAX_TAU2">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MAX_TAU2</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">50.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MAX_TAU2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum value of the time constant of the insulin absorption in the 2nd compartment.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MAX_TAUD">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MAX_TAUD</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">60.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MAX_TAUD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum value of the time constant of the CHO absorption.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MAX_VG">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MAX_VG</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">1000.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MAX_VG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum value of the glucose distribution volume.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MIN_BW">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MIN_BW</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">50.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MIN_BW" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum value of the body weight.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MIN_CI">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MIN_CI</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">372.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MIN_CI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum value of the insulin clearance.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MIN_EGP">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MIN_EGP</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">0.062</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MIN_EGP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum value of the endogenous glucose production.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MIN_GEZI">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MIN_GEZI</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">0.0005</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MIN_GEZI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum value of the glucose consumption at zero insulin level.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MIN_P2">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MIN_P2</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">0.02</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MIN_P2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum value of the rate constant of the insulin effect.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MIN_SI">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MIN_SI</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">2.3e-06</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MIN_SI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum value of the insulin sensitivity.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MIN_TAU1">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MIN_TAU1</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">10.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MIN_TAU1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum value of the time constant of the insulin absorption in the 1st compartment.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MIN_TAU2">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MIN_TAU2</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">10.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MIN_TAU2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum value of the time constant of the insulin absorption in the 2nd compartment.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MIN_TAUD">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MIN_TAUD</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">10.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MIN_TAUD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum value of the time constant of the CHO absorption.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.MIN_VG">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">MIN_VG</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">100.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.MIN_VG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum value of the glucose distribution volume.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_BW">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">NOMINAL_BW</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">69.7</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_BW" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nominal value of the body weight.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_CI">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">NOMINAL_CI</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">1200.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_CI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nominal value of the insulin clearance.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_EGP">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">NOMINAL_EGP</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">1.488</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_EGP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nominal value of the endogenous glucose production.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_GEZI">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">NOMINAL_GEZI</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">3.03e-08</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_GEZI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nominal value of the glucose consumption at zero insulin level.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_P2">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">NOMINAL_P2</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">0.010288</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_P2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nominal value of the rate constant of the insulin effect.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_SI">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">NOMINAL_SI</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">0.0007</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_SI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nominal value of the insulin sensitivity.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_TAU1">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">NOMINAL_TAU1</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">70.05</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_TAU1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nominal value of the time constant of the insulin absorption in the 1st compartment.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_TAU2">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">NOMINAL_TAU2</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">43.4</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_TAU2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nominal value of the time constant of the insulin absorption in the 2nd compartment.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_TAUD">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">NOMINAL_TAUD</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">40.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_TAUD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nominal value of the time constant of the CHO absorption.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_VG">
+<span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.CONSTANTS.</span></span><span class="sig-name descname"><span class="pre">NOMINAL_VG</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">180.0</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.CONSTANTS.NOMINAL_VG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nominal value of the glucose distribution volume.</p>
+</dd></dl>
+
+</section>
+<section id="module-Simulator.OESimulator.SimulationData.DataContainer">
+<span id="simulator-oesimulator-simulationdata-datacontainer-module"></span><h2>Simulator.OESimulator.SimulationData.DataContainer module<a class="headerlink" href="#module-Simulator.OESimulator.SimulationData.DataContainer" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.DataContainer.DataContainer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.DataContainer.</span></span><span class="sig-name descname"><span class="pre">DataContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scalar</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamped_array</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impulsive</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/DataContainer.html#DataContainer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Stores data in different formats (scalar, array (with Ts sampling), timestamped array).
+Defined by __slots__ as the class only serves quick data access purposes.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.DataContainer.DataContainer.as_array">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">as_array</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer.as_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets and sets the variable in array format.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Sampled based on the Ts variable of the Scenario.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns data in array format.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.DataContainer.DataContainer.as_scalar">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">as_scalar</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer.as_scalar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets and sets the variable in scalar format.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When array format exists, it returns the value corresponding to the current time point. It is relevant only as an attribute of the SimulationData.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns data in scalar format.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.DataContainer.DataContainer.as_timestamped_array">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">as_timestamped_array</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer.as_timestamped_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets and sets the variable in timestamped array format.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Times points are given in Unix timestamp format [minutes].</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns data in timestamped array format.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">)</span>
+<span class="go">[[26679390       30       40]</span>
+<span class="go"> [26679540       15       10]]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.DataContainer.DataContainer.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/DataContainer.html#DataContainer.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a deep copy of the instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Deep copy of the instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer" title="Simulator.OESimulator.SimulationData.DataContainer.DataContainer">DataContainer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.DataContainer.DataContainer.copyTimestampedArrayToArray">
+<span class="sig-name descname"><span class="pre">copyTimestampedArrayToArray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/DataContainer.html#DataContainer.copyTimestampedArrayToArray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer.copyTimestampedArrayToArray" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.DataContainer.DataContainer.impulsive">
+<span class="sig-name descname"><span class="pre">impulsive</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer.impulsive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.DataContainer.DataContainer.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/DataContainer.html#DataContainer.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>If array or timestamped_array exists it plots the stored data.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Array or timestamped_array format needed.</p>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Simulator.OESimulator.SimulationData.ParamsT1DMS">
+<span id="simulator-oesimulator-simulationdata-paramst1dms-module"></span><h2>Simulator.OESimulator.SimulationData.ParamsT1DMS module<a class="headerlink" href="#module-Simulator.OESimulator.SimulationData.ParamsT1DMS" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.ParamsT1DMS.</span></span><span class="sig-name descname"><span class="pre">ParamsT1DMS</span></span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/ParamsT1DMS.html#ParamsT1DMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>ParamsT1DMS stores the Uva/Padova simulator related scenario parameters.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All the member variables all the equivalent of the Uva/Padova Matlab simulator variables.</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.BGinit">
+<span class="sig-name descname"><span class="pre">BGinit</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.BGinit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.CR">
+<span class="sig-name descname"><span class="pre">CR</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.CR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.IV_glucose">
+<span class="sig-name descname"><span class="pre">IV_glucose</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.IV_glucose" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.IV_insulin">
+<span class="sig-name descname"><span class="pre">IV_insulin</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.IV_insulin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.OB">
+<span class="sig-name descname"><span class="pre">OB</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.OB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.Qbasal">
+<span class="sig-name descname"><span class="pre">Qbasal</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.Qbasal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.Qbolus">
+<span class="sig-name descname"><span class="pre">Qbolus</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.Qbolus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.Qmeals">
+<span class="sig-name descname"><span class="pre">Qmeals</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.Qmeals" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.SQg">
+<span class="sig-name descname"><span class="pre">SQg</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.SQg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.Tclosed">
+<span class="sig-name descname"><span class="pre">Tclosed</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.Tclosed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.Treg">
+<span class="sig-name descname"><span class="pre">Treg</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.Treg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.Tsimul">
+<span class="sig-name descname"><span class="pre">Tsimul</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.Tsimul" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.basal">
+<span class="sig-name descname"><span class="pre">basal</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.basal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.hardwareN_pump">
+<span class="sig-name descname"><span class="pre">hardwareN_pump</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.hardwareN_pump" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.hardwareN_sensor">
+<span class="sig-name descname"><span class="pre">hardwareN_sensor</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.hardwareN_sensor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.hardware_sensorType">
+<span class="sig-name descname"><span class="pre">hardware_sensorType</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.hardware_sensorType" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.meal_duration">
+<span class="sig-name descname"><span class="pre">meal_duration</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.meal_duration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.simToD">
+<span class="sig-name descname"><span class="pre">simToD</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS.simToD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Simulator.OESimulator.SimulationData.PatientData">
+<span id="simulator-oesimulator-simulationdata-patientdata-module"></span><h2>Simulator.OESimulator.SimulationData.PatientData module<a class="headerlink" href="#module-Simulator.OESimulator.SimulationData.PatientData" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientData.PatientData">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.PatientData.</span></span><span class="sig-name descname"><span class="pre">PatientData</span></span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/PatientData.html#PatientData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientData.PatientData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Patient data.
+Defined by __slots__ as the class only serves quick data access purposes.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientData.PatientData.patient_id">
+<span class="sig-name descname"><span class="pre">patient_id</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientData.PatientData.patient_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientData.PatientData.patient_params">
+<span class="sig-name descname"><span class="pre">patient_params</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientData.PatientData.patient_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientData.PatientData.patient_params_timestamped">
+<span class="sig-name descname"><span class="pre">patient_params_timestamped</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientData.PatientData.patient_params_timestamped" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientData.PatientData.x_hist_timestamped">
+<span class="sig-name descname"><span class="pre">x_hist_timestamped</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientData.PatientData.x_hist_timestamped" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Simulator.OESimulator.SimulationData.PatientParams">
+<span id="simulator-oesimulator-simulationdata-patientparams-module"></span><h2>Simulator.OESimulator.SimulationData.PatientParams module<a class="headerlink" href="#module-Simulator.OESimulator.SimulationData.PatientParams" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.PatientParams.</span></span><span class="sig-name descname"><span class="pre">PatientParams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/PatientParams.html#PatientParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Stores the mathematical model parameters of the patient.
+Defined by __slots__ as the class only serves quick data access purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>BW</strong> (<em>float</em>) – Body weight of the patient.</p></li>
+<li><p><strong>GEZI</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer" title="Simulator.OESimulator.SimulationData.DataContainer.DataContainer"><em>DataContainer</em></a>) – Glucose consumption at zero insulin level.</p></li>
+<li><p><strong>EGP</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer" title="Simulator.OESimulator.SimulationData.DataContainer.DataContainer"><em>DataContainer</em></a>) – Endogenous glucose production.</p></li>
+<li><p><strong>CI</strong> (<em>float</em>) – Insulin clearance.</p></li>
+<li><p><strong>tau1</strong> (<em>float</em>) – Time constant of the absorption of the insulin in the 1st compartment.</p></li>
+<li><p><strong>tau2</strong> (<em>float</em>) – Time constant of the absorption of the insulin in the 2nd compartment.</p></li>
+<li><p><strong>p2</strong> (<em>float</em>) – Rate constant of the insulin effect.</p></li>
+<li><p><strong>taud</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer" title="Simulator.OESimulator.SimulationData.DataContainer.DataContainer"><em>DataContainer</em></a>) – Time constant of the absoprtion of the CHO.</p></li>
+<li><p><strong>meals</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer" title="Simulator.OESimulator.SimulationData.DataContainer.DataContainer"><em>DataContainer</em></a>) – CHO contents of the meals.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">PatientParams</span><span class="p">(</span><span class="n">sigma</span><span class="o">=</span><span class="mf">0.0</span><span class="p">))</span>
+<span class="go">---------------------------</span>
+<span class="go">Patient parameters: BW:70 GEZI:3e-08 EGP:1.5 CI:1.2e+03 SI:0.0007 tau1:70 tau2:43 p2:0.01 taud:40 Vg:1.8e+02</span>
+<span class="go"> meal_tauds:</span>
+<span class="go">---------------------------</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams.BW">
+<span class="sig-name descname"><span class="pre">BW</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams.BW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams.CI">
+<span class="sig-name descname"><span class="pre">CI</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams.CI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams.EGP">
+<span class="sig-name descname"><span class="pre">EGP</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams.EGP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams.GEZI">
+<span class="sig-name descname"><span class="pre">GEZI</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams.GEZI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams.SI">
+<span class="sig-name descname"><span class="pre">SI</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams.SI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams.Vg">
+<span class="sig-name descname"><span class="pre">Vg</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams.Vg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/PatientParams.html#PatientParams.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a deep copy of the instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Deep copy of the instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams" title="Simulator.OESimulator.SimulationData.PatientParams.PatientParams">PatientParams</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams.is_up_to_date">
+<span class="sig-name descname"><span class="pre">is_up_to_date</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams.is_up_to_date" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams.meals">
+<span class="sig-name descname"><span class="pre">meals</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams.meals" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams.p2">
+<span class="sig-name descname"><span class="pre">p2</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams.p2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams.tau1">
+<span class="sig-name descname"><span class="pre">tau1</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams.tau1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams.tau2">
+<span class="sig-name descname"><span class="pre">tau2</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams.tau2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams.taud">
+<span class="sig-name descname"><span class="pre">taud</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams.taud" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.PatientParams.PatientParams.vectorizeScalarParams">
+<span class="sig-name descname"><span class="pre">vectorizeScalarParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/PatientParams.html#PatientParams.vectorizeScalarParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.PatientParams.PatientParams.vectorizeScalarParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Organizes the scalar patient parameters into a list in the following order: [BW, CI, tau1, tau2, p2, Vg]</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Simulator.OESimulator.SimulationData.Position">
+<span id="simulator-oesimulator-simulationdata-position-module"></span><h2>Simulator.OESimulator.SimulationData.Position module<a class="headerlink" href="#module-Simulator.OESimulator.SimulationData.Position" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Position.Position">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.Position.</span></span><span class="sig-name descname"><span class="pre">Position</span></span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Position.html#Position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Position.Position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Defines the position (column index) of the data of interest in an ndarray.
+Defined by __slots__ as the class only serves quick data access purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basal</strong> – Position (column index) of the basal rate value in an ndarray.</p></li>
+<li><p><strong>bolus</strong> – Position (column index) of the bolus value in an ndarray.</p></li>
+<li><p><strong>meal</strong> – Position (column index) of the cho content in an ndarray.</p></li>
+<li><p><strong>time_constant</strong> – Position (column index) of the time constant in an ndarray.</p></li>
+<li><p><strong>glucose_level</strong> – Position (column index) of the glucose value in an ndarray.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Position.Position.basal">
+<span class="sig-name descname"><span class="pre">basal</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Position.Position.basal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Position.Position.bolus">
+<span class="sig-name descname"><span class="pre">bolus</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Position.Position.bolus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Position.Position.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Position.html#Position.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Position.Position.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a deep copy of the instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Deep copy of the instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#Simulator.OESimulator.SimulationData.Position.Position" title="Simulator.OESimulator.SimulationData.Position.Position">Position</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Position.Position.glucose_level">
+<span class="sig-name descname"><span class="pre">glucose_level</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Position.Position.glucose_level" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Position.Position.meal">
+<span class="sig-name descname"><span class="pre">meal</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Position.Position.meal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Position.Position.time_constant">
+<span class="sig-name descname"><span class="pre">time_constant</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Position.Position.time_constant" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Simulator.OESimulator.SimulationData.Scenario">
+<span id="simulator-oesimulator-simulationdata-scenario-module"></span><h2>Simulator.OESimulator.SimulationData.Scenario module<a class="headerlink" href="#module-Simulator.OESimulator.SimulationData.Scenario" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.Scenario.</span></span><span class="sig-name descname"><span class="pre">Scenario</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'%d-%m-%Y</span> <span class="pre">%H:%M:%S</span> <span class="pre">or</span> <span class="pre">integer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'%d-%m-%Y</span> <span class="pre">%H:%M:%S</span> <span class="pre">or</span> <span class="pre">integer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scenario_setting</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Scenario.html#Scenario"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Scenario class provides a storage and interface for the simulation related information (time points of the simulation horizon, meal, insulin inputs, units, sampling time, etc.).
+Defined by __slots__ as the class only serves quick data access purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scenario_setting</strong> (<em>str</em>) – Scenario setting: manual/DT/azure.</p></li>
+<li><p><strong>Ts</strong> (<em>int</em>) – sampling time (Default: 5 minutes)</p></li>
+<li><p><strong>basal_insulin</strong> (<em>float</em>) – Current basal insulin input.</p></li>
+<li><p><strong>bolus_insulin</strong> (<em>float</em>) – Current bolus insulin input.</p></li>
+<li><p><strong>rate_of_appearance</strong> (<em>float</em>) – Current rate of appearance input.</p></li>
+<li><p><strong>no_boluses</strong> (<em>int</em>) – Number of boluses in the window.</p></li>
+<li><p><strong>no_meals</strong> (<em>int</em>) – Number of meals in the window.</p></li>
+<li><p><strong>units</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.Units.Units" title="Simulator.OESimulator.SimulationData.Units.Units"><em>Units</em></a>) – Units of the scenario.</p></li>
+<li><p><strong>position</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.Position.Position" title="Simulator.OESimulator.SimulationData.Position.Position"><em>Position</em></a>) – Positions of the input values in a multidimensional array.</p></li>
+<li><p><strong>start_time</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.Timestamp.Timestamp" title="Simulator.OESimulator.SimulationData.Timestamp.Timestamp"><em>Timestamp</em></a>) – Start time of the scenario.</p></li>
+<li><p><strong>end_time</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.Timestamp.Timestamp" title="Simulator.OESimulator.SimulationData.Timestamp.Timestamp"><em>Timestamp</em></a>) – End time of the scenario str/int.</p></li>
+<li><p><strong>t_start</strong> (<em>float</em>) – Start time of the scenario (unix time, minute).</p></li>
+<li><p><strong>t_end</strong> (<em>float</em>) – End time of the scenario (unix time, minute).</p></li>
+<li><p><strong>manual_meals</strong> (<em>ndarray</em>) – User defined meal scheme. 2D array [timepoint, cho content, absorption time constant]</p></li>
+<li><p><strong>manual_boluses</strong> (<em>ndarray</em>) – User defined bolus scheme. 2D array [timepoint, insulin content]</p></li>
+<li><p><strong>manual_basal_insulin</strong> (<em>ndarray</em>) – User defined basal insulin scheme. 2D array [timepoint, insulin rate]</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – Prints information upon the creation of the Scenario and warning messages are activated.</p></li>
+<li><p><strong>params_t1dms</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS" title="Simulator.OESimulator.SimulationData.ParamsT1DMS.ParamsT1DMS"><em>ParamsT1DMS</em></a>) – Stores the Uva/Padova Matlab simulator related parameters.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scenario</span> <span class="o">=</span> <span class="n">Scenario</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="s2">&quot;manual&quot;</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">---------------------------</span>
+<span class="go">Current scenario:</span>
+<span class="go">Start time: 01-01-1970 00:00:00</span>
+<span class="go">End time: 01-01-1970 16:40:00</span>
+<span class="go">Sampling time: 5</span>
+<span class="go">Scenario setting: manual</span>
+<span class="go">---------------------------</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">scenario</span> <span class="o">=</span> <span class="n">Scenario</span><span class="p">(</span><span class="s2">&quot;22-09-2020 07:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;22-09-2020 19:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;emulated&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">---------------------------</span>
+<span class="go">Current scenario:</span>
+<span class="go">Start time: 22-09-2020 07:00:00</span>
+<span class="go">End time: 22-09-2020 19:00:00</span>
+<span class="go">Sampling time: 5</span>
+<span class="go">Scenario setting: emulated</span>
+<span class="go">---------------------------</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.Ts">
+<span class="sig-name descname"><span class="pre">Ts</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.Ts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.appendBasalInsulin">
+<span class="sig-name descname"><span class="pre">appendBasalInsulin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">next_basal</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'U/hr'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Scenario.html#Scenario.appendBasalInsulin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.appendBasalInsulin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modifies the basal rate in the next time pont (defined by Ts).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>next_basal</strong> – New basal rate.</p></li>
+<li><p><strong>unit</strong> – Unit of the basal rate.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.appendBolusInsulin">
+<span class="sig-name descname"><span class="pre">appendBolusInsulin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">next_bolus</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'U'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Scenario.html#Scenario.appendBolusInsulin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.appendBolusInsulin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends bolus insulin to the already defined scenario.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>next_bolus</strong> – Bolus value in the next time point (defined by Ts).</p></li>
+<li><p><strong>unit</strong> – Unit of the bolus.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.basal_insulin">
+<span class="sig-name descname"><span class="pre">basal_insulin</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.basal_insulin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.bolus_insulin">
+<span class="sig-name descname"><span class="pre">bolus_insulin</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.bolus_insulin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.checkScheme">
+<span class="sig-name descname"><span class="pre">checkScheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_array</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_scheme</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Scenario.html#Scenario.checkScheme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.checkScheme" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the validity of the used defined arrays, the following criterias have to be met.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time_array</strong> – Time points of the input array.</p></li>
+<li><p><strong>value_scheme</strong> – Values of the input array.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the scheme is properly defined.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>Value error</strong> – ERROR: The time and value array have to be of equal length.</p></li>
+<li><p><strong>Value error</strong> – ERROR: Values have to be &gt;= 0.</p></li>
+<li><p><strong>Value error</strong> – WARNING: Time points defined before the start time of the scenario.</p></li>
+<li><p><strong>Value error</strong> – WARNING: Time points defined after the end time of the scenario.</p></li>
+<li><p><strong>Value error</strong> – WARNING: Time points have to be strictly monotonically increasing.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.cho">
+<span class="sig-name descname"><span class="pre">cho</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.cho" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Scenario.html#Scenario.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a deep copy of the instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Deep copy of the instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario" title="Simulator.OESimulator.SimulationData.Scenario.Scenario">Scenario</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.end_time">
+<span class="sig-name descname"><span class="pre">end_time</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.end_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.ident_horizon">
+<span class="sig-name descname"><span class="pre">ident_horizon</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.ident_horizon" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.manual_basal_insulin">
+<span class="sig-name descname"><span class="pre">manual_basal_insulin</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.manual_basal_insulin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.manual_boluses">
+<span class="sig-name descname"><span class="pre">manual_boluses</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.manual_boluses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.manual_meals">
+<span class="sig-name descname"><span class="pre">manual_meals</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.manual_meals" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.no_boluses">
+<span class="sig-name descname"><span class="pre">no_boluses</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.no_boluses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.no_meals">
+<span class="sig-name descname"><span class="pre">no_meals</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.no_meals" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.params_t1dms">
+<span class="sig-name descname"><span class="pre">params_t1dms</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.params_t1dms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Scenario.html#Scenario.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the CHO and insulin intakes of the scenario. Horizontal axis in UNIX timestamp [minutes].</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.position">
+<span class="sig-name descname"><span class="pre">position</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.position" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.rate_of_appearance">
+<span class="sig-name descname"><span class="pre">rate_of_appearance</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.rate_of_appearance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.scenario_setting">
+<span class="sig-name descname"><span class="pre">scenario_setting</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.scenario_setting" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.setHardware">
+<span class="sig-name descname"><span class="pre">setHardware</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sensor</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pump</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Scenario.html#Scenario.setHardware"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.setHardware" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.setManualBasalInsulin">
+<span class="sig-name descname"><span class="pre">setManualBasalInsulin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basal_insulin_values</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basal_insulin_times</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'U/hr'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Scenario.html#Scenario.setManualBasalInsulin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.setManualBasalInsulin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates 2D numpy array for the basal insulin.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If a scalar basal rate is provided without time point, it is assumed that the basal rate is active since 0 unix time.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basal_insulin_values</strong> – User defined basal rate.</p></li>
+<li><p><strong>basal_insulin_times</strong> – User defined time point, when the basal rate is activated.</p></li>
+<li><p><strong>unit</strong> – Unit of the basal rate.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">setManualBasalInsulin</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="n">unit</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;U/hr&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.setManualBolusScheme">
+<span class="sig-name descname"><span class="pre">setManualBolusScheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bolus_times</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bolus_values</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'U'</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">numpy.ndarray</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Scenario.html#Scenario.setManualBolusScheme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.setManualBolusScheme" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the 2D numpy array for the bolus scheme.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the timepoints are strings, it converts to unix timestamps.
+Checks the validity of input arrays.
+Sets the no_boluses attribute based on the number of meals in the input arrays.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bolus_times</strong> – User defined time points of the boluses.</p></li>
+<li><p><strong>bolus_values</strong> – User defined bolus values.</p></li>
+<li><p><strong>unit</strong> – Unit of the bolus values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>2D numpy array containing the combined time points and values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">setManualBolusScheme</span><span class="p">(</span><span class="n">bolus_times</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;22-09-2020 07:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;22-09-2020 12:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;22-09-2020 18:00:00&quot;</span><span class="p">),</span><span class="n">bolus_values</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.setManualMealScheme">
+<span class="sig-name descname"><span class="pre">setManualMealScheme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meal_times</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meal_values</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_constants</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'g'</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">numpy.ndarray</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Scenario.html#Scenario.setManualMealScheme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.setManualMealScheme" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the 2D numpy array for the meal scheme.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the timepoints are strings, it converts to unix timestamps.
+Checks the validity of input arrays.
+Sets the no_meals attribute based on the number of meals in the input arrays.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>meal_times</strong> – User defined time points of the meals.</p></li>
+<li><p><strong>meal_values</strong> – User defined meal values.</p></li>
+<li><p><strong>unit</strong> – Unit of the meal values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>2D numpy array containing the combined time points and values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">setManualMealScheme</span><span class="p">(</span><span class="n">meal_times</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;22-09-2020 06:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;22-09-2020 12:00:00&quot;</span><span class="p">,</span> <span class="s2">&quot;22-09-2020 18:00:00&quot;</span><span class="p">),</span><span class="n">meal_values</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span><span class="n">time_constants</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">40</span><span class="p">))</span>
+<span class="go">Warning: You have inputs defined before the start time of the scenario.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.setParamsT1DMS">
+<span class="sig-name descname"><span class="pre">setParamsT1DMS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simToD</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Qmeals</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'total'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Treg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meal_duration</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">15.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Qbasal</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'fixed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">OB</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'off'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Qbolus</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'total'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SQg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Scenario.html#Scenario.setParamsT1DMS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.setParamsT1DMS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the Uva/Padova simulator related parameters of the scenario.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>simToD</strong> (<em>float</em>) – Represents the “simToD” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>Qmeals</strong> (<em>str</em>) – Represents the “Qmeals” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>Treg</strong> (<em>str</em>) – Represents the “Treg” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>meal_duration</strong> (<em>float</em>) – Represents the “meal_duration” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>Qbasal</strong> (<em>str</em>) – Represents the “Qbasal” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>OB</strong> (<em>str</em>) – Represents the “OB” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>Qbolus</strong> (<em>str</em>) – Represents the “Qbolus” variable of the UVA/Padova simulator.</p></li>
+<li><p><strong>SQg</strong> (<em>float</em>) – Represents the “SQg” variable of the UVA/Padova simulator.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.shift">
+<span class="sig-name descname"><span class="pre">shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_shift</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next_meal</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next_taud</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next_bolus</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next_basal_insulin</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Scenario.html#Scenario.shift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.shift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shifts the scenario by the user defined time.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Default of Ts shift is assumed without any modification on the CHO and insulin scheme.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time_shift</strong> – The time [minutes] by which the scenario is shifted. Default value of Ts.</p></li>
+<li><p><strong>next_meal</strong> – CHO content of the meal in the shifted time step.</p></li>
+<li><p><strong>next_taud</strong> – Absorption time constant of the meal in the shifted time step.</p></li>
+<li><p><strong>next_bolus</strong> – Bolus insulin in the shifted time step.</p></li>
+<li><p><strong>next_basal_insulin</strong> – Modified basal rate from the shifted time step.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.start_time">
+<span class="sig-name descname"><span class="pre">start_time</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.start_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.t_pred">
+<span class="sig-name descname"><span class="pre">t_pred</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.t_pred" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.units">
+<span class="sig-name descname"><span class="pre">units</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.units" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Scenario.Scenario.verbose">
+<span class="sig-name descname"><span class="pre">verbose</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario.verbose" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Simulator.OESimulator.SimulationData.SimulationData">
+<span id="simulator-oesimulator-simulationdata-simulationdata-module"></span><h2>Simulator.OESimulator.SimulationData.SimulationData module<a class="headerlink" href="#module-Simulator.OESimulator.SimulationData.SimulationData" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.SimulationData.</span></span><span class="sig-name descname"><span class="pre">SimulationData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scenario</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario" title="Simulator.OESimulator.SimulationData.Scenario.Scenario"><span class="pre">Simulator.OESimulator.SimulationData.Scenario.Scenario</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/SimulationData.html#SimulationData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Stores all the necessary information to simulate a virtual patient. Created by DataProcessor instance.
+Defined by __slots__ as the class only serves quick data access purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>t_start</strong> (<em>int</em>) – Start time of the simulation horizon in Unix timestamp format [minutes].</p></li>
+<li><p><strong>t_end</strong> (<em>int</em>) – Start time of the simulation horizon in Unix timestamp format [minutes].</p></li>
+<li><p><strong>scenario</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.Scenario.Scenario" title="Simulator.OESimulator.SimulationData.Scenario.Scenario"><em>Scenario</em></a>) – Scenario of the simulation.</p></li>
+<li><p><strong>units</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.Units.Units" title="Simulator.OESimulator.SimulationData.Units.Units"><em>Units</em></a>) – Units of the simulated mathematical model.</p></li>
+<li><p><strong>glucose_level</strong> (<em>ndarray</em>) – Measured glucose levels (if available).</p></li>
+<li><p><strong>meal</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer" title="Simulator.OESimulator.SimulationData.DataContainer.DataContainer"><em>DataContainer</em></a>) – Meal consumptions in the simulation horizon.</p></li>
+<li><p><strong>basal</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer" title="Simulator.OESimulator.SimulationData.DataContainer.DataContainer"><em>DataContainer</em></a>) – Basal infusion rates in the simulation horizon.</p></li>
+<li><p><strong>bolus</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer" title="Simulator.OESimulator.SimulationData.DataContainer.DataContainer"><em>DataContainer</em></a>) – Bolus injections in the simulation horizon.</p></li>
+<li><p><strong>rate_of_appearance</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer" title="Simulator.OESimulator.SimulationData.DataContainer.DataContainer"><em>DataContainer</em></a>) – Generated rate of appearance values of the mathematical model in Ts sample time resolution.</p></li>
+<li><p><strong>EGP</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer" title="Simulator.OESimulator.SimulationData.DataContainer.DataContainer"><em>DataContainer</em></a>) – Generated EGP values of the mathematical model in Ts sample time resolution.</p></li>
+<li><p><strong>GEZI</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer" title="Simulator.OESimulator.SimulationData.DataContainer.DataContainer"><em>DataContainer</em></a>) – Generated GEZI values of the mathematical model in Ts sample time resolution.</p></li>
+<li><p><strong>SI</strong> (<a class="reference internal" href="#Simulator.OESimulator.SimulationData.DataContainer.DataContainer" title="Simulator.OESimulator.SimulationData.DataContainer.DataContainer"><em>DataContainer</em></a>) – Generated SI values of the mathematical model in Ts sample time resolution.</p></li>
+<li><p><strong>iterator_range</strong> (<em>range</em>) – Iterator for the simulation horizon.</p></li>
+<li><p><strong>time_axis</strong> (<em>list</em>) – Timepoints of the simulation horizon in Unix timestamp format [minutes].</p></li>
+<li><p><strong>t_section</strong> (<em>tuple</em>) – Stores the timepoints where the daily intervals change based on the circadian rhythm. Always at meal consumptions.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.EGP">
+<span class="sig-name descname"><span class="pre">EGP</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.EGP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.GEZI">
+<span class="sig-name descname"><span class="pre">GEZI</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.GEZI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.SI">
+<span class="sig-name descname"><span class="pre">SI</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.SI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.Vg">
+<span class="sig-name descname"><span class="pre">Vg</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.Vg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.basal">
+<span class="sig-name descname"><span class="pre">basal</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.basal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.bolus">
+<span class="sig-name descname"><span class="pre">bolus</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.bolus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/SimulationData.html#SimulationData.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a deep copy of the instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Deep copy of the instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData" title="Simulator.OESimulator.SimulationData.SimulationData.SimulationData">SimulationData</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.createRanges">
+<span class="sig-name descname"><span class="pre">createRanges</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/SimulationData.html#SimulationData.createRanges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.createRanges" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.glucose_level">
+<span class="sig-name descname"><span class="pre">glucose_level</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.glucose_level" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.initArrays">
+<span class="sig-name descname"><span class="pre">initArrays</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/SimulationData.html#SimulationData.initArrays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.initArrays" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.is_meal_up_to_date">
+<span class="sig-name descname"><span class="pre">is_meal_up_to_date</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.is_meal_up_to_date" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.iterator_range">
+<span class="sig-name descname"><span class="pre">iterator_range</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.iterator_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.meal">
+<span class="sig-name descname"><span class="pre">meal</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.meal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.rate_of_appearance">
+<span class="sig-name descname"><span class="pre">rate_of_appearance</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.rate_of_appearance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.scenario">
+<span class="sig-name descname"><span class="pre">scenario</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.scenario" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.t_end">
+<span class="sig-name descname"><span class="pre">t_end</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.t_end" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.t_sections">
+<span class="sig-name descname"><span class="pre">t_sections</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.t_sections" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.t_start">
+<span class="sig-name descname"><span class="pre">t_start</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.t_start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.time_axis">
+<span class="sig-name descname"><span class="pre">time_axis</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.time_axis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.time_range">
+<span class="sig-name descname"><span class="pre">time_range</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.time_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.trim">
+<span class="sig-name descname"><span class="pre">trim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_start_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_end_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/SimulationData.html#SimulationData.trim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.trim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trims all the arrays, which are sampled in Ts resolution inbetween the new start and end time.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Serves for quick resimulation, if the patient parameters and inputs remain the same and only the start or the end time of the horizon is changed.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>new_start_time</strong> (<em>Union</em><em>[</em><em>str</em><em>,</em><em>int</em><em>]</em>) – New start time of the simulation horizon.</p></li>
+<li><p><strong>new_end_time</strong> (<em>Union</em><em>[</em><em>str</em><em>,</em><em>int</em><em>]</em>) – New end time of the simulation horizon.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">as_array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">trim</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span><span class="o">+</span><span class="mi">60</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">as_array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="go">(577,)</span>
+<span class="go">(565,)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.SimulationData.SimulationData.units">
+<span class="sig-name descname"><span class="pre">units</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.SimulationData.SimulationData.units" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Simulator.OESimulator.SimulationData.Timestamp">
+<span id="simulator-oesimulator-simulationdata-timestamp-module"></span><h2>Simulator.OESimulator.SimulationData.Timestamp module<a class="headerlink" href="#module-Simulator.OESimulator.SimulationData.Timestamp" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Timestamp.Timestamp">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.Timestamp.</span></span><span class="sig-name descname"><span class="pre">Timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timestamp</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Timestamp.html#Timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Timestamp.Timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Stores time information in three alternative formats (Unix timestamp [minutes], string, datetime)
+Defined by __slots__ as the class only serves quick data access purposes.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Can be initialized in string or Unix timestamp [minutes] format. It automatically converts to the rest of the
+formats.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If the provided string format is not %d-%m-%Y %H:%M:%S.</p>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Timestamp.Timestamp.as_datetime">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">as_datetime</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Timestamp.Timestamp.as_datetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets and sets timestamp based on datetime object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Timestamp in datetime format.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>datetime</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">Timestamp</span><span class="p">(</span><span class="mi">26679500</span><span class="p">)</span><span class="o">.</span><span class="n">as_datetime</span><span class="p">)</span>
+<span class="go">2020-09-22 10:20:00</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Timestamp.Timestamp.as_int">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">as_int</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Timestamp.Timestamp.as_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets and sets timestamp based on Unix timestamp [minutes] format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Timestamp in Unix timestamp [minutes] format.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;22-09-2020 10:20:00&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">as_int</span><span class="p">)</span>
+<span class="go">26679500</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Timestamp.Timestamp.as_str">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">as_str</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Timestamp.Timestamp.as_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets and sets timestamp based on string format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Timestamp in string format.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">Timestamp</span><span class="p">(</span><span class="mi">26679500</span><span class="p">)</span><span class="o">.</span><span class="n">as_str</span><span class="p">)</span>
+<span class="go">22-09-2020 10:20:00</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Timestamp.Timestamp.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Timestamp.html#Timestamp.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Timestamp.Timestamp.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a deep copy of the instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Deep copy of the instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#Simulator.OESimulator.SimulationData.Timestamp.Timestamp" title="Simulator.OESimulator.SimulationData.Timestamp.Timestamp">Timestamp</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Simulator.OESimulator.SimulationData.Units">
+<span id="simulator-oesimulator-simulationdata-units-module"></span><h2>Simulator.OESimulator.SimulationData.Units module<a class="headerlink" href="#module-Simulator.OESimulator.SimulationData.Units" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Units.Units">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">Simulator.OESimulator.SimulationData.Units.</span></span><span class="sig-name descname"><span class="pre">Units</span></span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Units.html#Units"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Units.Units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Defines the units of the variables in strings.
+Defined by __slots__ as the class only serves quick data access purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basal</strong> (<em>str</em>) – Unit of the basal rate.</p></li>
+<li><p><strong>bolus</strong> (<em>str</em>) – Unit of the bolus insulin.</p></li>
+<li><p><strong>insulin</strong> (<em>str</em>) – Unit of the insulin input.</p></li>
+<li><p><strong>meal</strong> (<em>str</em>) – Unit of the meal.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Units.Units.basal">
+<span class="sig-name descname"><span class="pre">basal</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Units.Units.basal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Units.Units.bolus">
+<span class="sig-name descname"><span class="pre">bolus</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Units.Units.bolus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Units.Units.convertUnits">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">convertUnits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">original_value</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_from</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit_to</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ts</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Units.html#Units.convertUnits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Units.Units.convertUnits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert values between different units.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>Possible conversions:</dt><dd><p>from U/hr to uU/min
+from U to uU/min (based on Ts)
+from g to g/min (based on Ts)
+from uU/min to U/min</p>
+</dd>
+</dl>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>original_value</strong> – The unconverted value(s).</p></li>
+<li><p><strong>unit_from</strong> – Unit of the unconverted value(s).</p></li>
+<li><p><strong>unit_to</strong> – Unit of the converted value(s).</p></li>
+<li><p><strong>Ts</strong> – Sampling time.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The converted value(s).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[float, ndarray]</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">Units</span><span class="o">.</span><span class="n">convertUnits</span><span class="p">(</span><span class="n">original_value</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">unit_from</span><span class="o">=</span><span class="s2">&quot;U/hr&quot;</span><span class="p">,</span><span class="n">unit_to</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;uU/min&quot;</span><span class="p">,</span><span class="n">Ts</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+<span class="go">166666.666</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Units.Units.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Simulator/OESimulator/SimulationData/Units.html#Units.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Units.Units.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a deep copy of the instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Deep copy of the instance.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#Simulator.OESimulator.SimulationData.Units.Units" title="Simulator.OESimulator.SimulationData.Units.Units">Units</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Units.Units.insulin">
+<span class="sig-name descname"><span class="pre">insulin</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Units.Units.insulin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Simulator.OESimulator.SimulationData.Units.Units.meal">
+<span class="sig-name descname"><span class="pre">meal</span></span><a class="headerlink" href="#Simulator.OESimulator.SimulationData.Units.Units.meal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Simulator.OESimulator.SimulationData">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-Simulator.OESimulator.SimulationData" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+            </div>
+
+        </section>
+
+        
+
+        
+            <div class="source-link">
+            
+                
+                    <a href="_sources/Simulator.OESimulator.SimulationData.rst.txt" rel="nofollow">
+                        <i class="mdi mdi-code-tags"></i>
+                        View page source
+                    </a>
+                
+            
+            </div>
+        
+
+
+
+    </main>
+
+    <footer class="site-footer">
+<div class="container">
+
+    <div role="contentinfo">
+        <p>
+                &copy; Copyright 2022, ntoth,msiket,lszasz,knovak,geigner.
+        </p>
+    </div>
+        <p>Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+        <a href="https://github.com/testthedocs/sphinx_ttd_theme">theme</a>
+        provided by <a href="https://testthedocs">TestTheDocs</a>. 
+
+</div>
+</footer>
+
+    
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/theme-min.js"></script> 
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <title>OESimulator.DataProcessor</title>
+    
+
+    <link rel="stylesheet" href="../../_static/css/redactor.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../../_static/css/redactor.css" type="text/css" />
+    
+    
+    <link rel="index" title="Index" href="../../genindex.html"/>
+    <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="uvapadovaAPI  documentation" href="../../index.html"/>
+    <link rel="up" title="Module code" href="../index.html"/> 
+</head>
+
+<body role="document">
+     
+
+    
+<a href="#" id="js-navigation-toggle" class="navigation-toggle">
+    <i class="mdi mdi-menu"></i><i class="mdi mdi-close"></i>
+</a>
+
+<section class="site-sidebar">
+
+<nav>
+
+
+    <a href="../../index.html" class="branding-link">
+    
+        uvapadovaAPI
+    
+    
+    
+        
+        
+    
+    </a>
+
+    
+<section role="search">
+    <form action="../../search.html" method="get" class="site-searchform">
+        <input type="text" name="q" placeholder="Search docs" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+</section>
+
+
+
+    <section class="site-nav">
+    
+    
+        <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../uva_padova_API.html">uva_padova_API module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../uva_padova_API_Wrapper.html">uva_padova_API_Wrapper module</a></li>
+</ul>
+
+    
+    </section>
+
+</nav>
+
+</section>
+
+    <main class="site-main" role="main">
+        
+
+
+
+
+
+
+
+
+
+
+
+<nav class="site-breadcrumbs">
+    <ul>
+    
+        <li>
+            <a href="../../index.html">Docs</a> /
+        </li>
+        
+        <li>
+            <a href="../index.html">Module code</a> /
+        </li>
+        
+        <li class="site-breadcrumbs__leaf">OESimulator.DataProcessor</li>
+    
+    </ul>
+</nav>
+        <section class="site-content">
+            <div class="container">
+                
+  <h1>Source code for OESimulator.DataProcessor</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.SimulationData.SimulationData</span> <span class="kn">import</span> <span class="n">SimulationData</span>
+<span class="kn">from</span> <span class="nn">.SimulationData.Scenario</span> <span class="kn">import</span> <span class="n">Scenario</span>
+<span class="kn">from</span> <span class="nn">.SimulationData.Units</span> <span class="kn">import</span> <span class="n">Units</span>
+<span class="kn">from</span> <span class="nn">.SimulationData.Position</span> <span class="kn">import</span> <span class="n">Position</span>
+<span class="kn">from</span> <span class="nn">.SimulationData.PatientData</span> <span class="kn">import</span> <span class="n">PatientData</span>
+<span class="kn">from</span> <span class="nn">.SimulationData.PatientParams</span> <span class="kn">import</span> <span class="n">PatientParams</span>
+
+<span class="kn">from</span> <span class="nn">.SimulationData.CONSTANTS</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.DataProcessing.ErrorCodes</span> <span class="kn">import</span> <span class="n">ERROR_CODES</span>
+<span class="kn">from</span> <span class="nn">.DataProcessing.DBFile</span> <span class="kn">import</span> <span class="n">DBFile</span>
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
+
+
+<div class="viewcode-block" id="DataProcessor"><a class="viewcode-back" href="../../OESimulator.html#OESimulator.DataProcessor.DataProcessor">[docs]</a><span class="k">class</span> <span class="nc">DataProcessor</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Data processor class.</span>
+<span class="sd">        Creates SimulationData and PatientData structures by defining a Scenario and patient id and data source.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patient_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Constructor.</span>
+<span class="sd">            Possible data sources: DT, azure.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">patient_id</span> <span class="o">=</span> <span class="n">patient_id</span>
+
+<div class="viewcode-block" id="DataProcessor.checkData"><a class="viewcode-back" href="../../OESimulator.html#OESimulator.DataProcessor.DataProcessor.checkData">[docs]</a>    <span class="k">def</span> <span class="nf">checkData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">scenario</span><span class="p">,</span><span class="n">input_data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">DTProcess</span><span class="p">(</span><span class="n">scenario</span><span class="p">,</span><span class="n">input_data</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="DataProcessor.processData"><a class="viewcode-back" href="../../OESimulator.html#OESimulator.DataProcessor.DataProcessor.processData">[docs]</a>    <span class="k">def</span> <span class="nf">processData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">:</span> <span class="n">Scenario</span><span class="p">,</span> <span class="n">input_data</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span> <span class="o">=</span> <span class="n">scenario</span>
+        <span class="n">switch</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;DT&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">DTProcess</span><span class="p">,</span>
+                  <span class="s1">&#39;manual&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">manualProcess</span><span class="p">,</span>
+                  <span class="s1">&#39;emulated&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">manualProcess</span><span class="p">,</span>
+                  <span class="s1">&#39;t1dms&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">t1dmsProcess</span><span class="p">}</span>  <span class="c1"># UVa-Padova</span>
+        <span class="n">simulation_data</span><span class="p">,</span> <span class="n">patient_data</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">switch</span><span class="p">[</span><span class="n">scenario</span><span class="o">.</span><span class="n">scenario_setting</span><span class="p">](</span><span class="n">scenario</span><span class="p">,</span><span class="n">input_data</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">simulation_data</span><span class="p">,</span> <span class="n">patient_data</span></div>
+
+<div class="viewcode-block" id="DataProcessor.handleTypes"><a class="viewcode-back" href="../../OESimulator.html#OESimulator.DataProcessor.DataProcessor.handleTypes">[docs]</a>    <span class="k">def</span> <span class="nf">handleTypes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">range</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">(</span><span class="n">PatientParams</span><span class="p">,</span><span class="n">Scenario</span><span class="p">,</span><span class="n">Units</span><span class="p">,</span><span class="n">Position</span><span class="p">,</span><span class="n">SimulationData</span><span class="p">,</span><span class="n">PatientData</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="vm">__dict__</span>  <span class="c1"># Or another method to serialize it</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataProcessor.objectToDict"><a class="viewcode-back" href="../../OESimulator.html#OESimulator.DataProcessor.DataProcessor.objectToDict">[docs]</a>    <span class="k">def</span> <span class="nf">objectToDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">python_object</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">python_object</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">handleTypes</span><span class="p">))</span><span class="c1">#default=self.handleTypes</span></div>
+
+<div class="viewcode-block" id="DataProcessor.JSONToObject"><a class="viewcode-back" href="../../OESimulator.html#OESimulator.DataProcessor.DataProcessor.JSONToObject">[docs]</a>    <span class="k">def</span> <span class="nf">JSONToObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json_data</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">SimpleNamespace</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="DataProcessor.DTProcess"><a class="viewcode-back" href="../../OESimulator.html#OESimulator.DataProcessor.DataProcessor.DTProcess">[docs]</a>    <span class="k">def</span> <span class="nf">DTProcess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">:</span> <span class="n">Scenario</span><span class="p">,</span> <span class="n">input_data</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;in DTprocess&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_source</span> <span class="o">=</span> <span class="s2">&quot;DT&quot;</span>
+
+        <span class="n">db_file</span> <span class="o">=</span> <span class="n">DBFile</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">db_file</span><span class="o">.</span><span class="n">loadCGM</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">[],</span> <span class="p">[],</span> <span class="n">ERROR_CODES</span><span class="o">.</span><span class="n">CGM_INVALID</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">db_file</span><span class="o">.</span><span class="n">loadMeals</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">[],</span> <span class="p">[],</span> <span class="n">ERROR_CODES</span><span class="o">.</span><span class="n">CHO_INVALID</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">db_file</span><span class="o">.</span><span class="n">loadInsulin</span><span class="p">():</span>
+            <span class="k">return</span> <span class="p">[],</span> <span class="p">[],</span> <span class="n">ERROR_CODES</span><span class="o">.</span><span class="n">INSULIN_INVALID</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">db_file</span><span class="o">.</span><span class="n">glucose_values</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[],[],</span><span class="n">ERROR_CODES</span><span class="o">.</span><span class="n">CGM_EMPTY</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">db_file</span><span class="o">.</span><span class="n">bolus_values</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[],[],</span><span class="n">ERROR_CODES</span><span class="o">.</span><span class="n">INSULIN_EMPTY</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">db_file</span><span class="o">.</span><span class="n">meal_values</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[],[],</span><span class="n">ERROR_CODES</span><span class="o">.</span><span class="n">CHO_EMPTY</span>
+
+        <span class="n">glucose_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">db_file</span><span class="o">.</span><span class="n">glucose_values</span><span class="p">)</span>
+
+        <span class="c1"># if np.sum(np.logical_or(glucose_values&gt;400.0, glucose_values&lt;40.0)):</span>
+        <span class="c1">#     return [],[],ERROR_CODES.CGM_OUTOFRANGE</span>
+
+        <span class="n">glucose_times</span><span class="p">,</span> <span class="n">glucose_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">db_file</span><span class="o">.</span><span class="n">glucose_times</span><span class="p">,</span> <span class="n">db_file</span><span class="o">.</span><span class="n">glucose_values</span><span class="p">)</span>
+        <span class="n">basal_times</span><span class="p">,</span> <span class="n">basal_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">db_file</span><span class="o">.</span><span class="n">basal_times</span><span class="p">,</span> <span class="n">db_file</span><span class="o">.</span><span class="n">basal_values</span><span class="p">)</span>
+        <span class="n">bolus_times</span><span class="p">,</span> <span class="n">bolus_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">db_file</span><span class="o">.</span><span class="n">bolus_times</span><span class="p">,</span> <span class="n">db_file</span><span class="o">.</span><span class="n">bolus_values</span><span class="p">)</span>
+        <span class="n">meal_times</span><span class="p">,</span> <span class="n">meal_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">db_file</span><span class="o">.</span><span class="n">meal_times</span><span class="p">,</span> <span class="n">db_file</span><span class="o">.</span><span class="n">meal_values</span><span class="p">)</span>
+        <span class="c1"># print(max(glucose_times))</span>
+        <span class="c1"># print(min(glucose_times))</span>
+
+
+        <span class="c1"># diffs = np.diff(glucose_times)</span>
+        <span class="c1"># print(np.diff(glucose_times))</span>
+        <span class="c1"># print(min(diffs))</span>
+        <span class="c1"># print(max(diffs))</span>
+        <span class="c1"># plt.plot(glucose_times,glucose_values)</span>
+        <span class="c1"># plt.show()</span>
+
+        <span class="c1"># if np.sum(np.diff(glucose_times)&gt;20.0):</span>
+        <span class="c1">#     return [],[],ERROR_CODES.CGM_GAP</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">basal_values</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Basal value not found.&quot;</span><span class="p">)</span>
+            <span class="n">basal_values</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">basal_times</span> <span class="o">=</span> <span class="n">glucose_times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">glucose_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">glucose_times</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">glucose_times</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">((</span><span class="n">glucose_times</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">glucose_times</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mf">5.0</span><span class="p">)),</span> <span class="n">glucose_times</span><span class="p">,</span> <span class="n">glucose_values</span><span class="p">)</span>
+        <span class="n">glucose_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">glucose_times</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">glucose_times</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">((</span><span class="n">glucose_times</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">glucose_times</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mf">5.0</span><span class="p">))</span>
+
+        <span class="n">scenario</span><span class="o">.</span><span class="n">setManualMealScheme</span><span class="p">(</span><span class="n">meal_times</span><span class="p">,</span> <span class="n">meal_values</span><span class="p">)</span>
+        <span class="n">scenario</span><span class="o">.</span><span class="n">setManualBolusScheme</span><span class="p">(</span><span class="n">bolus_times</span><span class="p">,</span> <span class="n">bolus_values</span><span class="p">)</span>
+        <span class="n">scenario</span><span class="o">.</span><span class="n">setManualBasalInsulin</span><span class="p">(</span><span class="n">basal_values</span><span class="p">,</span> <span class="n">basal_times</span><span class="p">)</span>
+        <span class="n">simulation_data</span><span class="p">,</span> <span class="n">patient_data</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manualProcess</span><span class="p">(</span><span class="n">scenario</span><span class="p">,</span> <span class="n">input_data</span><span class="p">)</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">glucose_level</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">glucose_values</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">glucose_level</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">glucose_times</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">glucose_level</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">glucose_values</span>
+        <span class="k">return</span> <span class="n">simulation_data</span><span class="p">,</span> <span class="n">patient_data</span><span class="p">,</span> <span class="n">error</span></div>
+
+<div class="viewcode-block" id="DataProcessor.manualProcess"><a class="viewcode-back" href="../../OESimulator.html#OESimulator.DataProcessor.DataProcessor.manualProcess">[docs]</a>    <span class="k">def</span> <span class="nf">manualProcess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">:</span> <span class="n">Scenario</span><span class="p">,</span> <span class="n">input_data</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Manual simulation data generation.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_source</span> <span class="o">=</span> <span class="s2">&quot;manual&quot;</span>
+
+        <span class="n">patient_data</span> <span class="o">=</span> <span class="n">PatientData</span><span class="p">()</span>
+        <span class="n">patient_data</span><span class="o">.</span><span class="n">patient_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patient_id</span>
+
+        <span class="n">simulation_data</span> <span class="o">=</span> <span class="n">SimulationData</span><span class="p">(</span><span class="n">scenario</span><span class="p">)</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">t_start</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">t_end</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span>
+
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">initArrays</span><span class="p">()</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">as_timestamped_array</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">manual_basal_insulin</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">bolus</span><span class="o">.</span><span class="n">as_timestamped_array</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">manual_boluses</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">meal</span><span class="o">.</span><span class="n">as_timestamped_array</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">manual_meals</span>
+
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">trim</span><span class="p">()</span>
+
+        <span class="c1">#simulation_data.scenario.Ts = 5</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">insulin</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;uU/min&quot;</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">basal</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">bolus</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">meal</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">time_constant</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">glucose_level</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">basal</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;uU/min&quot;</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">bolus</span> <span class="o">=</span> <span class="s2">&quot;uU/min&quot;</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">meal</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;g/min&quot;</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">t_sections</span> <span class="o">=</span> <span class="p">(</span><span class="n">scenario</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span><span class="p">,)</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">is_meal_up_to_date</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">bolus</span><span class="o">.</span><span class="n">copyTimestampedArrayToArray</span><span class="p">(</span><span class="n">simulation_data</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span><span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">Ts</span><span class="p">,</span><span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">bolus</span><span class="p">)</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">meal</span><span class="o">.</span><span class="n">copyTimestampedArrayToArray</span><span class="p">(</span><span class="n">simulation_data</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span><span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">Ts</span><span class="p">,</span><span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">meal</span><span class="p">)</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">copyTimestampedArrayToArray</span><span class="p">(</span><span class="n">simulation_data</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span><span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">Ts</span><span class="p">,</span><span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="n">basal</span><span class="p">)</span>
+
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">bolus</span><span class="o">.</span><span class="n">as_array</span> <span class="o">=</span> <span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convertUnits</span><span class="p">(</span><span class="n">simulation_data</span><span class="o">.</span><span class="n">bolus</span><span class="o">.</span><span class="n">as_array</span><span class="p">,</span> <span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">bolus</span><span class="p">,</span>
+                                                          <span class="n">simulation_data</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">insulin</span><span class="p">,</span> <span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">Ts</span><span class="p">)</span>
+        <span class="n">simulation_data</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">as_array</span> <span class="o">=</span> <span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convertUnits</span><span class="p">(</span><span class="n">simulation_data</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">as_array</span><span class="p">,</span> <span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">basal</span><span class="p">,</span>
+                                                     <span class="n">simulation_data</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">insulin</span><span class="p">,</span> <span class="n">simulation_data</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">Ts</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">simulation_data</span><span class="p">,</span> <span class="n">patient_data</span><span class="p">,</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="DataProcessor.t1dmsProcess"><a class="viewcode-back" href="../../OESimulator.html#OESimulator.DataProcessor.DataProcessor.t1dmsProcess">[docs]</a>    <span class="k">def</span> <span class="nf">t1dmsProcess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">:</span> <span class="n">Scenario</span><span class="p">,</span> <span class="n">input_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span> <span class="c1"># UVa-Padova</span>
+        <span class="kn">import</span> <span class="nn">matlab.engine</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;in t1dmsProcess&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_source</span> <span class="o">=</span> <span class="s2">&quot;t1dms&quot;</span>
+        <span class="n">patient_data</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1">#self.patient_id</span>
+        <span class="n">Ameals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">scenario</span><span class="o">.</span><span class="n">manual_meals</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">dose</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Ameals</span><span class="p">),</span> <span class="mi">1000</span><span class="p">))</span> <span class="c1"># meal amount in mg</span>
+        <span class="n">Tdose</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">scenario</span><span class="o">.</span><span class="n">manual_meals</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># meal times in min</span>
+        <span class="n">Tmeals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">scenario</span><span class="o">.</span><span class="n">manual_meals</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mf">60.0</span><span class="p">)</span> <span class="c1"># meal times in hour</span>
+        <span class="n">Abolus</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">Tbolus</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">OB</span> <span class="o">==</span> <span class="s1">&#39;off&#39;</span><span class="p">:</span> <span class="c1"># optimal bolus calculation (&#39;on&#39;) or using the given value (&#39;off&#39;)</span>
+            <span class="n">Abolus</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">scenario</span><span class="o">.</span><span class="n">manual_boluses</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">Tbolus</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">scenario</span><span class="o">.</span><span class="n">manual_boluses</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Tbolus</span><span class="p">)):</span>
+                <span class="n">Abolus</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">Abolus</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">Tbolus</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">Tbolus</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dose</span><span class="p">)):</span>
+            <span class="n">dose</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">dose</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">Tdose</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">Tdose</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">Ameals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">Ameals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">Tmeals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">Tmeals</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+
+        <span class="n">Tsimul</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span> <span class="o">-</span> <span class="n">scenario</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span>
+        <span class="n">Tsimul</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">Tsimul</span><span class="p">)</span>
+        <span class="n">Tclosed</span> <span class="o">=</span> <span class="n">Tsimul</span> <span class="o">+</span> <span class="mf">500.0</span> <span class="c1"># start of closed loop, ignored above Tsimul</span>
+        <span class="n">IV_insulin</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],[</span><span class="n">Tsimul</span><span class="p">,</span><span class="mf">0.0</span><span class="p">]]</span> <span class="c1"># start, end time and amount of continuous IV dextrose/insulin injections</span>
+        <span class="n">IV_glucose</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">],[</span><span class="n">Tsimul</span><span class="p">,</span><span class="mf">0.0</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">Qbasal</span> <span class="o">==</span> <span class="s1">&#39;quest&#39;</span><span class="p">:</span> <span class="c1"># subject specific basal (&#39;quest&#39;) or using the given value</span>
+            <span class="n">basal_UpMin</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="c1"># it will be overwritten</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">basal_UpMin</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">basal</span><span class="o">/</span><span class="mf">60.0</span> <span class="c1"># U/h -&gt; U/min</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Tbolus</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+
+            <span class="n">t_ins</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="c1"># vector of insulin times; for every t bolus time: t-0.01,t,t+1-0.01,t+1</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Tbolus</span><span class="p">)):</span>
+                <span class="n">t_ins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Tbolus</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mf">0.01</span><span class="p">)</span><span class="c1">#(Tdose[i] - 0.01)</span>
+                <span class="n">t_ins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Tbolus</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">t_ins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Tbolus</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">)</span>
+                <span class="n">t_ins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Tbolus</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">t_ins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Tbolus</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># last value: 2 minutes after last t</span>
+            <span class="c1">#t_ins = np.array([t_ins]).T</span>
+
+            <span class="n">val_ins</span> <span class="o">=</span> <span class="p">[[</span><span class="n">basal_UpMin</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]</span> <span class="c1"># basal and bolus insulin for every meal: 0,bolus,bolus,0</span>
+            <span class="k">if</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">OB</span> <span class="o">==</span> <span class="s1">&#39;off&#39;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Abolus</span><span class="p">)):</span> <span class="c1"># if bolus is fixed, bolus values are used</span>
+                    <span class="n">val_ins</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">basal_UpMin</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+                    <span class="n">val_ins</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">basal_UpMin</span><span class="p">,</span> <span class="n">Abolus</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+                    <span class="n">val_ins</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">basal_UpMin</span><span class="p">,</span> <span class="n">Abolus</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+                    <span class="n">val_ins</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">basal_UpMin</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Ameals</span><span class="p">)):</span> <span class="c1"># if optimal bolus is calculated, meal values are used</span>
+                    <span class="n">val_ins</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">basal_UpMin</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span> <span class="c1"># 0,meal,meal,0</span>
+                    <span class="n">val_ins</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">basal_UpMin</span><span class="p">,</span> <span class="n">Ameals</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+                    <span class="n">val_ins</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">basal_UpMin</span><span class="p">,</span> <span class="n">Ameals</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+                    <span class="n">val_ins</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">basal_UpMin</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+            <span class="n">val_ins</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">basal_UpMin</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span> <span class="c1"># first and last value is 0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">t_ins</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+            <span class="n">val_ins</span> <span class="o">=</span> <span class="p">[</span><span class="n">basal_UpMin</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">Tdose</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">meals</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]</span> <span class="c1"># time and amount for every meal</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Tdose</span><span class="p">)):</span> <span class="c1"># time: t-0.01,t,t+meal_duration-0.01,t+meal_duration; amount: 0,meal_amount/duration,meal_amount/duration,0</span>
+                <span class="n">meals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Tdose</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+                <span class="n">meals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Tdose</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Ameals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">meal_duration</span><span class="p">])</span>
+                <span class="n">meals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Tdose</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">meal_duration</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">Ameals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">meal_duration</span><span class="p">])</span>
+                <span class="n">meals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Tdose</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">meal_duration</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+            <span class="n">meals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Tdose</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">meal_duration</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span> <span class="c1"># first and last value is 0</span>
+
+            <span class="n">t_meals</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Tmeals</span><span class="p">)):</span> <span class="c1"># for every t [hour] meal time: (t-1)[min]-0.01,(t-1)[min],(t+1)[min],(t+1)[min]+0.01</span>
+                <span class="n">t_meals</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Tmeals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">60.0</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">)</span>
+                <span class="n">t_meals</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Tmeals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">60.0</span><span class="p">)</span>
+                <span class="n">t_meals</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Tmeals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">60.0</span><span class="p">)</span>
+                <span class="n">t_meals</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Tmeals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">60.0</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span>
+            <span class="n">t_meals</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">Tmeals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">60.0</span> <span class="o">+</span> <span class="mf">1.01</span><span class="p">)</span> <span class="c1"># last value: 1 minute after last element of t_meal</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t_meals</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">):</span> <span class="c1"># to avoid the decrease of t_meals values (E.g. when only 1 hour passes between 2 meals,</span>
+                <span class="c1"># t_meals vector would not be monotonically increasing: Tmeals=[2,3] -&gt; t_meals=[59.99,60,180,180.01,119.99,120,240,240.01])</span>
+                <span class="k">if</span> <span class="n">t_meals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">t_meals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]:</span>
+                    <span class="n">t_meals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_meals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.03</span>
+                    <span class="n">t_meals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">t_meals</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.02</span>
+
+        <span class="c1">#t_meals = np.array([t_meals]).T</span>
+
+            <span class="n">val_meals</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]</span> <span class="c1"># amount of every meal: 0,meal,meal,0</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Ameals</span><span class="p">)):</span> <span class="c1"># times: 0,60,-60,0 (minimum 1 hour has to pass between meals)(?)</span>
+                <span class="n">val_meals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+                <span class="n">val_meals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Ameals</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mf">60.0</span><span class="p">])</span> <span class="c1"># 60.0</span>
+                <span class="n">val_meals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">Ameals</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">-</span><span class="mf">60.0</span><span class="p">])</span> <span class="c1"># -60.0</span>
+                <span class="n">val_meals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+            <span class="n">val_meals</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span> <span class="c1"># first and last values are 0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">t_meals</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+            <span class="n">meals</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]</span>
+            <span class="n">val_meals</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]</span>
+            <span class="n">dose</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+            <span class="n">Tdose</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+
+        <span class="n">T1DMSData</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Lscenario&#39;</span><span class="p">:</span>
+                    <span class="p">{</span><span class="s2">&quot;SQ_Gluc&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">&quot;signals&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dimensions&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">}},</span>
+                       <span class="s2">&quot;SQ_Pram&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">&quot;signals&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dimensions&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">},</span> <span class="s2">&quot;dimension&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span>
+                       <span class="s2">&quot;SQ_insulin&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">matlab</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">t_ins</span><span class="p">),</span> <span class="s2">&quot;signals&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="n">matlab</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">val_ins</span><span class="p">),</span> <span class="s2">&quot;dimensions&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">}},</span>
+                       <span class="s2">&quot;meals&quot;</span><span class="p">:</span> <span class="n">matlab</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">meals</span><span class="p">),</span>
+                       <span class="s2">&quot;meal_announce&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">matlab</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">t_meals</span><span class="p">),</span> <span class="s2">&quot;signals&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="n">matlab</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">val_meals</span><span class="p">),</span> <span class="s2">&quot;dimensions&quot;</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">}},</span>
+                       <span class="s2">&quot;dose&quot;</span><span class="p">:</span> <span class="n">matlab</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">dose</span><span class="p">),</span>
+                       <span class="s2">&quot;Tdose&quot;</span><span class="p">:</span> <span class="n">matlab</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">Tdose</span><span class="p">),</span>
+                       <span class="c1">#&quot;Abolus&quot;: matlab.double(Abolus),</span>
+                       <span class="c1">#&quot;Tbolus&quot;: matlab.double(Tbolus),</span>
+                       <span class="s2">&quot;Qmeals&quot;</span><span class="p">:</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">Qmeals</span><span class="p">,</span>
+                       <span class="s2">&quot;Dmeals&quot;</span><span class="p">:</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">meal_duration</span><span class="p">,</span>
+                       <span class="s2">&quot;Tsimul&quot;</span><span class="p">:</span> <span class="n">Tsimul</span><span class="p">,</span>
+                       <span class="s2">&quot;Tclosed&quot;</span><span class="p">:</span> <span class="n">Tclosed</span><span class="p">,</span>
+                       <span class="s2">&quot;Treg&quot;</span><span class="p">:</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">Treg</span><span class="p">,</span>
+                       <span class="s2">&quot;CR&quot;</span><span class="p">:</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">CR</span><span class="p">,</span>
+                       <span class="s2">&quot;SQg&quot;</span><span class="p">:</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">SQg</span><span class="p">,</span>
+                       <span class="s2">&quot;IV_insulin&quot;</span><span class="p">:</span> <span class="n">matlab</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">IV_insulin</span><span class="p">),</span>
+                       <span class="s2">&quot;IV_glucose&quot;</span><span class="p">:</span> <span class="n">matlab</span><span class="o">.</span><span class="n">double</span><span class="p">(</span><span class="n">IV_glucose</span><span class="p">),</span>
+                       <span class="s2">&quot;QIVD&quot;</span><span class="p">:</span> <span class="s1">&#39;total&#39;</span><span class="p">,</span>
+                       <span class="s2">&quot;QIVins&quot;</span><span class="p">:</span> <span class="s1">&#39;total&#39;</span><span class="p">,</span>
+                       <span class="s2">&quot;SCNname&quot;</span><span class="p">:</span> <span class="s1">&#39;template&#39;</span><span class="p">,</span>
+                       <span class="s2">&quot;Qbolus&quot;</span><span class="p">:</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">Qbolus</span><span class="p">,</span>
+                       <span class="s2">&quot;simToD&quot;</span><span class="p">:</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">simToD</span><span class="p">,</span>
+                       <span class="s2">&quot;basal&quot;</span><span class="p">:</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">basal</span><span class="p">,</span>
+                       <span class="s2">&quot;Qbasal&quot;</span><span class="p">:</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">Qbasal</span>
+                     <span class="p">},</span>
+
+                    <span class="s1">&#39;hardwareN&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;sensor&#39;</span><span class="p">:</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">hardwareN_sensor</span><span class="p">,</span>
+                                  <span class="s1">&#39;pump&#39;</span><span class="p">:</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">hardwareN_pump</span><span class="p">},</span>
+                    <span class="s1">&#39;hardware&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;SensorType&#39;</span><span class="p">:</span> <span class="n">scenario</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">hardware_sensorType</span><span class="p">}</span>
+                    <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">T1DMSData</span><span class="p">,</span> <span class="n">patient_data</span><span class="p">,</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="DataProcessor.checkDate"><a class="viewcode-back" href="../../OESimulator.html#OESimulator.DataProcessor.DataProcessor.checkDate">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">checkDate</span><span class="p">(</span><span class="n">date</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">DATETIME_FORMAT</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ERROR_CODES</span><span class="o">.</span><span class="n">DATE_INVALID</span></div>
+<div class="viewcode-block" id="DataProcessor.sort"><a class="viewcode-back" href="../../OESimulator.html#OESimulator.DataProcessor.DataProcessor.sort">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="n">time_array</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">time_array</span><span class="p">,</span> <span class="n">values</span><span class="p">))]</span>
+        <span class="n">time_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">time_array</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">time_array</span><span class="p">,</span><span class="n">values</span></div></div>
+</pre></div>
+
+            </div>
+
+        </section>
+
+        
+
+        
+            <div class="source-link">
+            
+                
+            
+            </div>
+        
+
+
+
+    </main>
+
+    <footer class="site-footer">
+<div class="container">
+
+    <div role="contentinfo">
+        <p>
+                &copy; Copyright 2022, ntoth,siket,szasz.
+        </p>
+    </div>
+        <p>Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+        <a href="https://github.com/testthedocs/sphinx_ttd_theme">theme</a>
+        provided by <a href="https://testthedocs">TestTheDocs</a>. 
+
+</div>
+</footer>
+
+    
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/theme-min.js"></script> 
+</body>
+</html>

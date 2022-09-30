@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <title>OESimulator.SimulationData.SimulationData</title>
+    
+
+    <link rel="stylesheet" href="../../../_static/css/redactor.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../../../_static/css/redactor.css" type="text/css" />
+    
+    
+    <link rel="index" title="Index" href="../../../genindex.html"/>
+    <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="uvapadovaAPI  documentation" href="../../../index.html"/>
+    <link rel="up" title="Module code" href="../../index.html"/> 
+</head>
+
+<body role="document">
+     
+
+    
+<a href="#" id="js-navigation-toggle" class="navigation-toggle">
+    <i class="mdi mdi-menu"></i><i class="mdi mdi-close"></i>
+</a>
+
+<section class="site-sidebar">
+
+<nav>
+
+
+    <a href="../../../index.html" class="branding-link">
+    
+        uvapadovaAPI
+    
+    
+    
+        
+        
+    
+    </a>
+
+    
+<section role="search">
+    <form action="../../../search.html" method="get" class="site-searchform">
+        <input type="text" name="q" placeholder="Search docs" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+</section>
+
+
+
+    <section class="site-nav">
+    
+    
+        <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../uva_padova_API.html">uva_padova_API module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../uva_padova_API_Wrapper.html">uva_padova_API_Wrapper module</a></li>
+</ul>
+
+    
+    </section>
+
+</nav>
+
+</section>
+
+    <main class="site-main" role="main">
+        
+
+
+
+
+
+
+
+
+
+
+
+<nav class="site-breadcrumbs">
+    <ul>
+    
+        <li>
+            <a href="../../../index.html">Docs</a> /
+        </li>
+        
+        <li>
+            <a href="../../index.html">Module code</a> /
+        </li>
+        
+        <li class="site-breadcrumbs__leaf">OESimulator.SimulationData.SimulationData</li>
+    
+    </ul>
+</nav>
+        <section class="site-content">
+            <div class="container">
+                
+  <h1>Source code for OESimulator.SimulationData.SimulationData</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.Scenario</span> <span class="kn">import</span> <span class="n">Scenario</span>
+<span class="kn">from</span> <span class="nn">.Units</span> <span class="kn">import</span> <span class="n">Units</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">.Timestamp</span> <span class="kn">import</span> <span class="n">Timestamp</span>
+<span class="kn">from</span> <span class="nn">.DataContainer</span> <span class="kn">import</span> <span class="n">DataContainer</span>
+<span class="kn">from</span> <span class="nn">.CONSTANTS</span> <span class="kn">import</span> <span class="n">NOMINAL_TAUD</span>
+
+<div class="viewcode-block" id="SimulationData"><a class="viewcode-back" href="../../../OESimulator.SimulationData.html#OESimulator.SimulationData.SimulationData.SimulationData">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">SimulationData</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Stores all the necessary information to simulate a virtual patient. Created by DataProcessor instance.</span>
+<span class="sd">            Defined by __slots__ as the class only serves quick data access purposes.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                t_start (int): Start time of the simulation horizon in Unix timestamp format [minutes].</span>
+<span class="sd">                t_end (int): Start time of the simulation horizon in Unix timestamp format [minutes].</span>
+<span class="sd">                scenario (Scenario): Scenario of the simulation.</span>
+<span class="sd">                units (Units): Units of the simulated mathematical model.</span>
+<span class="sd">                glucose_level (ndarray): Measured glucose levels (if available).</span>
+<span class="sd">                meal (DataContainer): Meal consumptions in the simulation horizon.</span>
+<span class="sd">                basal (DataContainer): Basal infusion rates in the simulation horizon.</span>
+<span class="sd">                bolus (DataContainer): Bolus injections in the simulation horizon.</span>
+<span class="sd">                rate_of_appearance (DataContainer): Generated rate of appearance values of the mathematical model in Ts sample time resolution.</span>
+<span class="sd">                EGP (DataContainer): Generated EGP values of the mathematical model in Ts sample time resolution.</span>
+<span class="sd">                GEZI (DataContainer): Generated GEZI values of the mathematical model in Ts sample time resolution.</span>
+<span class="sd">                SI (DataContainer): Generated SI values of the mathematical model in Ts sample time resolution.</span>
+<span class="sd">                iterator_range (range): Iterator for the simulation horizon.</span>
+<span class="sd">                time_axis (list): Timepoints of the simulation horizon in Unix timestamp format [minutes].</span>
+<span class="sd">                t_section (tuple): Stores the timepoints where the daily intervals change based on the circadian rhythm. Always at meal consumptions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;t_start&#39;</span><span class="p">,</span> <span class="s1">&#39;glucose_level&#39;</span><span class="p">,</span> <span class="s1">&#39;scenario&#39;</span><span class="p">,</span><span class="s1">&#39;t_end&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;basal&#39;</span><span class="p">,</span> <span class="s1">&#39;bolus&#39;</span><span class="p">,</span> <span class="s1">&#39;meal&#39;</span><span class="p">,</span><span class="s1">&#39;units&#39;</span><span class="p">,</span><span class="s1">&#39;iterator_range&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;time_axis&#39;</span><span class="p">,</span><span class="s1">&#39;time_range&#39;</span><span class="p">,</span><span class="s1">&#39;rate_of_appearance&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;t_sections&#39;</span><span class="p">,</span><span class="s1">&#39;EGP&#39;</span><span class="p">,</span><span class="s1">&#39;GEZI&#39;</span><span class="p">,</span><span class="s1">&#39;SI&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;is_meal_up_to_date&#39;</span><span class="p">,</span> <span class="s1">&#39;Vg&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scenario</span><span class="p">:</span> <span class="n">Scenario</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Constructor.</span>
+<span class="sd">            Required arguments: start time, end time in %d-%m-%Y %H:%M:%S format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span> <span class="o">=</span> <span class="n">scenario</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">:</span> <span class="n">Units</span> <span class="o">=</span> <span class="n">Units</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glucose_level</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meal</span><span class="p">:</span> <span class="n">DataContainer</span> <span class="o">=</span> <span class="n">DataContainer</span><span class="p">(</span><span class="n">impulsive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basal</span><span class="p">:</span> <span class="n">DataContainer</span> <span class="o">=</span> <span class="n">DataContainer</span><span class="p">(</span><span class="n">impulsive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bolus</span><span class="p">:</span> <span class="n">DataContainer</span> <span class="o">=</span> <span class="n">DataContainer</span><span class="p">(</span><span class="n">impulsive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rate_of_appearance</span><span class="p">:</span> <span class="n">DataContainer</span> <span class="o">=</span> <span class="n">DataContainer</span><span class="p">(</span><span class="n">impulsive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EGP</span><span class="p">:</span> <span class="n">DataContainer</span> <span class="o">=</span> <span class="n">DataContainer</span><span class="p">(</span><span class="n">impulsive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">GEZI</span><span class="p">:</span> <span class="n">DataContainer</span> <span class="o">=</span> <span class="n">DataContainer</span><span class="p">(</span><span class="n">impulsive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SI</span><span class="p">:</span> <span class="n">DataContainer</span> <span class="o">=</span> <span class="n">DataContainer</span><span class="p">(</span><span class="n">impulsive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iterator_range</span><span class="p">:</span> <span class="nb">range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_axis</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_range</span><span class="p">:</span> <span class="nb">range</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_sections</span><span class="p">:</span> <span class="nb">tuple</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_meal_up_to_date</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Vg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">}</span>
+
+<div class="viewcode-block" id="SimulationData.createRanges"><a class="viewcode-back" href="../../../OESimulator.SimulationData.html#OESimulator.SimulationData.SimulationData.SimulationData.createRanges">[docs]</a>    <span class="k">def</span> <span class="nf">createRanges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">Ts</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">Ts</span> <span class="p">)</span><span class="c1">#range(self.t_start, self.t_end, self.scenario.Ts)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iterator_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_range</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="SimulationData.copy"><a class="viewcode-back" href="../../../OESimulator.SimulationData.html#OESimulator.SimulationData.SimulationData.SimulationData.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a deep copy of the instance.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SimulationData : Deep copy of the instance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">simulation_data</span> <span class="o">=</span> <span class="n">SimulationData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">),</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Units</span><span class="p">,</span> <span class="n">Scenario</span><span class="p">)):</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">simulation_data</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">simulation_data</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">simulation_data</span></div>
+
+<div class="viewcode-block" id="SimulationData.initArrays"><a class="viewcode-back" href="../../../OESimulator.SimulationData.html#OESimulator.SimulationData.SimulationData.SimulationData.initArrays">[docs]</a>    <span class="k">def</span> <span class="nf">initArrays</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">Ts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">Ts</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iterator_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_range</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_axis</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_range</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bolus</span><span class="o">.</span><span class="n">as_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_range</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meal</span><span class="o">.</span><span class="n">as_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_range</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">as_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_range</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">as_timestamped_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meal</span><span class="o">.</span><span class="n">as_timestamped_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bolus</span><span class="o">.</span><span class="n">as_timestamped_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SimulationData.trim"><a class="viewcode-back" href="../../../OESimulator.SimulationData.html#OESimulator.SimulationData.SimulationData.SimulationData.trim">[docs]</a>    <span class="k">def</span> <span class="nf">trim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_start_time</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">new_end_time</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Trims all the arrays, which are sampled in Ts resolution inbetween the new start and end time.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Serves for quick resimulation, if the patient parameters and inputs remain the same and only the start or the end time of the horizon is changed.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            new_start_time (Union[str,int]): New start time of the simulation horizon.</span>
+<span class="sd">            new_end_time (Union[str,int]): New end time of the simulation horizon.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; print(self.basal.as_array.shape)</span>
+<span class="sd">            &gt;&gt;&gt; self.trim(self.scenario.start_time.as_int+60,self.scenario.end_time.as_int)</span>
+<span class="sd">            &gt;&gt;&gt; print(self.basal.as_array.shape)</span>
+<span class="sd">            (577,)</span>
+<span class="sd">            (565,)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">new_start_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="p">(</span><span class="n">new_start_time</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="p">(</span><span class="n">new_end_time</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot apply trim if the new start time is outside of the current data horizon.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span><span class="o">&gt;</span><span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot apply trim if the new end time is outside of the current data horizon.&quot;</span><span class="p">)</span>
+        <span class="n">trim_start_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">Ts</span><span class="p">)</span>
+        <span class="n">trim_end_idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_range</span><span class="p">)</span><span class="o">+</span><span class="nb">int</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">Ts</span><span class="p">)</span>
+
+
+        <span class="n">t_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span>
+        <span class="n">t_end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span> <span class="o">=</span> <span class="n">t_start</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span> <span class="o">=</span> <span class="n">t_end</span>
+
+        <span class="n">range_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">,</span>
+                               <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">range_array</span><span class="p">)):</span>
+            <span class="n">range_array</span> <span class="o">=</span> <span class="n">range_array</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="n">range_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">range_array</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">range_array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">as_timestamped_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">[</span><span class="n">range_array</span><span class="p">,</span> <span class="p">:]</span>
+
+        <span class="n">range_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bolus</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.0</span><span class="p">,</span>
+                               <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bolus</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bolus</span><span class="o">.</span><span class="n">as_timestamped_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bolus</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">[</span><span class="n">range_array</span><span class="p">,</span> <span class="p">:]</span>
+
+        <span class="n">range_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meal</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="o">-</span><span class="mi">600</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.0</span><span class="p">,</span>
+                               <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meal</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meal</span><span class="o">.</span><span class="n">as_timestamped_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meal</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">[</span><span class="n">range_array</span><span class="p">,</span> <span class="p">:]</span>
+
+        <span class="n">time_range_idxs</span> <span class="o">=</span> <span class="n">trim_end_idx</span><span class="o">-</span><span class="n">trim_start_idx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">,</span> <span class="n">time_range_idxs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">glucose_level</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">glucose_level</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">time_range</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_range</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">glucose_level</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">glucose_level</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])))</span>
+            <span class="c1"># range_array = np.logical_and(np.subtract(self.glucose_level[:, 0], self.t_start) &gt;= 0.0,</span>
+            <span class="c1">#                        np.subtract(self.glucose_level[:, 0], self.t_end + t_pred) &lt;= 0.0)</span>
+            <span class="c1"># self.glucose_level = self.glucose_level[range_array, :]</span>
+            <span class="c1"># time_range_idxs = self.glucose_level.shape[0]</span>
+
+        <span class="n">range_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meal</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.0</span><span class="p">,</span>
+                               <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">meal</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="n">range_boluses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bolus</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.0</span><span class="p">,</span>
+                                       <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bolus</span><span class="o">.</span><span class="n">as_timestamped_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">no_meals</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">range_array</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario</span><span class="o">.</span><span class="n">no_boluses</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">range_boluses</span><span class="p">)</span>
+        <span class="c1">#range(self.t_start, self.t_end, self.scenario.Ts)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bolus</span><span class="o">.</span><span class="n">as_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bolus</span><span class="o">.</span><span class="n">as_array</span><span class="p">[</span><span class="n">trim_start_idx</span><span class="p">:</span><span class="n">trim_end_idx</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">as_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">basal</span><span class="o">.</span><span class="n">as_array</span><span class="p">[</span><span class="n">trim_start_idx</span><span class="p">:</span><span class="n">trim_end_idx</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iterator_range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_range</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_axis</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">-</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_range</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_range</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_meal_up_to_date</span> <span class="o">=</span> <span class="kc">False</span></div></div>
+</pre></div>
+
+            </div>
+
+        </section>
+
+        
+
+        
+            <div class="source-link">
+            
+                
+            
+            </div>
+        
+
+
+
+    </main>
+
+    <footer class="site-footer">
+<div class="container">
+
+    <div role="contentinfo">
+        <p>
+                &copy; Copyright 2022, ntoth,siket,szasz.
+        </p>
+    </div>
+        <p>Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+        <a href="https://github.com/testthedocs/sphinx_ttd_theme">theme</a>
+        provided by <a href="https://testthedocs">TestTheDocs</a>. 
+
+</div>
+</footer>
+
+    
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/js/theme-min.js"></script> 
+</body>
+</html>

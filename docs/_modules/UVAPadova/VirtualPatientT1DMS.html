@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <title>UVAPadova.VirtualPatientT1DMS</title>
+    
+
+    <link rel="stylesheet" href="../../_static/css/redactor.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../../_static/css/redactor.css" type="text/css" />
+    
+    
+    <link rel="index" title="Index" href="../../genindex.html"/>
+    <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="uvapadovaAPI  documentation" href="../../index.html"/>
+    <link rel="up" title="Module code" href="../index.html"/> 
+</head>
+
+<body role="document">
+     
+
+    
+<a href="#" id="js-navigation-toggle" class="navigation-toggle">
+    <i class="mdi mdi-menu"></i><i class="mdi mdi-close"></i>
+</a>
+
+<section class="site-sidebar">
+
+<nav>
+
+
+    <a href="../../index.html" class="branding-link">
+    
+        uvapadovaAPI
+    
+    
+    
+        
+        
+    
+    </a>
+
+    
+<section role="search">
+    <form action="../../search.html" method="get" class="site-searchform">
+        <input type="text" name="q" placeholder="Search docs" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+</section>
+
+
+
+    <section class="site-nav">
+    
+    
+        <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../uva_padova_API.html">uva_padova_API module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../uva_padova_API_Wrapper.html">uva_padova_API_Wrapper module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../UVAPadova.html">UVAPadova package</a></li>
+</ul>
+
+    
+    </section>
+
+</nav>
+
+</section>
+
+    <main class="site-main" role="main">
+        
+
+
+
+
+
+
+
+
+
+
+
+<nav class="site-breadcrumbs">
+    <ul>
+    
+        <li>
+            <a href="../../index.html">Docs</a> /
+        </li>
+        
+        <li>
+            <a href="../index.html">Module code</a> /
+        </li>
+        
+        <li class="site-breadcrumbs__leaf">UVAPadova.VirtualPatientT1DMS</li>
+    
+    </ul>
+</nav>
+        <section class="site-content">
+            <div class="container">
+                
+  <h1>Source code for UVAPadova.VirtualPatientT1DMS</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">matlab.engine</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<div class="viewcode-block" id="VirtualPatientT1DMS"><a class="viewcode-back" href="../../UVAPadova.html#UVAPadova.VirtualPatientT1DMS.VirtualPatientT1DMS">[docs]</a><span class="k">class</span> <span class="nc">VirtualPatientT1DMS</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; VirtualPatientT1DMS class implements a virtual patient on the basis of the OE simulator, and controls the MATLAB engine.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                BGinit :</span>
+<span class="sd">                patient (str): Patient ID.</span>
+<span class="sd">                eng : Matlab engine for Python.</span>
+<span class="sd">                simulation_data (SimulationData): Stores all the simulation related data.</span>
+<span class="sd">                hardwareN (dict): Represents the &quot;hardwareN&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                hardware (dict): Represents the &quot;hardware&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                rep (int): Represents the &quot;rep&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                bck_meals (matlab.double): Represents the &quot;bck_meals&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                bck_meal_announce (matlab.double): Represents the &quot;bck_meal_announce&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                bck_SQinsulin (dict): Represents the &quot;bck_SQinsulin&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                ind (int): Represents the &quot;ind&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                sc (dict): Represents the &quot;sc&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                result (dict): Represents the &quot;res_aux&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                bg (np.array): Stores the simulated blood glucose trajectory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patient_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">BGinit</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Constructor.</span>
+
+<span class="sd">            Note:</span>
+<span class="sd">                Starts the Matlab engine.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                patient_name : Patient ID as given in the UVA/Padova simulator.</span>
+<span class="sd">                BGinit : Initial blood glucose concentration of the patient. If empty, basal conditions is assumed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">BGinit</span> <span class="o">=</span> <span class="n">BGinit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">patient</span> <span class="o">=</span> <span class="n">patient_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eng</span> <span class="o">=</span> <span class="n">matlab</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">start_matlab</span><span class="p">()</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;C:/T1DMS_Install/UVa PadovaT1DM Simulator v3.2.1&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eng</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">nargout</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<div class="viewcode-block" id="VirtualPatientT1DMS.simulatePatient"><a class="viewcode-back" href="../../UVAPadova.html#UVAPadova.VirtualPatientT1DMS.VirtualPatientT1DMS.simulatePatient">[docs]</a>    <span class="k">def</span> <span class="nf">simulatePatient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simulation_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Simulates the patient based on the data given in the simulation_data argument.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                simulation_data (SimulationData): Stores the simulation related information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation_data</span> <span class="o">=</span> <span class="n">simulation_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hardwareN</span> <span class="o">=</span> <span class="n">simulation_data</span><span class="p">[</span><span class="s1">&#39;hardwareN&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hardware</span> <span class="o">=</span> <span class="n">simulation_data</span><span class="p">[</span><span class="s1">&#39;hardware&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rep</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bck_meals</span> <span class="o">=</span> <span class="n">simulation_data</span><span class="p">[</span><span class="s1">&#39;Lscenario&#39;</span><span class="p">][</span><span class="s1">&#39;meals&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bck_meal_announce</span> <span class="o">=</span> <span class="n">simulation_data</span><span class="p">[</span><span class="s1">&#39;Lscenario&#39;</span><span class="p">][</span><span class="s1">&#39;meal_announce&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bck_SQinsulin</span> <span class="o">=</span> <span class="n">simulation_data</span><span class="p">[</span><span class="s1">&#39;Lscenario&#39;</span><span class="p">][</span><span class="s1">&#39;SQ_insulin&#39;</span><span class="p">][</span><span class="s1">&#39;signals&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ind</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc</span> <span class="o">=</span> <span class="n">simulation_data</span><span class="p">[</span><span class="s1">&#39;Lscenario&#39;</span><span class="p">]</span>
+
+        <span class="n">simulation_data</span><span class="p">[</span><span class="s1">&#39;Lscenario&#39;</span><span class="p">][</span><span class="s1">&#39;BGinit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">BGinit</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sc</span><span class="p">)</span>
+        <span class="n">res_aux</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eng</span><span class="o">.</span><span class="n">connect_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sc</span><span class="p">,</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">patient</span><span class="p">,</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">hardwareN</span><span class="p">,</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">hardware</span><span class="p">,</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">rep</span><span class="p">,</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">bck_meals</span><span class="p">,</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">bck_meal_announce</span><span class="p">,</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">bck_SQinsulin</span><span class="p">,</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">ind</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">res_aux</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;G&#39;</span><span class="p">][</span><span class="s1">&#39;signals&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="VirtualPatientT1DMS.plotHistoricalStates"><a class="viewcode-back" href="../../UVAPadova.html#UVAPadova.VirtualPatientT1DMS.VirtualPatientT1DMS.plotHistoricalStates">[docs]</a>    <span class="k">def</span> <span class="nf">plotHistoricalStates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Plots the result of the simulatePatient() function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;G&#39;</span><span class="p">][</span><span class="s1">&#39;signals&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">])</span>
+        <span class="n">sensor_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;sensor&#39;</span><span class="p">][</span><span class="s1">&#39;signals&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">])</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bg</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sensor_noise</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;BG&#39;</span><span class="p">,</span><span class="s1">&#39;noise&#39;</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="n">rmse</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">bg</span><span class="p">,</span><span class="n">sensor_noise</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">rmse</span><span class="p">)</span></div></div>
+</pre></div>
+
+            </div>
+
+        </section>
+
+        
+
+        
+            <div class="source-link">
+            
+                
+            
+            </div>
+        
+
+
+
+    </main>
+
+    <footer class="site-footer">
+<div class="container">
+
+    <div role="contentinfo">
+        <p>
+                &copy; Copyright 2022, ntoth,siket,szasz.
+        </p>
+    </div>
+        <p>Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+        <a href="https://github.com/testthedocs/sphinx_ttd_theme">theme</a>
+        provided by <a href="https://testthedocs">TestTheDocs</a>. 
+
+</div>
+</footer>
+
+    
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/js/theme-min.js"></script> 
+</body>
+</html>

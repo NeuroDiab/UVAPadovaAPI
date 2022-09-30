@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <title>UVAPadovaAPI</title>
+    
+
+    <link rel="stylesheet" href="../_static/css/redactor.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../_static/css/redactor.css" type="text/css" />
+    
+    
+    <link rel="index" title="Index" href="../genindex.html"/>
+    <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="uvapadovaAPI  documentation" href="../index.html"/>
+    <link rel="up" title="Module code" href="index.html"/> 
+</head>
+
+<body role="document">
+     
+
+    
+<a href="#" id="js-navigation-toggle" class="navigation-toggle">
+    <i class="mdi mdi-menu"></i><i class="mdi mdi-close"></i>
+</a>
+
+<section class="site-sidebar">
+
+<nav>
+
+
+    <a href="../index.html" class="branding-link">
+    
+        uvapadovaAPI
+    
+    
+    
+        
+        
+    
+    </a>
+
+    
+<section role="search">
+    <form action="../search.html" method="get" class="site-searchform">
+        <input type="text" name="q" placeholder="Search docs" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+</section>
+
+
+
+    <section class="site-nav">
+    
+    
+        <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../UVAPadovaAPI.html">UVAPadovaAPI module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UVAPadovaAPIWrapper.html">UVAPadovaAPIWrapper module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Simulator.UVAPadova.html">Simulator.UVAPadova package</a></li>
+</ul>
+
+    
+    </section>
+
+</nav>
+
+</section>
+
+    <main class="site-main" role="main">
+        
+
+
+
+
+
+
+
+
+
+
+
+<nav class="site-breadcrumbs">
+    <ul>
+    
+        <li>
+            <a href="../index.html">Docs</a> /
+        </li>
+        
+        <li>
+            <a href="index.html">Module code</a> /
+        </li>
+        
+        <li class="site-breadcrumbs__leaf">UVAPadovaAPI</li>
+    
+    </ul>
+</nav>
+        <section class="site-content">
+            <div class="container">
+                
+  <h1>Source code for UVAPadovaAPI</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">flask_restful</span> <span class="kn">import</span> <span class="n">Resource</span><span class="p">,</span> <span class="n">Api</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">Simulator.UVAPadova.UVAPadovaSimulator</span> <span class="kn">import</span> <span class="n">UvaPadovaSimulator</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">pyperclip</span>
+
+<span class="n">uva_padova_simulator</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This modul level variable will be contain (after initialization) an UvaPadovaSimulator instance, </span>
+<span class="sd">    which represents the current state of the simulation and modifies it.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="SimulationCreator"><a class="viewcode-back" href="../UVAPadovaAPI.html#UVAPadovaAPI.SimulationCreator">[docs]</a><span class="k">class</span> <span class="nc">SimulationCreator</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This class handles the requests to initialize a simulation.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        The API doesn&#39;t check the correctness of the input parameters.</span>
+<span class="sd">        To enter the input parameters correctly, please read the documentation of UVAPadova Simulator.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="SimulationCreator.get"><a class="viewcode-back" href="../UVAPadovaAPI.html#UVAPadovaAPI.SimulationCreator.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; A new simulation can be created by an HTTP GET request. For the initialization, the patient ID is required</span>
+<span class="sd">        as a HTTP GET parameter. Optionally, the type of insulin pump or/and CGM sensor used for the simulation</span>
+<span class="sd">        can also be specified as a HTTP GET parameter.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                str: A HTTP status code according to the success of the request.</span>
+
+<span class="sd">            Examples:</span>
+<span class="sd">                &gt;&gt;&gt; http://&lt;IP ADDRESS&gt;:&lt;PORT NUMBER&gt;/createSimulation?patientid=&lt;patient ID&gt;&amp;pump=&lt;pump name&gt;&amp;sensor=&lt;CGM name&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">patient_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">patient_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;patientname&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">patient_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;patientname&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;patientid&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">patient_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;patienid&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;400 The patient ID is required for initialization as HTTP GET parameter!&quot;</span>
+        <span class="k">global</span> <span class="n">uva_padova_simulator</span>
+        <span class="n">uva_padova_simulator</span> <span class="o">=</span> <span class="n">UvaPadovaSimulator</span><span class="p">(</span><span class="n">patient_name</span><span class="o">=</span><span class="n">patient_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;pump&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">uva_padova_simulator</span><span class="o">.</span><span class="n">pump</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pump&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;sensor&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">uva_padova_simulator</span><span class="o">.</span><span class="n">sensor</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sensor&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s1">&#39;200 The &#39;</span> <span class="o">+</span> <span class="n">patient_name</span> <span class="o">+</span> <span class="s2">&quot; patient successfully loaded.&quot;</span></div></div>
+
+
+<div class="viewcode-block" id="Simulate"><a class="viewcode-back" href="../UVAPadovaAPI.html#UVAPadovaAPI.Simulate">[docs]</a><span class="k">class</span> <span class="nc">Simulate</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This class handles the requests to modify the current state of the simulation.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        The API doesn&#39;t check the correctness of the input parameters.</span>
+<span class="sd">        To enter the input parameters correctly, please read the documentation of UVAPadova Simulator.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Simulate.get"><a class="viewcode-back" href="../UVAPadovaAPI.html#UVAPadovaAPI.Simulate.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The simulation can be extended by 5 minutes by an HTTP GET request.</span>
+<span class="sd">        If carbohydrate or insulin intake occurred in the last 5 minutes,</span>
+<span class="sd">        their amount can be specified as an HTTP GET parameter.</span>
+
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; http://&lt;IP ADDRESS&gt;:&lt;PORT NUMBER&gt;/simulate?carbohydrate=&lt;value in grams&gt;&amp;insulin=&lt;value in units&gt;</span>
+
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str:</span>
+<span class="sd">                A HTTP status code according to the success of the request.</span>
+<span class="sd">                Furthermore, if the simulation request was successful, the function returns a JSON string,</span>
+<span class="sd">                which contains the &quot;bloodGlucose&quot; value at the end of the simulation</span>
+<span class="sd">                and optionally other alerts related to the simulation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;ch&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">carbohydrate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ch&quot;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="s2">&quot;c&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">carbohydrate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="s2">&quot;carbohydrate&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">carbohydrate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;carbohydrate&quot;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="s2">&quot;meal&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">carbohydrate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;meal&quot;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="s2">&quot;mealvalue&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">carbohydrate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mealvalue&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">carbohydrate</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="s2">&quot;insulin&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">insulin</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;insulin&quot;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="s2">&quot;i&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">insulin</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="s2">&quot;bolus&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">insulin</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bolus&quot;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="s2">&quot;bolusinsulin&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">insulin</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bolusinsulin&quot;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="s2">&quot;bolusvalue&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">insulin</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bolusvalue&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">insulin</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">global</span> <span class="n">uva_padova_simulator</span>
+        <span class="k">if</span> <span class="n">uva_padova_simulator</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;bloodGlucose&quot;</span><span class="p">:</span> <span class="n">uva_padova_simulator</span><span class="o">.</span><span class="n">doSimulation</span><span class="p">(</span><span class="n">carbohydrate</span><span class="p">,</span> <span class="n">insulin</span><span class="p">)}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;409 Patient wasn&#39;t initialized.&quot;</span>
+        <span class="k">if</span> <span class="n">uva_padova_simulator</span><span class="o">.</span><span class="n">chLostFlag</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s2">&quot;Alert&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Carbohydrate intake was ignored, because at least one hour should pass between meals.&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="mi">200</span></div>
+
+<div class="viewcode-block" id="Simulate.post"><a class="viewcode-back" href="../UVAPadovaAPI.html#UVAPadovaAPI.Simulate.post">[docs]</a>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        During the simulation the type of the insulin pump or the CGM sensor can be changed by an HTTP POST request.</span>
+<span class="sd">        The type of the new pump (or sensor) is required as HTTP POST parameter.</span>
+
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: A HTTP status code according to the success of the request.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;pump&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">uva_padova_simulator</span><span class="o">.</span><span class="n">pump</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pump&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;sensor&quot;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">uva_padova_simulator</span><span class="o">.</span><span class="n">sensor</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sensor&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">200</span></div></div>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">Api</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+<span class="n">api</span><span class="o">.</span><span class="n">add_resource</span><span class="p">(</span><span class="n">SimulationCreator</span><span class="p">,</span> <span class="s1">&#39;/createSimulation&#39;</span><span class="p">)</span>
+<span class="n">api</span><span class="o">.</span><span class="n">add_resource</span><span class="p">(</span><span class="n">Simulate</span><span class="p">,</span> <span class="s1">&#39;/simulate&#39;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;0.0.0.0&#39;</span><span class="p">)</span>
+
+
+</pre></div>
+
+            </div>
+
+        </section>
+
+        
+
+        
+            <div class="source-link">
+            
+                
+            
+            </div>
+        
+
+
+
+    </main>
+
+    <footer class="site-footer">
+<div class="container">
+
+    <div role="contentinfo">
+        <p>
+                &copy; Copyright 2022, ntoth,siket,szasz.
+        </p>
+    </div>
+        <p>Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+        <a href="https://github.com/testthedocs/sphinx_ttd_theme">theme</a>
+        provided by <a href="https://testthedocs">TestTheDocs</a>. 
+
+</div>
+</footer>
+
+    
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/theme-min.js"></script> 
+</body>
+</html>

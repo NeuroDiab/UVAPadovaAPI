@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <title>UVAPadovaAPI module</title>
+    
+
+    <link rel="stylesheet" href="_static/css/redactor.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/css/redactor.css" type="text/css" />
+    
+    
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="UVA/Padova API  documentation" href="index.html"/>
+    <link rel="next" title="UVAPadovaAPIWrapper module" href="UVAPadovaAPIWrapper.html"/>
+    <link rel="prev" title="Welcome to UVA/Padova API’s documentation!" href="index.html"/> 
+</head>
+
+<body role="document">
+     
+
+    
+<a href="#" id="js-navigation-toggle" class="navigation-toggle">
+    <i class="mdi mdi-menu"></i><i class="mdi mdi-close"></i>
+</a>
+
+<section class="site-sidebar">
+
+<nav>
+
+
+    <a href="index.html" class="branding-link">
+    
+        UVA/Padova API
+    
+    
+    
+        
+        
+    
+    </a>
+
+    
+<section role="search">
+    <form action="search.html" method="get" class="site-searchform">
+        <input type="text" name="q" placeholder="Search docs" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+</section>
+
+
+
+    <section class="site-nav">
+    
+    
+        <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">UVAPadovaAPI module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UVAPadovaAPIWrapper.html">UVAPadovaAPIWrapper module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Simulator.UVAPadova.html">Simulator.UVAPadova package</a></li>
+</ul>
+
+    
+    </section>
+
+</nav>
+
+</section>
+
+    <main class="site-main" role="main">
+        
+
+
+
+
+
+
+
+
+
+
+
+<nav class="site-breadcrumbs">
+    <ul>
+    
+        <li>
+            <a href="index.html">Docs</a> /
+        </li>
+        
+        <li class="site-breadcrumbs__leaf">UVAPadovaAPI module</li>
+    
+    </ul>
+</nav>
+        <section class="site-content">
+            <div class="container">
+                
+  <section id="module-UVAPadovaAPI">
+<span id="uvapadovaapi-module"></span><h1>UVAPadovaAPI module<a class="headerlink" href="#module-UVAPadovaAPI" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="UVAPadovaAPI.Simulate">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">UVAPadovaAPI.</span></span><span class="sig-name descname"><span class="pre">Simulate</span></span><a class="reference internal" href="_modules/UVAPadovaAPI.html#Simulate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UVAPadovaAPI.Simulate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful.Resource</span></code></p>
+<p>This class handles the requests to modify the current state of the simulation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The API doesn’t check the correctness of the input parameters.
+To enter the input parameters correctly, please read the documentation of UVAPadova Simulator.</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UVAPadovaAPI.Simulate.endpoint">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'simulate'</span></em><a class="headerlink" href="#UVAPadovaAPI.Simulate.endpoint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UVAPadovaAPI.Simulate.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/UVAPadovaAPI.html#Simulate.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UVAPadovaAPI.Simulate.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>The simulation can be extended by 5 minutes by an HTTP GET request.
+If carbohydrate or insulin intake occurred in the last 5 minutes,
+their amount can be specified as an HTTP GET parameter.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; http://&lt;IP ADDRESS&gt;:&lt;PORT NUMBER&gt;/simulate?carbohydrate=&lt;value in grams&gt;&amp;insulin=&lt;value in units&gt;
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A HTTP status code according to the success of the request.
+Furthermore, if the simulation request was successful, the function returns a JSON string,
+which contains the “bloodGlucose” value at the end of the simulation
+and optionally other alerts related to the simulation.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UVAPadovaAPI.Simulate.mediatypes">
+<span class="sig-name descname"><span class="pre">mediatypes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UVAPadovaAPI.Simulate.mediatypes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UVAPadovaAPI.Simulate.methods">
+<span class="sig-name descname"><span class="pre">methods</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">{'GET',</span> <span class="pre">'POST'}</span></em><a class="headerlink" href="#UVAPadovaAPI.Simulate.methods" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of methods this view can handle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UVAPadovaAPI.Simulate.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/UVAPadovaAPI.html#Simulate.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UVAPadovaAPI.Simulate.post" title="Permalink to this definition">¶</a></dt>
+<dd><p>During the simulation the type of the insulin pump or the CGM sensor can be changed by an HTTP POST request.
+The type of the new pump (or sensor) is required as HTTP POST parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A HTTP status code according to the success of the request.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UVAPadovaAPI.SimulationCreator">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">UVAPadovaAPI.</span></span><span class="sig-name descname"><span class="pre">SimulationCreator</span></span><a class="reference internal" href="_modules/UVAPadovaAPI.html#SimulationCreator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UVAPadovaAPI.SimulationCreator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">flask_restful.Resource</span></code></p>
+<p>This class handles the requests to initialize a simulation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The API doesn’t check the correctness of the input parameters.
+To enter the input parameters correctly, please read the documentation of UVAPadova Simulator.</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UVAPadovaAPI.SimulationCreator.endpoint">
+<span class="sig-name descname"><span class="pre">endpoint</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'simulationcreator'</span></em><a class="headerlink" href="#UVAPadovaAPI.SimulationCreator.endpoint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UVAPadovaAPI.SimulationCreator.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/UVAPadovaAPI.html#SimulationCreator.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#UVAPadovaAPI.SimulationCreator.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>A new simulation can be created by an HTTP GET request. For the initialization, the patient ID is required
+as a HTTP GET parameter. Optionally, the type of insulin pump or/and CGM sensor used for the simulation
+can also be specified as a HTTP GET parameter.</p>
+<blockquote>
+<div><dl>
+<dt>Returns:</dt><dd><p>str: A HTTP status code according to the success of the request.</p>
+</dd>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; http://&lt;IP ADDRESS&gt;:&lt;PORT NUMBER&gt;/createSimulation?patientid=&lt;patient ID&gt;&amp;pump=&lt;pump name&gt;&amp;sensor=&lt;CGM name&gt;
+</pre></div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UVAPadovaAPI.SimulationCreator.mediatypes">
+<span class="sig-name descname"><span class="pre">mediatypes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UVAPadovaAPI.SimulationCreator.mediatypes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UVAPadovaAPI.SimulationCreator.methods">
+<span class="sig-name descname"><span class="pre">methods</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">{'GET'}</span></em><a class="headerlink" href="#UVAPadovaAPI.SimulationCreator.methods" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of methods this view can handle.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="UVAPadovaAPI.uva_padova_simulator">
+<span class="sig-prename descclassname"><span class="pre">UVAPadovaAPI.</span></span><span class="sig-name descname"><span class="pre">uva_padova_simulator</span></span><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#UVAPadovaAPI.uva_padova_simulator" title="Permalink to this definition">¶</a></dt>
+<dd><p>This modul level variable will be contain (after initialization) an UvaPadovaSimulator instance,
+which represents the current state of the simulation and modifies it.</p>
+</dd></dl>
+
+</section>
+
+
+            </div>
+
+        </section>
+
+        
+            <nav class="site-bottom-navigation" role="navigation">
+            
+                <a href="UVAPadovaAPIWrapper.html" class="btn btn--primary btn--next right"
+                    title="UVAPadovaAPIWrapper module" accesskey="n">
+                    Next
+                </a>
+            
+            
+                <a href="index.html" class="btn btn--primary btn--prev"
+                    title="Welcome to UVA/Padova API’s documentation!" accesskey="p">
+                    Previous
+                </a>
+            
+            </nav>
+        
+
+        
+            <div class="source-link">
+            
+                
+                    <a href="_sources/UVAPadovaAPI.rst.txt" rel="nofollow">
+                        <i class="mdi mdi-code-tags"></i>
+                        View page source
+                    </a>
+                
+            
+            </div>
+        
+
+
+
+    </main>
+
+    <footer class="site-footer">
+<div class="container">
+
+    <div role="contentinfo">
+        <p>
+                &copy; Copyright 2022, ntoth,msiket,lszasz,knovak,geigner.
+        </p>
+    </div>
+        <p>Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+        <a href="https://github.com/testthedocs/sphinx_ttd_theme">theme</a>
+        provided by <a href="https://testthedocs">TestTheDocs</a>. 
+
+</div>
+</footer>
+
+    
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/theme-min.js"></script> 
+</body>
+</html>

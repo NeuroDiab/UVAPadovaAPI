@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <title>Simulator.OESimulator.SimulationData.Scenario</title>
+    
+
+    <link rel="stylesheet" href="../../../../_static/css/redactor.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../../../../_static/css/redactor.css" type="text/css" />
+    
+    
+    <link rel="index" title="Index" href="../../../../genindex.html"/>
+    <link rel="search" title="Search" href="../../../../search.html"/>
+    <link rel="top" title="uvapadovaAPI  documentation" href="../../../../index.html"/>
+    <link rel="up" title="Module code" href="../../../index.html"/> 
+</head>
+
+<body role="document">
+     
+
+    
+<a href="#" id="js-navigation-toggle" class="navigation-toggle">
+    <i class="mdi mdi-menu"></i><i class="mdi mdi-close"></i>
+</a>
+
+<section class="site-sidebar">
+
+<nav>
+
+
+    <a href="../../../../index.html" class="branding-link">
+    
+        uvapadovaAPI
+    
+    
+    
+        
+        
+    
+    </a>
+
+    
+<section role="search">
+    <form action="../../../../search.html" method="get" class="site-searchform">
+        <input type="text" name="q" placeholder="Search docs" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+</section>
+
+
+
+    <section class="site-nav">
+    
+    
+        <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../uva_padova_API.html">uva_padova_API module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../uva_padova_API_Wrapper.html">uva_padova_API_Wrapper module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Simulator.UVAPadova.html">Simulator.UVAPadova package</a></li>
+</ul>
+
+    
+    </section>
+
+</nav>
+
+</section>
+
+    <main class="site-main" role="main">
+        
+
+
+
+
+
+
+
+
+
+
+
+<nav class="site-breadcrumbs">
+    <ul>
+    
+        <li>
+            <a href="../../../../index.html">Docs</a> /
+        </li>
+        
+        <li>
+            <a href="../../../index.html">Module code</a> /
+        </li>
+        
+        <li class="site-breadcrumbs__leaf">Simulator.OESimulator.SimulationData.Scenario</li>
+    
+    </ul>
+</nav>
+        <section class="site-content">
+            <div class="container">
+                
+  <h1>Source code for Simulator.OESimulator.SimulationData.Scenario</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.Units</span> <span class="kn">import</span> <span class="n">Units</span>
+<span class="kn">from</span> <span class="nn">.Position</span> <span class="kn">import</span> <span class="n">Position</span>
+<span class="kn">from</span> <span class="nn">.ParamsT1DMS</span> <span class="kn">import</span> <span class="n">ParamsT1DMS</span>
+<span class="kn">import</span> <span class="nn">calendar</span> <span class="k">as</span> <span class="nn">cal</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">.Timestamp</span> <span class="kn">import</span> <span class="n">Timestamp</span>
+<span class="kn">from</span> <span class="nn">.CONSTANTS</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="Scenario"><a class="viewcode-back" href="../../../../Simulator.OESimulator.SimulationData.html#Simulator.OESimulator.SimulationData.Scenario.Scenario">[docs]</a><span class="k">class</span> <span class="nc">Scenario</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Scenario class provides a storage and interface for the simulation related information (time points of the simulation horizon, meal, insulin inputs, units, sampling time, etc.).</span>
+<span class="sd">            Defined by __slots__ as the class only serves quick data access purposes.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                scenario_setting (str): Scenario setting: manual/DT/azure.</span>
+<span class="sd">                Ts (int): sampling time (Default: 5 minutes)</span>
+<span class="sd">                basal_insulin (float): Current basal insulin input.</span>
+<span class="sd">                bolus_insulin (float): Current bolus insulin input.</span>
+<span class="sd">                rate_of_appearance (float): Current rate of appearance input.</span>
+<span class="sd">                no_boluses (int): Number of boluses in the window.</span>
+<span class="sd">                no_meals (int): Number of meals in the window.</span>
+<span class="sd">                units (Units): Units of the scenario.</span>
+<span class="sd">                position (Position): Positions of the input values in a multidimensional array.</span>
+<span class="sd">                start_time (Timestamp): Start time of the scenario.</span>
+<span class="sd">                end_time (Timestamp): End time of the scenario str/int.</span>
+<span class="sd">                t_start (float): Start time of the scenario (unix time, minute).</span>
+<span class="sd">                t_end (float): End time of the scenario (unix time, minute).</span>
+<span class="sd">                manual_meals (ndarray): User defined meal scheme. 2D array [timepoint, cho content, absorption time constant]</span>
+<span class="sd">                manual_boluses (ndarray): User defined bolus scheme. 2D array [timepoint, insulin content]</span>
+<span class="sd">                manual_basal_insulin (ndarray): User defined basal insulin scheme. 2D array [timepoint, insulin rate]</span>
+<span class="sd">                verbose (bool): Prints information upon the creation of the Scenario and warning messages are activated.</span>
+<span class="sd">                params_t1dms (ParamsT1DMS): Stores the Uva/Padova Matlab simulator related parameters.</span>
+
+<span class="sd">            Examples:</span>
+<span class="sd">                &gt;&gt;&gt; scenario = Scenario(0,1000,&quot;manual&quot;,verbose=True)</span>
+<span class="sd">                ---------------------------</span>
+<span class="sd">                Current scenario:</span>
+<span class="sd">                Start time: 01-01-1970 00:00:00</span>
+<span class="sd">                End time: 01-01-1970 16:40:00</span>
+<span class="sd">                Sampling time: 5</span>
+<span class="sd">                Scenario setting: manual</span>
+<span class="sd">                ---------------------------</span>
+
+<span class="sd">                &gt;&gt;&gt; scenario = Scenario(&quot;22-09-2020 07:00:00&quot;, &quot;22-09-2020 19:00:00&quot;, &quot;emulated&quot;, verbose=True)</span>
+<span class="sd">                ---------------------------</span>
+<span class="sd">                Current scenario:</span>
+<span class="sd">                Start time: 22-09-2020 07:00:00</span>
+<span class="sd">                End time: 22-09-2020 19:00:00</span>
+<span class="sd">                Sampling time: 5</span>
+<span class="sd">                Scenario setting: emulated</span>
+<span class="sd">                ---------------------------</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Ts&#39;</span><span class="p">,</span> <span class="s1">&#39;basal_insulin&#39;</span><span class="p">,</span><span class="s1">&#39;bolus_insulin&#39;</span><span class="p">,</span><span class="s1">&#39;no_meals&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;no_boluses&#39;</span><span class="p">,</span><span class="s1">&#39;units&#39;</span><span class="p">,</span><span class="s1">&#39;position&#39;</span><span class="p">,</span><span class="s1">&#39;start_time&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;end_time&#39;</span><span class="p">,</span><span class="s1">&#39;manual_meals&#39;</span><span class="p">,</span><span class="s1">&#39;manual_boluses&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;manual_basal_insulin&#39;</span><span class="p">,</span><span class="s1">&#39;scenario_setting&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;rate_of_appearance&#39;</span><span class="p">,</span><span class="s1">&#39;verbose&#39;</span><span class="p">,</span><span class="s1">&#39;params_t1dms&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;cho&#39;</span><span class="p">,</span><span class="s1">&#39;ident_horizon&#39;</span><span class="p">,</span><span class="s1">&#39;t_pred&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_time</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">-%m-%Y %H:%M:%S or integer&quot;</span><span class="p">,</span>
+                 <span class="n">end_time</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">-%m-%Y %H:%M:%S or integer&quot;</span><span class="p">,</span> <span class="n">scenario_setting</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Constructor.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    start time : %d-%m-%Y %H:%M:%S format or (int) minutes</span>
+<span class="sd">                    end time : %d-%m-%Y %H:%M:%S format or (int) minutes</span>
+<span class="sd">                    scenario_setting : manual/Dt/azure</span>
+
+<span class="sd">                Returns:</span>
+<span class="sd">                    Scenario</span>
+
+<span class="sd">                Raises:</span>
+<span class="sd">                    KeyError : If the provided scenario settings is not a valid setting.</span>
+<span class="sd">                    ValueError : If the start_time format is not valid.</span>
+<span class="sd">                    ValueError : If the end_time format is not valid.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">possible_settings</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;manual&quot;</span><span class="p">,</span><span class="s2">&quot;azure&quot;</span><span class="p">,</span><span class="s2">&quot;DT&quot;</span><span class="p">,</span><span class="s2">&quot;emulated&quot;</span><span class="p">,</span><span class="s2">&quot;t1dms&quot;</span><span class="p">]</span>
+        <span class="n">setting_valid</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">possible_setting</span> <span class="ow">in</span> <span class="n">possible_settings</span><span class="p">:</span>
+             <span class="k">if</span> <span class="n">scenario_setting</span> <span class="o">==</span> <span class="n">possible_setting</span><span class="p">:</span>
+                 <span class="n">setting_valid</span> <span class="o">=</span> <span class="kc">True</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">scenario_setting</span> <span class="o">=</span> <span class="n">scenario_setting</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">setting_valid</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Unknown scenario setting: </span><span class="si">%s</span><span class="s2"> encountered. Consider: manual/DT/azure/emulated&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_setting</span> <span class="o">==</span> <span class="s2">&quot;t1dms&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="p">:</span> <span class="n">ParamsT1DMS</span> <span class="o">=</span> <span class="n">ParamsT1DMS</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="n">Timestamp</span><span class="p">(</span><span class="n">end_time</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basal_insulin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bolus_insulin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rate_of_appearance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">no_meals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">no_boluses</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">:</span> <span class="n">Units</span> <span class="o">=</span> <span class="n">Units</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">:</span> <span class="n">Position</span> <span class="o">=</span> <span class="n">Position</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manual_meals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manual_boluses</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manual_basal_insulin</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scenario_setting</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">scenario_setting</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Scenario representation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="s2">&quot;---------------------------</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">representation</span> <span class="o">=</span> <span class="s2">&quot;Current scenario:</span><span class="se">\n</span><span class="s2">Start time: </span><span class="si">%s</span><span class="s2"> </span><span class="se">\n</span><span class="s2">End time: </span><span class="si">%s</span><span class="s2"> </span><span class="se">\n</span><span class="s2">Sampling time: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">Scenario setting: </span><span class="si">%s</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span>\
+                         <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_setting</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lines</span><span class="o">+</span><span class="n">representation</span><span class="o">+</span><span class="n">lines</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">}</span>
+
+    <span class="c1"># def __copy__(self):</span>
+    <span class="c1">#     scenario = Scenario(self.start_time, self.end_time, self.scenario_setting)</span>
+    <span class="c1">#     for attribute in self.__slots__:</span>
+    <span class="c1">#         if hasattr(self, attribute):</span>
+    <span class="c1">#             setattr(scenario, attribute, getattr(self, attribute))</span>
+    <span class="c1">#     return scenario</span>
+
+<div class="viewcode-block" id="Scenario.setManualMealScheme"><a class="viewcode-back" href="../../../../Simulator.OESimulator.SimulationData.html#Simulator.OESimulator.SimulationData.Scenario.Scenario.setManualMealScheme">[docs]</a>    <span class="k">def</span> <span class="nf">setManualMealScheme</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meal_times</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]],</span> <span class="n">meal_values</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">time_constants</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;g&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Creates the 2D numpy array for the meal scheme.</span>
+
+<span class="sd">            Note:</span>
+<span class="sd">                If the timepoints are strings, it converts to unix timestamps.</span>
+<span class="sd">                Checks the validity of input arrays.</span>
+<span class="sd">                Sets the no_meals attribute based on the number of meals in the input arrays.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                meal_times : User defined time points of the meals.</span>
+<span class="sd">                meal_values : User defined meal values.</span>
+<span class="sd">                unit : Unit of the meal values.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                ndarray : 2D numpy array containing the combined time points and values.</span>
+
+<span class="sd">            Examples:</span>
+<span class="sd">                &gt;&gt;&gt; self.setManualMealScheme(meal_times=(&quot;22-09-2020 06:00:00&quot;, &quot;22-09-2020 12:00:00&quot;, &quot;22-09-2020 18:00:00&quot;),meal_values=(10, 40, 30),time_constants=(30,30,40))</span>
+<span class="sd">                Warning: You have inputs defined before the start time of the scenario.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_setting</span> <span class="o">==</span> <span class="s2">&quot;emulated&quot;</span><span class="p">:</span>
+            <span class="n">meal_times</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__strTimeToMinutes</span><span class="p">(</span><span class="n">meal_times</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkScheme</span><span class="p">(</span><span class="n">meal_times</span><span class="p">,</span> <span class="n">meal_values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">time_constants</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+           <span class="n">time_constants</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">NOMINAL_TAUD</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">meal_times</span><span class="p">),</span> <span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">meal</span> <span class="o">=</span> <span class="n">unit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manual_meals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">meal_times</span><span class="p">,</span> <span class="n">meal_values</span><span class="p">,</span> <span class="n">time_constants</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">no_meals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">meal_values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">manual_meals</span></div>
+
+<div class="viewcode-block" id="Scenario.setManualBolusScheme"><a class="viewcode-back" href="../../../../Simulator.OESimulator.SimulationData.html#Simulator.OESimulator.SimulationData.Scenario.Scenario.setManualBolusScheme">[docs]</a>    <span class="k">def</span> <span class="nf">setManualBolusScheme</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bolus_times</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]],</span> <span class="n">bolus_values</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;U&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Creates the 2D numpy array for the bolus scheme.</span>
+
+<span class="sd">            Note:</span>
+<span class="sd">                If the timepoints are strings, it converts to unix timestamps.</span>
+<span class="sd">                Checks the validity of input arrays.</span>
+<span class="sd">                Sets the no_boluses attribute based on the number of meals in the input arrays.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                bolus_times : User defined time points of the boluses.</span>
+<span class="sd">                bolus_values : User defined bolus values.</span>
+<span class="sd">                unit : Unit of the bolus values.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                ndarray : 2D numpy array containing the combined time points and values.</span>
+
+<span class="sd">            Examples:</span>
+<span class="sd">                &gt;&gt;&gt; self.setManualBolusScheme(bolus_times=(&quot;22-09-2020 07:00:00&quot;, &quot;22-09-2020 12:00:00&quot;, &quot;22-09-2020 18:00:00&quot;),bolus_values=(2, 4, 3))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_setting</span> <span class="o">==</span> <span class="s2">&quot;emulated&quot;</span><span class="p">:</span>
+            <span class="n">bolus_times</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__strTimeToMinutes</span><span class="p">(</span><span class="n">bolus_times</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkScheme</span><span class="p">(</span><span class="n">bolus_times</span><span class="p">,</span> <span class="n">bolus_values</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">bolus</span> <span class="o">=</span> <span class="n">unit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manual_boluses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">bolus_times</span><span class="p">,</span> <span class="n">bolus_values</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">no_boluses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">bolus_values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">manual_boluses</span></div>
+
+<div class="viewcode-block" id="Scenario.setManualBasalInsulin"><a class="viewcode-back" href="../../../../Simulator.OESimulator.SimulationData.html#Simulator.OESimulator.SimulationData.Scenario.Scenario.setManualBasalInsulin">[docs]</a>    <span class="k">def</span> <span class="nf">setManualBasalInsulin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basal_insulin_values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">basal_insulin_times</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;U/hr&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Creates 2D numpy array for the basal insulin.</span>
+
+<span class="sd">            Note:</span>
+<span class="sd">                If a scalar basal rate is provided without time point, it is assumed that the basal rate is active since 0 unix time.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                basal_insulin_values : User defined basal rate.</span>
+<span class="sd">                basal_insulin_times : User defined time point, when the basal rate is activated.</span>
+<span class="sd">                unit : Unit of the basal rate.</span>
+
+<span class="sd">            Examples:</span>
+<span class="sd">                &gt;&gt;&gt; self.setManualBasalInsulin(1.0,unit=r&quot;U/hr&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">basal</span> <span class="o">=</span> <span class="n">unit</span>
+        <span class="k">if</span> <span class="n">basal_insulin_times</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">basal_insulin_values</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Basal insulin has to be &gt;= 0.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">manual_basal_insulin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span><span class="p">,</span> <span class="n">basal_insulin_values</span><span class="p">]])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">manual_basal_insulin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">basal_insulin_times</span><span class="p">,</span> <span class="n">basal_insulin_values</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Scenario.shift"><a class="viewcode-back" href="../../../../Simulator.OESimulator.SimulationData.html#Simulator.OESimulator.SimulationData.Scenario.Scenario.shift">[docs]</a>    <span class="k">def</span> <span class="nf">shift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">time_shift</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">next_meal</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">next_taud</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">next_bolus</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">next_basal_insulin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Shifts the scenario by the user defined time.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            Default of Ts shift is assumed without any modification on the CHO and insulin scheme.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            time_shift : The time [minutes] by which the scenario is shifted. Default value of Ts.</span>
+<span class="sd">            next_meal : CHO content of the meal in the shifted time step.</span>
+<span class="sd">            next_taud : Absorption time constant of the meal in the shifted time step.</span>
+<span class="sd">            next_bolus : Bolus insulin in the shifted time step.</span>
+<span class="sd">            next_basal_insulin : Modified basal rate from the shifted time step.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">time_shift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span> <span class="o">+</span> <span class="n">time_shift</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span> <span class="o">+</span> <span class="n">time_shift</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span>
+        <span class="k">if</span> <span class="n">next_basal_insulin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">basal_insulin</span> <span class="o">=</span> <span class="n">next_basal_insulin</span>
+        <span class="k">if</span> <span class="n">next_meal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">next_taud</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">manual_meals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">manual_meals</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span><span class="p">,</span> <span class="n">next_meal</span><span class="p">,</span> <span class="n">next_taud</span><span class="p">]])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">manual_meals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">manual_meals</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span><span class="p">,</span> <span class="n">next_meal</span><span class="p">,</span> <span class="n">NOMINAL_TAUD</span><span class="p">]])</span>
+        <span class="k">if</span> <span class="n">next_bolus</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">manual_boluses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">manual_boluses</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span><span class="p">,</span> <span class="n">next_bolus</span><span class="p">]])</span></div>
+
+
+<div class="viewcode-block" id="Scenario.checkScheme"><a class="viewcode-back" href="../../../../Simulator.OESimulator.SimulationData.html#Simulator.OESimulator.SimulationData.Scenario.Scenario.checkScheme">[docs]</a>    <span class="k">def</span> <span class="nf">checkScheme</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_array</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">value_scheme</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Checks the validity of the used defined arrays, the following criterias have to be met.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    time_array : Time points of the input array.</span>
+<span class="sd">                    value_scheme : Values of the input array.</span>
+
+<span class="sd">                Returns:</span>
+<span class="sd">                    bool : True if the scheme is properly defined.</span>
+
+<span class="sd">                Raises:</span>
+<span class="sd">                    Value error : ERROR: The time and value array have to be of equal length.</span>
+<span class="sd">                    Value error : ERROR: Values have to be &gt;= 0.</span>
+<span class="sd">                    Value error : WARNING: Time points defined before the start time of the scenario.</span>
+<span class="sd">                    Value error : WARNING: Time points defined after the end time of the scenario.</span>
+<span class="sd">                    Value error : WARNING: Time points have to be strictly monotonically increasing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_array</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value_scheme</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Defined time array and value array have different lengths, they have to be of equal length.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">value_scheme</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Defined values have to be &gt;= 0.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">time_array</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">COLOR_WARNING</span> <span class="o">+</span> <span class="s2">&quot;Warning: You have inputs defined after the end time of the scenario.&quot;</span> <span class="o">+</span> <span class="n">COLOR_END</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">time_array</span><span class="p">)</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">COLOR_WARNING</span> <span class="o">+</span> <span class="s2">&quot;Warning: You have inputs defined before the start time of the scenario.&quot;</span> <span class="o">+</span> <span class="n">COLOR_END</span><span class="p">)</span>
+        <span class="c1"># if sum(time &lt; 0 for time in time_array):</span>
+        <span class="c1">#     raise ValueError(&quot;Time points have to be &gt;= 0.&quot;)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_setting</span> <span class="o">!=</span> <span class="s2">&quot;emulated&quot;</span><span class="p">:</span>
+            <span class="n">time_differences</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">time_array</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">time_array</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
+            <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">time_difference</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">time_difference</span> <span class="ow">in</span> <span class="n">time_differences</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Time array not strictly monotonically increasing&quot;</span><span class="p">)</span>
+                <span class="c1"># raise ValueError(&quot;Time array has to be strictly monotonically increasing.&quot;)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="k">def</span> <span class="nf">__strTimeToMinutes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">t_raw</span><span class="p">):</span>
+        <span class="n">t_converted</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="n">t_raw</span><span class="p">:</span>
+            <span class="n">t_converted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">cal</span><span class="o">.</span><span class="n">timegm</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">DATETIME_FORMAT</span><span class="p">)</span><span class="o">.</span><span class="n">timetuple</span><span class="p">())</span> <span class="o">/</span> <span class="mf">60.0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">t_converted</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Scenario.copy"><a class="viewcode-back" href="../../../../Simulator.OESimulator.SimulationData.html#Simulator.OESimulator.SimulationData.Scenario.Scenario.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a deep copy of the instance.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Scenario : Deep copy of the instance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">scenario</span> <span class="o">=</span> <span class="n">Scenario</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenario_setting</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">),</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Units</span><span class="p">,</span> <span class="n">Position</span><span class="p">,</span> <span class="n">Timestamp</span><span class="p">)):</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">scenario</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">scenario</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">scenario</span></div>
+
+<div class="viewcode-block" id="Scenario.appendBolusInsulin"><a class="viewcode-back" href="../../../../Simulator.OESimulator.SimulationData.html#Simulator.OESimulator.SimulationData.Scenario.Scenario.appendBolusInsulin">[docs]</a>    <span class="k">def</span> <span class="nf">appendBolusInsulin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">next_bolus</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;U&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Appends bolus insulin to the already defined scenario.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            next_bolus: Bolus value in the next time point (defined by Ts).</span>
+<span class="sd">            unit: Unit of the bolus.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">next_bolus</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convertUnits</span><span class="p">(</span><span class="n">next_bolus</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">bolus</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manual_boluses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">manual_boluses</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span><span class="p">,</span> <span class="n">next_bolus</span><span class="p">]])</span></div>
+
+<div class="viewcode-block" id="Scenario.appendBasalInsulin"><a class="viewcode-back" href="../../../../Simulator.OESimulator.SimulationData.html#Simulator.OESimulator.SimulationData.Scenario.Scenario.appendBasalInsulin">[docs]</a>    <span class="k">def</span> <span class="nf">appendBasalInsulin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">next_basal</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;U/hr&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Modifies the basal rate in the next time pont (defined by Ts).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            next_basal: New basal rate.</span>
+<span class="sd">            unit: Unit of the basal rate.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">next_basal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">convertUnits</span><span class="p">(</span><span class="n">next_basal</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="o">.</span><span class="n">basal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ts</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manual_basal_insulin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">manual_basal_insulin</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span><span class="p">,</span> <span class="n">next_basal</span><span class="p">]])</span></div>
+
+<div class="viewcode-block" id="Scenario.plot"><a class="viewcode-back" href="../../../../Simulator.OESimulator.SimulationData.html#Simulator.OESimulator.SimulationData.Scenario.Scenario.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Plots the CHO and insulin intakes of the scenario. Horizontal axis in UNIX timestamp [minutes].</span>
+
+<span class="sd">            Examples:</span>
+<span class="sd">                &gt;&gt;&gt; self.plot()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">manual_meals</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">manual_boluses</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="o">.</span><span class="n">as_int</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">as_int</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Scenario.setHardware"><a class="viewcode-back" href="../../../../Simulator.OESimulator.SimulationData.html#Simulator.OESimulator.SimulationData.Scenario.Scenario.setHardware">[docs]</a>    <span class="k">def</span> <span class="nf">setHardware</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pump</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">):</span>  <span class="c1"># UVa-Padova</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">hardwareN_sensor</span> <span class="o">=</span> <span class="n">sensor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">hardware_sensorType</span> <span class="o">=</span> <span class="nb">type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">hardwareN_pump</span> <span class="o">=</span> <span class="n">pump</span></div>
+
+<div class="viewcode-block" id="Scenario.setParamsT1DMS"><a class="viewcode-back" href="../../../../Simulator.OESimulator.SimulationData.html#Simulator.OESimulator.SimulationData.Scenario.Scenario.setParamsT1DMS">[docs]</a>    <span class="k">def</span> <span class="nf">setParamsT1DMS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simToD</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">Qmeals</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;total&#39;</span><span class="p">,</span> <span class="n">Treg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">meal_duration</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">15.0</span><span class="p">,</span>
+                       <span class="n">Qbasal</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;fixed&#39;</span><span class="p">,</span> <span class="n">OB</span> <span class="o">=</span> <span class="s1">&#39;off&#39;</span><span class="p">,</span> <span class="n">Qbolus</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;total&#39;</span><span class="p">,</span>
+                       <span class="n">SQg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Sets the Uva/Padova simulator related parameters of the scenario.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                simToD (float): Represents the &quot;simToD&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                Qmeals (str): Represents the &quot;Qmeals&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                Treg (str): Represents the &quot;Treg&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                meal_duration (float): Represents the &quot;meal_duration&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                Qbasal (str): Represents the &quot;Qbasal&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                OB (str): Represents the &quot;OB&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                Qbolus (str): Represents the &quot;Qbolus&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">                SQg (float): Represents the &quot;SQg&quot; variable of the UVA/Padova simulator.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">simToD</span> <span class="o">=</span> <span class="n">simToD</span> <span class="c1"># time of day at start of simulation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">Qmeals</span> <span class="o">=</span> <span class="n">Qmeals</span> <span class="c1"># unit of meals [g]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">Treg</span> <span class="o">=</span> <span class="n">Treg</span> <span class="c1"># start time of regulation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">meal_duration</span> <span class="o">=</span> <span class="n">meal_duration</span> <span class="c1"># default 15 min, max 30 min</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">basal</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">manual_basal_insulin</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">Qbasal</span> <span class="o">=</span> <span class="n">Qbasal</span> <span class="c1"># unit of basal [U]</span>
+        <span class="k">if</span> <span class="n">Qbasal</span> <span class="o">==</span> <span class="s1">&#39;quest&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">basal</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">OB</span> <span class="o">=</span> <span class="n">OB</span>
+        <span class="k">if</span> <span class="n">OB</span> <span class="o">==</span> <span class="s1">&#39;on&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">CR</span> <span class="o">=</span> <span class="s1">&#39;on&#39;</span> <span class="c1"># subject-specific carbohydrate ratio, used to calculate optimal bolus</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">CR</span> <span class="o">=</span> <span class="s1">&#39;off&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">Qbolus</span> <span class="o">=</span> <span class="n">Qbolus</span> <span class="c1"># unit of bolus [U]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params_t1dms</span><span class="o">.</span><span class="n">SQg</span> <span class="o">=</span> <span class="n">SQg</span></div></div>
+</pre></div>
+
+            </div>
+
+        </section>
+
+        
+
+        
+            <div class="source-link">
+            
+                
+            
+            </div>
+        
+
+
+
+    </main>
+
+    <footer class="site-footer">
+<div class="container">
+
+    <div role="contentinfo">
+        <p>
+                &copy; Copyright 2022, ntoth,siket,szasz.
+        </p>
+    </div>
+        <p>Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+        <a href="https://github.com/testthedocs/sphinx_ttd_theme">theme</a>
+        provided by <a href="https://testthedocs">TestTheDocs</a>. 
+
+</div>
+</footer>
+
+    
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="../../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/js/theme-min.js"></script> 
+</body>
+</html>

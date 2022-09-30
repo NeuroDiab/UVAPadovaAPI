@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <title>OESimulator.DataProcessing.DBFile</title>
+    
+
+    <link rel="stylesheet" href="../../../_static/css/redactor.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../../../_static/css/redactor.css" type="text/css" />
+    
+    
+    <link rel="index" title="Index" href="../../../genindex.html"/>
+    <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="uvapadovaAPI  documentation" href="../../../index.html"/>
+    <link rel="up" title="Module code" href="../../index.html"/> 
+</head>
+
+<body role="document">
+     
+
+    
+<a href="#" id="js-navigation-toggle" class="navigation-toggle">
+    <i class="mdi mdi-menu"></i><i class="mdi mdi-close"></i>
+</a>
+
+<section class="site-sidebar">
+
+<nav>
+
+
+    <a href="../../../index.html" class="branding-link">
+    
+        uvapadovaAPI
+    
+    
+    
+        
+        
+    
+    </a>
+
+    
+<section role="search">
+    <form action="../../../search.html" method="get" class="site-searchform">
+        <input type="text" name="q" placeholder="Search docs" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+</section>
+
+
+
+    <section class="site-nav">
+    
+    
+        <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../uva_padova_API.html">uva_padova_API module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../uva_padova_API_Wrapper.html">uva_padova_API_Wrapper module</a></li>
+</ul>
+
+    
+    </section>
+
+</nav>
+
+</section>
+
+    <main class="site-main" role="main">
+        
+
+
+
+
+
+
+
+
+
+
+
+<nav class="site-breadcrumbs">
+    <ul>
+    
+        <li>
+            <a href="../../../index.html">Docs</a> /
+        </li>
+        
+        <li>
+            <a href="../../index.html">Module code</a> /
+        </li>
+        
+        <li class="site-breadcrumbs__leaf">OESimulator.DataProcessing.DBFile</li>
+    
+    </ul>
+</nav>
+        <section class="site-content">
+            <div class="container">
+                
+  <h1>Source code for OESimulator.DataProcessing.DBFile</h1><div class="highlight"><pre>
+<span></span><span class="n">FAILED</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">SUCCESS</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="DBFile"><a class="viewcode-back" href="../../../OESimulator.DataProcessing.html#OESimulator.DataProcessing.DBFile.DBFile">[docs]</a><span class="k">class</span> <span class="nc">DBFile</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">glucose_values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">glucose_times</span> <span class="o">=</span> <span class="p">[],[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meal_values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">meal_times</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bolus_values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bolus_times</span> <span class="o">=</span> <span class="p">[],[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basal_values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">basal_times</span> <span class="o">=</span> <span class="p">[],[]</span>
+
+<div class="viewcode-block" id="DBFile.loadCGM"><a class="viewcode-back" href="../../../OESimulator.DataProcessing.html#OESimulator.DataProcessing.DBFile.DBFile.loadCGM">[docs]</a>    <span class="k">def</span> <span class="nf">loadCGM</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;source&quot;</span> <span class="ow">in</span> <span class="n">info</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;glucose&quot;</span> <span class="ow">and</span> <span class="p">(</span>
+                            <span class="n">info</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;LIBRE_FREESTYLE&quot;</span> <span class="ow">or</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CARELINK&quot;</span><span class="p">)):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">glucose_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">60.0</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">glucose_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">18.018</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">FAILED</span>
+        <span class="k">return</span> <span class="n">SUCCESS</span></div>
+
+<div class="viewcode-block" id="DBFile.loadMeals"><a class="viewcode-back" href="../../../OESimulator.DataProcessing.html#OESimulator.DataProcessing.DBFile.DBFile.loadMeals">[docs]</a>    <span class="k">def</span> <span class="nf">loadMeals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;meal&quot;</span><span class="p">):</span>
+                    <span class="n">tmp_meal</span> <span class="o">=</span> <span class="mf">0.0</span>
+                    <span class="k">for</span> <span class="n">food</span> <span class="ow">in</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;foods&quot;</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="s2">&quot;carbohydrates&quot;</span> <span class="ow">in</span> <span class="n">food</span><span class="p">[</span><span class="s2">&quot;details&quot;</span><span class="p">]:</span>
+                            <span class="n">tmp_meal</span> <span class="o">=</span> <span class="n">tmp_meal</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">food</span><span class="p">[</span><span class="s2">&quot;details&quot;</span><span class="p">][</span><span class="s2">&quot;carbohydrates&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">food</span><span class="p">[</span><span class="s2">&quot;amount&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">food</span><span class="p">[</span>
+                                <span class="s2">&quot;weights&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">100.0</span>
+                        <span class="k">if</span> <span class="s2">&quot;carbohydrate&quot;</span> <span class="ow">in</span> <span class="n">food</span><span class="p">[</span><span class="s2">&quot;details&quot;</span><span class="p">]:</span>
+                            <span class="n">tmp_meal</span> <span class="o">=</span> <span class="n">tmp_meal</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="n">food</span><span class="p">[</span><span class="s2">&quot;details&quot;</span><span class="p">][</span><span class="s2">&quot;carbohydrate&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">food</span><span class="p">[</span><span class="s2">&quot;amount&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">food</span><span class="p">[</span>
+                                <span class="s2">&quot;weights&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">100.0</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">meal_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_meal</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">meal_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">60.0</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">FAILED</span>
+        <span class="k">return</span> <span class="n">SUCCESS</span></div>
+
+<div class="viewcode-block" id="DBFile.loadInsulin"><a class="viewcode-back" href="../../../OESimulator.DataProcessing.html#OESimulator.DataProcessing.DBFile.DBFile.loadInsulin">[docs]</a>    <span class="k">def</span> <span class="nf">loadInsulin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;insulin&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;subtype&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;subtype&quot;</span><span class="p">])</span><span class="o">&lt;</span><span class="mi">16</span><span class="p">)</span> <span class="ow">or</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;subtype&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;short&quot;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">bolus_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]))</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">bolus_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">60.0</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;subtype&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;subtype&quot;</span><span class="p">])</span><span class="o">&gt;=</span><span class="mi">16</span> <span class="ow">or</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;subtype&quot;</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;long&quot;</span><span class="p">)</span> <span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">basal_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">24.0</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">basal_times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mf">60.0</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">FAILED</span>
+        <span class="k">return</span> <span class="n">SUCCESS</span></div></div>
+
+</pre></div>
+
+            </div>
+
+        </section>
+
+        
+
+        
+            <div class="source-link">
+            
+                
+            
+            </div>
+        
+
+
+
+    </main>
+
+    <footer class="site-footer">
+<div class="container">
+
+    <div role="contentinfo">
+        <p>
+                &copy; Copyright 2022, ntoth,siket,szasz.
+        </p>
+    </div>
+        <p>Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+        <a href="https://github.com/testthedocs/sphinx_ttd_theme">theme</a>
+        provided by <a href="https://testthedocs">TestTheDocs</a>. 
+
+</div>
+</footer>
+
+    
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/js/theme-min.js"></script> 
+</body>
+</html>

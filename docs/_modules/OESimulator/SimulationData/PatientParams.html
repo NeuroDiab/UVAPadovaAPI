@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <title>OESimulator.SimulationData.PatientParams</title>
+    
+
+    <link rel="stylesheet" href="../../../_static/css/redactor.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <link rel="stylesheet" href="../../../_static/css/redactor.css" type="text/css" />
+    
+    
+    <link rel="index" title="Index" href="../../../genindex.html"/>
+    <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="uvapadovaAPI  documentation" href="../../../index.html"/>
+    <link rel="up" title="Module code" href="../../index.html"/> 
+</head>
+
+<body role="document">
+     
+
+    
+<a href="#" id="js-navigation-toggle" class="navigation-toggle">
+    <i class="mdi mdi-menu"></i><i class="mdi mdi-close"></i>
+</a>
+
+<section class="site-sidebar">
+
+<nav>
+
+
+    <a href="../../../index.html" class="branding-link">
+    
+        uvapadovaAPI
+    
+    
+    
+        
+        
+    
+    </a>
+
+    
+<section role="search">
+    <form action="../../../search.html" method="get" class="site-searchform">
+        <input type="text" name="q" placeholder="Search docs" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+</section>
+
+
+
+    <section class="site-nav">
+    
+    
+        <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../uva_padova_API.html">uva_padova_API module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../uva_padova_API_Wrapper.html">uva_padova_API_Wrapper module</a></li>
+</ul>
+
+    
+    </section>
+
+</nav>
+
+</section>
+
+    <main class="site-main" role="main">
+        
+
+
+
+
+
+
+
+
+
+
+
+<nav class="site-breadcrumbs">
+    <ul>
+    
+        <li>
+            <a href="../../../index.html">Docs</a> /
+        </li>
+        
+        <li>
+            <a href="../../index.html">Module code</a> /
+        </li>
+        
+        <li class="site-breadcrumbs__leaf">OESimulator.SimulationData.PatientParams</li>
+    
+    </ul>
+</nav>
+        <section class="site-content">
+            <div class="container">
+                
+  <h1>Source code for OESimulator.SimulationData.PatientParams</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">gauss</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">CONSTANTS</span>
+<span class="kn">from</span> <span class="nn">.DataContainer</span> <span class="kn">import</span> <span class="n">DataContainer</span>
+
+<div class="viewcode-block" id="PatientParams"><a class="viewcode-back" href="../../../OESimulator.SimulationData.html#OESimulator.SimulationData.PatientParams.PatientParams">[docs]</a><span class="k">class</span> <span class="nc">PatientParams</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Stores the mathematical model parameters of the patient.</span>
+<span class="sd">            Defined by __slots__ as the class only serves quick data access purposes.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                BW (float): Body weight of the patient.</span>
+<span class="sd">                GEZI (DataContainer): Glucose consumption at zero insulin level.</span>
+<span class="sd">                EGP (DataContainer): Endogenous glucose production.</span>
+<span class="sd">                CI (float): Insulin clearance.</span>
+<span class="sd">                tau1 (float): Time constant of the absorption of the insulin in the 1st compartment.</span>
+<span class="sd">                tau2 (float): Time constant of the absorption of the insulin in the 2nd compartment.</span>
+<span class="sd">                p2 (float): Rate constant of the insulin effect.</span>
+<span class="sd">                taud (DataContainer):  Time constant of the absoprtion of the CHO.</span>
+<span class="sd">                meals (DataContainer): CHO contents of the meals.</span>
+
+<span class="sd">            Examples:</span>
+<span class="sd">                &gt;&gt;&gt; print(PatientParams(sigma=0.0))</span>
+<span class="sd">                ---------------------------</span>
+<span class="sd">                Patient parameters: BW:70 GEZI:3e-08 EGP:1.5 CI:1.2e+03 SI:0.0007 tau1:70 tau2:43 p2:0.01 taud:40 Vg:1.8e+02</span>
+<span class="sd">                 meal_tauds:</span>
+<span class="sd">                ---------------------------</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;EGP&#39;</span><span class="p">,</span><span class="s1">&#39;GEZI&#39;</span><span class="p">,</span><span class="s1">&#39;p2&#39;</span><span class="p">,</span><span class="s1">&#39;tau1&#39;</span><span class="p">,</span><span class="s1">&#39;tau2&#39;</span><span class="p">,</span><span class="s1">&#39;taud&#39;</span><span class="p">,</span><span class="s1">&#39;Vg&#39;</span><span class="p">,</span><span class="s1">&#39;BW&#39;</span><span class="p">,</span><span class="s1">&#39;CI&#39;</span><span class="p">,</span><span class="s1">&#39;SI&#39;</span><span class="p">,</span><span class="s1">&#39;meals&#39;</span><span class="p">,</span><span class="s1">&#39;is_up_to_date&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Constructor.</span>
+<span class="sd">            sigma : Standard deviation, when a random patient is being created from a normal distribution.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">generated_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">CONSTANTS</span><span class="o">.</span><span class="n">NOMINAL_BW</span> <span class="o">+</span> <span class="n">gauss</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">SIGMA_BW</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">NOMINAL_GEZI</span> <span class="o">+</span> <span class="n">gauss</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">SIGMA_GEZI</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">,</span>
+                            <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">NOMINAL_EGP</span> <span class="o">+</span> <span class="n">gauss</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">SIGMA_EGP</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">NOMINAL_CI</span> <span class="o">+</span> <span class="n">gauss</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">SIGMA_CI</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">,</span>
+                            <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">NOMINAL_SI</span> <span class="o">+</span> <span class="n">gauss</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">SIGMA_SI</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">NOMINAL_TAU1</span> <span class="o">+</span> <span class="n">gauss</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">SIGMA_TAU1</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">,</span>
+                            <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">NOMINAL_TAU2</span> <span class="o">+</span> <span class="n">gauss</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">SIGMA_TAU2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">NOMINAL_P2</span> <span class="o">+</span> <span class="n">gauss</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">SIGMA_P2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">,</span>
+                            <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">NOMINAL_TAUD</span> <span class="o">+</span> <span class="n">gauss</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">SIGMA_TAUD</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">NOMINAL_VG</span> <span class="o">+</span> <span class="n">gauss</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">SIGMA_VG</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">]</span>
+        <span class="c1"># Constrains the parameters to be relevant ranges.</span>
+        <span class="k">if</span> <span class="n">sigma</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">generated_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">min_param</span> <span class="k">if</span> <span class="n">param</span> <span class="o">&lt;</span> <span class="n">min_param</span> <span class="k">else</span> <span class="n">param</span>
+                                <span class="k">for</span> <span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">min_param</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">generated_params</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">MIN_PARAMS</span><span class="p">)]</span>
+            <span class="n">generated_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">max_param</span> <span class="k">if</span> <span class="n">param</span> <span class="o">&gt;</span> <span class="n">max_param</span> <span class="k">else</span> <span class="n">param</span>
+                                <span class="k">for</span> <span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">max_param</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">generated_params</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="o">.</span><span class="n">MAX_PARAMS</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">BW</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">generated_params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">GEZI</span><span class="p">:</span> <span class="n">DataContainer</span> <span class="o">=</span> <span class="n">DataContainer</span><span class="p">(</span><span class="n">scalar</span><span class="o">=</span><span class="n">generated_params</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EGP</span><span class="p">:</span> <span class="n">DataContainer</span> <span class="o">=</span> <span class="n">DataContainer</span><span class="p">(</span><span class="n">scalar</span><span class="o">=</span><span class="n">generated_params</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="c1"># self.EGP: float = generated_params[2]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CI</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">generated_params</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SI</span><span class="p">:</span> <span class="n">DataContainer</span> <span class="o">=</span> <span class="n">DataContainer</span><span class="p">(</span><span class="n">scalar</span><span class="o">=</span><span class="n">generated_params</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tau1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">generated_params</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tau2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">generated_params</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">generated_params</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">taud</span><span class="p">:</span> <span class="n">DataContainer</span> <span class="o">=</span> <span class="n">DataContainer</span><span class="p">(</span><span class="n">scalar</span><span class="o">=</span><span class="n">generated_params</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Vg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">generated_params</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">taud</span><span class="o">.</span><span class="n">as_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">meals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EGP</span><span class="o">.</span><span class="n">as_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">EGP</span><span class="o">.</span><span class="n">as_scalar</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">GEZI</span><span class="o">.</span><span class="n">as_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GEZI</span><span class="o">.</span><span class="n">as_scalar</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SI</span><span class="o">.</span><span class="n">as_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SI</span><span class="o">.</span><span class="n">as_scalar</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_up_to_date</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Parameter representations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="s2">&quot;---------------------------</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">representation</span> <span class="o">=</span> <span class="s2">&quot;Patient parameters: BW:</span><span class="si">%0.2g</span><span class="s2"> GEZI:</span><span class="si">%0.2g</span><span class="s2"> EGP:</span><span class="si">%0.2g</span><span class="s2"> CI:</span><span class="si">%0.2g</span><span class="s2"> SI:</span><span class="si">%0.2g</span><span class="s2"> tau1:</span><span class="si">%0.2g</span><span class="s2"> tau2:</span><span class="si">%0.2g</span><span class="s2">&quot;</span> \
+               <span class="s2">&quot; p2:</span><span class="si">%0.2g</span><span class="s2"> taud:</span><span class="si">%0.2g</span><span class="s2"> Vg:</span><span class="si">%0.2g</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> meal_tauds:&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BW</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">GEZI</span><span class="o">.</span><span class="n">as_scalar</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">EGP</span><span class="o">.</span><span class="n">as_scalar</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">CI</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">SI</span><span class="o">.</span><span class="n">as_scalar</span>
+                                                  <span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">taud</span><span class="o">.</span><span class="n">as_scalar</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Vg</span><span class="p">)</span>
+        <span class="n">meal_tauds</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%0.2g</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot; &quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">taud</span><span class="o">.</span><span class="n">as_array</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">lines</span><span class="o">+</span><span class="n">representation</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">meal_tauds</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span><span class="n">lines</span>
+
+<div class="viewcode-block" id="PatientParams.copy"><a class="viewcode-back" href="../../../OESimulator.SimulationData.html#OESimulator.SimulationData.PatientParams.PatientParams.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a deep copy of the instance.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PatientParams : Deep copy of the instance.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">patient_params</span> <span class="o">=</span> <span class="n">PatientParams</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__slots__</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">),</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">DataContainer</span><span class="p">)):</span>
+                        <span class="nb">setattr</span><span class="p">(</span><span class="n">patient_params</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="nb">setattr</span><span class="p">(</span><span class="n">patient_params</span><span class="p">,</span> <span class="n">attribute</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">patient_params</span></div>
+
+
+<div class="viewcode-block" id="PatientParams.vectorizeScalarParams"><a class="viewcode-back" href="../../../OESimulator.SimulationData.html#OESimulator.SimulationData.PatientParams.PatientParams.vectorizeScalarParams">[docs]</a>    <span class="k">def</span> <span class="nf">vectorizeScalarParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Organizes the scalar patient parameters into a list in the following order: [BW, CI, tau1, tau2, p2, Vg]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">vectorized_params</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">vectorized_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BW</span><span class="p">)</span>
+        <span class="n">vectorized_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">CI</span><span class="p">)</span>
+        <span class="n">vectorized_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tau1</span><span class="p">)</span>
+        <span class="n">vectorized_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tau2</span><span class="p">)</span>
+        <span class="n">vectorized_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p2</span><span class="p">)</span>
+        <span class="n">vectorized_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Vg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">vectorized_params</span></div></div>
+</pre></div>
+
+            </div>
+
+        </section>
+
+        
+
+        
+            <div class="source-link">
+            
+                
+            
+            </div>
+        
+
+
+
+    </main>
+
+    <footer class="site-footer">
+<div class="container">
+
+    <div role="contentinfo">
+        <p>
+                &copy; Copyright 2022, ntoth,siket,szasz.
+        </p>
+    </div>
+        <p>Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+        <a href="https://github.com/testthedocs/sphinx_ttd_theme">theme</a>
+        provided by <a href="https://testthedocs">TestTheDocs</a>. 
+
+</div>
+</footer>
+
+    
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/js/theme-min.js"></script> 
+</body>
+</html>

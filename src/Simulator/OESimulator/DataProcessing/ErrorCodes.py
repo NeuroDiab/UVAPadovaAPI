@@ -1,0 +1,11 @@
+from enum import Enum
+class ERROR_CODES(Enum):
+    DATE_INVALID = 1
+    CGM_EMPTY = 100
+    CGM_INVALID = 101
+    CGM_OUTOFRANGE = 102
+    CGM_GAP = 103
+    INSULIN_EMPTY = 200
+    INSULIN_INVALID = 201
+    CHO_EMPTY = 300
+    CHO_INVALID = 301
