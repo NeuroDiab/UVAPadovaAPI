@@ -1,6 +1,6 @@
 # An application programming interface for the widely used academic version of the UVA/Padova Type 1 Diabetes Metabolic simulator
 
-The UVA/Padova Type 1 Diabetes Simulator is a widely applied tool to test control algorithms among diabetes researchers. The academic version is implemented in Matlab, while Matlab is very popular in the academic field, Python is the most popular programming language. We developed an application programming interface (API) for the simulator in Python, and an additional Python wrapper for easier usage. The interface is designed with the specific purpose of testing control algorithms, thus it doesn't provide the full functionality of the Matlab simulator. The developed API is tested for different simulation scenarios, showcasing identical results between the API and the original simulator.
+The UVA/Padova Type 1 Diabetes Simulator is a widely applied tool to test control algorithms among diabetes researchers. The academic version is implemented in Matlab; while Matlab is very popular in the academic field, Python is the most popular programming language. We developed an application programming interface (API) for the simulator in Python, and a representational state transfer (REST) API for additional extension route with a Python reference implementation for easier usage. The interface is designed with the specific purpose of testing control algorithms, thus it does not provide the full functionality of the Matlab simulator. The developed API is tested for different simulation scenarios, showcasing identical results between the API and the programming interface of the original simulator. Additional information and the source code can be found in https://github.com/NeuroDiab/UVAPadovaAPI.
 
 ## What can I do with the API?
 
@@ -29,5 +29,6 @@ The UVA/Padova Type 1 Diabetes Simulator is a widely applied tool to test contro
 
 ## Documentation
 
+https://neurodiab.github.io/UVAPadovaAPI/
 
 ## Cite
