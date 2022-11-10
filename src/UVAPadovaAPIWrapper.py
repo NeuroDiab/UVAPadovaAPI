@@ -1,5 +1,6 @@
 import requests
 import json
+from .Simulator.UVAPadova.VirtualPatientT1DMS import Quest
 
 
 class UvaPadovaAPI:
@@ -56,6 +57,10 @@ class UvaPadovaAPI:
         if sensor is not None:
             params["sensor"] = sensor
         response = requests.get(url=self.HOST_ADDRESS+":"+str(self.PORT)+"/createSimulation", params=params)
+        if response.ok:
+            result = response.json()
+            result = json.loads(result)
+            self.Quest = Quest(**result)
         self.listOfCarbohydrateIntakes.clear()
         self.listOfInsulinIntakes.clear()
         self.listOfBloodGlucoseValues.clear()

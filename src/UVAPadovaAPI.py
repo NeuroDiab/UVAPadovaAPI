@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_restful import Resource, Api
 import json
 from Simulator.UVAPadova.UVAPadovaSimulator import UvaPadovaSimulator
+from dataclasses import dataclass, asdict
 import subprocess
 import pyperclip
 
@@ -47,7 +48,8 @@ class SimulationCreator(Resource):
             uva_padova_simulator.pump = request.args.get("pump")
         if "sensor" in request.args:
             uva_padova_simulator.sensor = request.args.get("sensor")
-        return "", '200 The ' + patient_name + " patient successfully loaded."
+        return json.dumps(asdict(uva_padova_simulator.patient.Quest))
+        #return "", '200 The ' + patient_name + " patient successfully loaded."
 
 
 class Simulate(Resource):

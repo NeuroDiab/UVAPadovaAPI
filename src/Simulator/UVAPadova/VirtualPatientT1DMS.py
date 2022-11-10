@@ -3,6 +3,21 @@ import math
 import matlab.engine
 import matplotlib.pyplot as plt
 import time
+from dataclasses import dataclass
+from collections import namedtuple
+
+@dataclass
+class Quest:
+    """Class for keeping track of an item in inventory."""
+    OB: float
+    MD: float
+    TDI: float
+    age: float
+    t1dm_duration: float
+    names: str
+    weight: float
+    basal: float
+    fastingBG: float
 
 
 class VirtualPatientT1DMS:
@@ -42,6 +57,7 @@ class VirtualPatientT1DMS:
         print(time.time()-start_time)
         path = "C:/T1DMS_Install/UVa PadovaT1DM Simulator v3.2.1"
         self.eng.cd(path, nargout=0)
+        self.Quest = Quest(**self.eng.load_quest(self.patient))
 
     def simulatePatient(self, simulation_data: dict):
         """ Simulates the patient based on the data given in the simulation_data argument.
