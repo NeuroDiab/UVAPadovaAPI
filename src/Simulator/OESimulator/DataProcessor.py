@@ -16,6 +16,17 @@ import datetime
 from types import SimpleNamespace
 
 
+import xml.etree.ElementTree as et
+import pandas as pd
+import numpy as np
+import os
+from typing import Union, Tuple, List
+import pickle
+import json
+import datetime
+from types import SimpleNamespace
+
+
 class DataProcessor(json.JSONEncoder):
     """ Data processor class.
         Creates SimulationData and PatientData structures by defining a Scenario and patient id and data source.
@@ -73,6 +84,8 @@ class DataProcessor(json.JSONEncoder):
             return [], [], ERROR_CODES.CHO_INVALID
         if not db_file.loadInsulin():
             return [], [], ERROR_CODES.INSULIN_INVALID
+        if not db_file.loadExercise():
+            return [], [], ERROR_CODES.EXERCISE_INVALID
 
         if not len(db_file.glucose_values):
             return [],[],ERROR_CODES.CGM_EMPTY
@@ -90,6 +103,9 @@ class DataProcessor(json.JSONEncoder):
         basal_times, basal_values = self.sort(db_file.basal_times, db_file.basal_values)
         bolus_times, bolus_values = self.sort(db_file.bolus_times, db_file.bolus_values)
         meal_times, meal_values = self.sort(db_file.meal_times, db_file.meal_values)
+        exercise_times, exercise_values = self.sort(db_file.exercise_times, db_file.exercise_values)
+        # exercise_values, exercise_lengths = zip(*exercise_data)
+
         # print(max(glucose_times))
         # print(min(glucose_times))
 
@@ -115,6 +131,7 @@ class DataProcessor(json.JSONEncoder):
         scenario.setManualMealScheme(meal_times, meal_values)
         scenario.setManualBolusScheme(bolus_times, bolus_values)
         scenario.setManualBasalInsulin(basal_values, basal_times)
+        scenario.setManualExerciseScheme(exercise_values,exercise_times)
         simulation_data, patient_data, error = self.manualProcess(scenario, input_data)
         simulation_data.glucose_level = np.zeros((len(glucose_values), 2))
         simulation_data.glucose_level[:, 0] = glucose_times
@@ -138,6 +155,7 @@ class DataProcessor(json.JSONEncoder):
         simulation_data.basal.as_timestamped_array = scenario.manual_basal_insulin
         simulation_data.bolus.as_timestamped_array = scenario.manual_boluses
         simulation_data.meal.as_timestamped_array = scenario.manual_meals
+        simulation_data.exercise.as_timestamped_array = scenario.manual_exercises
 
         simulation_data.trim()
 
@@ -157,6 +175,8 @@ class DataProcessor(json.JSONEncoder):
         simulation_data.bolus.copyTimestampedArrayToArray(simulation_data.t_start,simulation_data.scenario.Ts,simulation_data.scenario.position.bolus)
         simulation_data.meal.copyTimestampedArrayToArray(simulation_data.t_start,simulation_data.scenario.Ts,simulation_data.scenario.position.meal)
         simulation_data.basal.copyTimestampedArrayToArray(simulation_data.t_start,simulation_data.scenario.Ts,simulation_data.scenario.position.basal)
+        simulation_data.exercise.copyTimestampedArrayToArray(simulation_data.t_start,simulation_data.scenario.Ts,simulation_data.scenario.position.exercise)
+
 
         simulation_data.bolus.as_array = simulation_data.scenario.units.convertUnits(simulation_data.bolus.as_array, simulation_data.scenario.units.bolus,
                                                           simulation_data.units.insulin, simulation_data.scenario.Ts)
@@ -166,12 +186,21 @@ class DataProcessor(json.JSONEncoder):
         return simulation_data, patient_data, False
 
     def t1dmsProcess(self, scenario: Scenario, input_data=None): # UVa-Padova
+
         import matlab.engine
         print("in t1dmsProcess")
         self.data_source = "t1dms"
         patient_data = None  #self.patient_id
-        Ameals = list(scenario.manual_meals[:,1])
-        dose = list(np.multiply(np.array(Ameals), 1000)) # meal amount in mg
+        Ameals_init = 30#np.sum(scenario.manual_meals[:,1])
+        Ameals2 = []
+        Ameals2.append(Ameals_init)
+        for meal in scenario.manual_meals[:,1]:
+            Ameals2.append(meal)
+        Ameals = list(np.array(scenario.manual_meals[:,1]))
+        dose = list(np.multiply(np.array(Ameals2), 1000)) # meal amount in mg
+        Tdose2 = [0]
+        for times in scenario.manual_meals[:,0]:
+            Tdose2.append(times)
         Tdose = list(scenario.manual_meals[:,0]) # meal times in min
         Tmeals = list(scenario.manual_meals[:,0] / 60.0) # meal times in hour
         Abolus = []
@@ -185,8 +214,11 @@ class DataProcessor(json.JSONEncoder):
 
         for i in range(len(dose)):
             dose[i] = float(dose[i])
+        for i in range(len(Tdose)):
             Tdose[i] = float(Tdose[i])
+        for i in range(len(Ameals)):
             Ameals[i] = float(Ameals[i])
+        for i in range(len(Tmeals)):
             Tmeals[i] = float(Tmeals[i])
 
 
@@ -239,19 +271,14 @@ class DataProcessor(json.JSONEncoder):
                 meals.append([Tdose[i] + scenario.params_t1dms.meal_duration, 0.0])
             meals.append([Tdose[i] + scenario.params_t1dms.meal_duration + 1, 0.0]) # first and last value is 0
 
+
             t_meals = [0.0]
             for i in range(len(Tmeals)): # for every t [hour] meal time: (t-1)[min]-0.01,(t-1)[min],(t+1)[min],(t+1)[min]+0.01
                 t_meals.append((Tmeals[i] - 1) * 60.0 - 0.01)
                 t_meals.append((Tmeals[i] - 1) * 60.0)
                 t_meals.append((Tmeals[i] + 1) * 60.0)
                 t_meals.append((Tmeals[i] + 1) * 60.0 + 0.01)
-            t_meals.append((Tmeals[i] + 1) * 60.0 + 1.01) # last value: 1 minute after last element of t_meal
-
-            for i in range(len(t_meals) - 2): # to avoid the decrease of t_meals values (E.g. when only 1 hour passes between 2 meals,
-                # t_meals vector would not be monotonically increasing: Tmeals=[2,3] -> t_meals=[59.99,60,180,180.01,119.99,120,240,240.01])
-                if t_meals[i] >= t_meals[i + 2]:
-                    t_meals[i] = t_meals[i + 2] - 0.03
-                    t_meals[i + 1] = t_meals[i + 2] - 0.02
+            t_meals.append((Tmeals[-1]+1) * 60.0 + 1.01) # last value: 1 minute after last element of t_meal
 
         #t_meals = np.array([t_meals]).T
 
@@ -276,7 +303,7 @@ class DataProcessor(json.JSONEncoder):
                        "meals": matlab.double(meals),
                        "meal_announce": {"time": matlab.double(t_meals), "signals": {"values": matlab.double(val_meals), "dimensions": 2.0}},
                        "dose": matlab.double(dose),
-                       "Tdose": matlab.double(Tdose),
+                       "Tdose": matlab.double(Tdose2),
                        #"Abolus": matlab.double(Abolus),
                        #"Tbolus": matlab.double(Tbolus),
                        "Qmeals": scenario.params_t1dms.Qmeals,
@@ -303,6 +330,69 @@ class DataProcessor(json.JSONEncoder):
                     }
 
         return T1DMSData, patient_data, False
+
+    def readfromxmltodict(self,path):
+        xtree = et.parse(path)
+        xroot = xtree.getroot()
+        data = {}
+        for node in xroot:
+            data[node.tag] = []
+            for f in node.getchildren():
+                data[node.tag].append(f.attrib)
+        return data
+
+    def to_xml(self, df, filename=None, mode='w'):
+        def row_to_xml(row):
+            xml = ['<item>']
+            for i, col_name in enumerate(row.index):
+                xml.append('  <field name="{0}">{1}</field>'.format(col_name, row.iloc[i]))
+            xml.append('</item>')
+            return '\n'.join(xml)
+
+        res = '\n'.join(df.apply(row_to_xml, axis=1))
+        res = '<?xml version="1.0" encoding="UTF-8" ?>\n<root>\n' + res + '\n</root>'
+        if filename is None:
+            return res
+        with open(filename, mode) as f:
+            f.write(res)
+
+    def readfromxmltodataframe(self, path, cols):
+        xtree = et.parse(path)
+        xroot = xtree.getroot()
+        data = []
+        for node in xroot:
+            lis = []
+            for c in node.getchildren():
+                lis.append(c.text)
+            data.append(lis)
+        if cols == None:
+            return pd.DataFrame(data)
+        else:
+            return pd.DataFrame(data, columns=cols)
+
+    @staticmethod
+    def saveObject(object, file_path_name: str):
+        if os.path.exists(file_path_name+".obj"):
+            print("File "+file_path_name+" already exists. Press ENTER to overwrite or specify NEW_PATH_NAME:")
+            answer = input()
+            if answer == "":
+                filehandler = open(file_path_name + ".obj", "wb")
+            else:
+                filehandler = open(answer + ".obj", "wb")
+        else:
+            filehandler = open(file_path_name+".obj", "wb")
+        pickle.dump(object, filehandler)
+
+    @staticmethod
+    def loadObject( file_path_name: str) -> Union[Tuple[VirtualPatient,SimulationData],VirtualPatient]:
+        filehandler = open(file_path_name+".obj", "rb")
+        loaded_virtual_patient = pickle.load(filehandler)
+        if hasattr(loaded_virtual_patient, "last_simulation_data"):
+            last_simulation_data = loaded_virtual_patient.last_simulation_data
+            del loaded_virtual_patient.last_simulation_data
+            return loaded_virtual_patient, last_simulation_data
+        else:
+            return loaded_virtual_patient
 
     @staticmethod
     def checkDate(date):

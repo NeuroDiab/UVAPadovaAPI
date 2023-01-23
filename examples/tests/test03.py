@@ -10,24 +10,18 @@ bt = []
 m = []
 mt = []
 
-# test03: 1 U bolus insulin in odd and 2 U in even hours, 1.0 U basal insulin,
-#         10 g CH in odd and 20 g in even hours
 
 for i in range(1,tend+1):
-    if i%60 == 0:
-        if (i/60)%2 == 0:
+    if i%120 == 0:
+        if (i/120)%2 == 0:
             b.append(2)
-            m.append(20)
+            m.append(45)
         else:
             b.append(1)
-            m.append(10)
+            m.append(30)
         mt.append(i)
         bt.append(i)
 
-b = tuple(b)
-bt = tuple(bt)
-m = tuple(m)
-mt = tuple(mt)
 Tsim = float(tend - tstart)
 scenario = Scenario(tstart,tend,"t1dms")
 scenario.Ts = 1
@@ -39,9 +33,9 @@ scenario.setParamsT1DMS()
 
 T1DMSprocessor = DataProcessor()  # Tsimul, Tclosed, hardware, IVgluc,ins are in dataprocessor
 T1DMSdata, patient_data = T1DMSprocessor.processData(scenario=scenario)
-
-patient = VirtualPatientT1DMS(patient_name="adolescent#003.mat", BGinit=matlab.double([])) # , eng=eng, path=path
+patient = VirtualPatientT1DMS(patient_name="adolescent#003.mat", BGinit=matlab.double([])) # , eng=eng, path=path adolescent#003.mat
 
 patient.simulatePatient(simulation_data=T1DMSdata) # matlab engine
 
+savemat('test3T1DMS.mat',{'Glucose':patient.bg})
 patient.plotHistoricalStates()

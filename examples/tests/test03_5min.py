@@ -9,13 +9,13 @@ insulins = np.zeros(tsim)
 chos = np.zeros(tsim)
 
 for i in range(1,tsim+1):
-    if i%12 == 0:
-        if (i/12)%2 == 0:
+    if i%24 == 0:
+        if (i/24)%2 == 0:
             insulins[i-1] = 2
-            chos[i-1] = 20
+            chos[i-1] = 45
         else:
             insulins[i-1] = 1
-            chos[i-1] = 10
+            chos[i-1] = 30
 
 virtual_patient = UvaPadovaAPI()
 virtual_patient.initializePatient("adolescent#003")
