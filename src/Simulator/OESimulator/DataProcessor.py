@@ -384,17 +384,6 @@ class DataProcessor(json.JSONEncoder):
         pickle.dump(object, filehandler)
 
     @staticmethod
-    def loadObject( file_path_name: str) -> Union[Tuple[VirtualPatient,SimulationData],VirtualPatient]:
-        filehandler = open(file_path_name+".obj", "rb")
-        loaded_virtual_patient = pickle.load(filehandler)
-        if hasattr(loaded_virtual_patient, "last_simulation_data"):
-            last_simulation_data = loaded_virtual_patient.last_simulation_data
-            del loaded_virtual_patient.last_simulation_data
-            return loaded_virtual_patient, last_simulation_data
-        else:
-            return loaded_virtual_patient
-
-    @staticmethod
     def checkDate(date):
         try:
             datetime.datetime.strptime(date, DATETIME_FORMAT)
