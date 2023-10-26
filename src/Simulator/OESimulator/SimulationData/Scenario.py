@@ -321,9 +321,9 @@ class Scenario:
                 >>> self.plot()
         """
         for row in self.manual_meals:
-            plt.arrow(row[0], 0, 0, row[1],width=1)
+            plt.arrow(row[0], 0, 0, row[1],width=1,label=None)
         for row in self.manual_boluses:
-            plt.arrow(row[0], 0, 0, row[1],color=[0,1,0],width=1)
+            plt.arrow(row[0], 0, 0, row[1],color=[0,1,0],width=1,label=None)
         plt.xlim((self.start_time.as_int,self.end_time.as_int))
         if show:
             plt.show()

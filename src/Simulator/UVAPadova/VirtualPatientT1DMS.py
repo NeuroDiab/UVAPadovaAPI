@@ -51,12 +51,21 @@ class VirtualPatientT1DMS:
                 BGinit : Initial blood glucose concentration of the patient. If empty, basal conditions is assumed.
         """
         self.BGinit = BGinit
-        self.patient = patient_name
         self.eng = matlab.engine.start_matlab()
-        path = "C:/T1DMS_Install/UVa PadovaT1DM Simulator v3.2.1"
+        path = "C:/T1DMS_Install/UVa PadovaT1DM Simulator v3.2.1/"
         self.eng.cd(path, nargout=0)
-        self.Quest = Quest(**self.eng.load_quest(self.patient))
-        print("Patient info:"+self.patient+" basal:%.2f" % self.Quest.basal +" fasting BG:%.2f" % self.Quest.fastingBG)
+        self.patient = patient_name
+
+    @property
+    def patient(self):
+        return self._patient
+
+    @patient.setter
+    def patient(self, value):
+        self._patient = value
+        self.Quest = Quest(**self.eng.load_quest(value))
+        print(
+            "Patient info:" + self.patient + " basal:%.2f" % self.Quest.basal + " fasting BG:%.2f" % self.Quest.fastingBG)
 
     def simulatePatient(self, simulation_data: dict):
         """ Simulates the patient based on the data given in the simulation_data argument.
@@ -95,9 +104,10 @@ class VirtualPatientT1DMS:
         bg = np.asarray(self.result[0]['G']['signals']['values'])
         sensor_noise = np.asarray(self.result[0]['sensor']['signals']['values'])
 
-        plt.plot(bg)
-        plt.plot(sensor_noise)
-        plt.legend(['BG','noise'])
+        plt.plot(bg, label="BG")
+        plt.plot(sensor_noise, label="CGM")
+        plt.legend()
+        plt.title(self.patient)
         plt.show()
 
         rmse = math.sqrt(np.square(np.subtract(bg,sensor_noise)).mean())
