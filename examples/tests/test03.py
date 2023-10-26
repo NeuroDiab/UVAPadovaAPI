@@ -27,7 +27,7 @@ scenario = Scenario(tstart,tend,"t1dms")
 scenario.Ts = 1
 scenario.setManualMealScheme(meal_times=mt, meal_values=m, unit='g')
 scenario.setManualBolusScheme(bolus_times=bt, bolus_values=b, unit='U')
-scenario.setManualBasalInsulin(1.0, unit=r"U/hr")
+scenario.setManualBasalInsulin(1, unit=r"U/hr")
 scenario.setHardware(sensor='dexcom.scs', pump='Generic_1.pmp')
 scenario.setParamsT1DMS()
 
@@ -36,6 +36,4 @@ T1DMSdata, patient_data = T1DMSprocessor.processData(scenario=scenario)
 patient = VirtualPatientT1DMS(patient_name="adolescent#003.mat", BGinit=matlab.double([])) # , eng=eng, path=path adolescent#003.mat
 
 patient.simulatePatient(simulation_data=T1DMSdata) # matlab engine
-
-savemat('test3T1DMS.mat',{'Glucose':patient.bg})
 patient.plotHistoricalStates()

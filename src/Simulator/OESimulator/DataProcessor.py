@@ -51,7 +51,10 @@ class DataProcessor(json.JSONEncoder):
                   'emulated': self.manualProcess,
                   't1dms': self.t1dmsProcess}  # UVa-Padova
         simulation_data, patient_data, error = switch[scenario.scenario_setting](scenario,input_data)
-        print(error)
+        if error:
+            print("Error during data processing: "+error)
+        else:
+            print("Input data processing finished.")
         return simulation_data, patient_data
 
     def handleTypes(self, obj):
@@ -104,21 +107,7 @@ class DataProcessor(json.JSONEncoder):
         bolus_times, bolus_values = self.sort(db_file.bolus_times, db_file.bolus_values)
         meal_times, meal_values = self.sort(db_file.meal_times, db_file.meal_values)
         exercise_times, exercise_values = self.sort(db_file.exercise_times, db_file.exercise_values)
-        # exercise_values, exercise_lengths = zip(*exercise_data)
 
-        # print(max(glucose_times))
-        # print(min(glucose_times))
-
-
-        # diffs = np.diff(glucose_times)
-        # print(np.diff(glucose_times))
-        # print(min(diffs))
-        # print(max(diffs))
-        # plt.plot(glucose_times,glucose_values)
-        # plt.show()
-
-        # if np.sum(np.diff(glucose_times)>20.0):
-        #     return [],[],ERROR_CODES.CGM_GAP
 
         if not basal_values:
             print("Basal value not found.")
@@ -188,7 +177,7 @@ class DataProcessor(json.JSONEncoder):
     def t1dmsProcess(self, scenario: Scenario, input_data=None): # UVa-Padova
 
         import matlab.engine
-        print("in t1dmsProcess")
+        print("Converting Scenario to T1DMS data...")
         self.data_source = "t1dms"
         patient_data = None  #self.patient_id
         Ameals_init = 30#np.sum(scenario.manual_meals[:,1])
@@ -242,7 +231,6 @@ class DataProcessor(json.JSONEncoder):
                 t_ins.append(Tbolus[i] + 1 - 0.01)
                 t_ins.append(Tbolus[i] + 1)
             t_ins.append(Tbolus[i] + 2) # last value: 2 minutes after last t
-            #t_ins = np.array([t_ins]).T
 
             val_ins = [[basal_UpMin, 0.0]] # basal and bolus insulin for every meal: 0,bolus,bolus,0
             if scenario.params_t1dms.OB == 'off':
@@ -271,16 +259,9 @@ class DataProcessor(json.JSONEncoder):
                 meals.append([Tdose[i] + scenario.params_t1dms.meal_duration, 0.0])
             meals.append([Tdose[i] + scenario.params_t1dms.meal_duration + 1, 0.0]) # first and last value is 0
 
-
-            t_meals = [0.0]
-            for i in range(len(Tmeals)): # for every t [hour] meal time: (t-1)[min]-0.01,(t-1)[min],(t+1)[min],(t+1)[min]+0.01
-                t_meals.append((Tmeals[i] - 1) * 60.0 - 0.01)
-                t_meals.append((Tmeals[i] - 1) * 60.0)
-                t_meals.append((Tmeals[i] + 1) * 60.0)
-                t_meals.append((Tmeals[i] + 1) * 60.0 + 0.01)
-            t_meals.append((Tmeals[-1]+1) * 60.0 + 1.01) # last value: 1 minute after last element of t_meal
-
-        #t_meals = np.array([t_meals]).T
+            t_meals = []
+            for i in range(len(meals)):
+                t_meals.append(meals[i][0])
 
             val_meals = [[0.0, 0.0]] # amount of every meal: 0,meal,meal,0
             for i in range(len(Ameals)): # times: 0,60,-60,0 (minimum 1 hour has to pass between meals)(?)

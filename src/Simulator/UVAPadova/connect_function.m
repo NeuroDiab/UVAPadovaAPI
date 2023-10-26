@@ -1,6 +1,6 @@
 function res_aux = connect_function(sc,patient,hardwareN,hardware,rep,bck_meals,bck_meal_announce,bck_SQinsulin,ind)
 
-save('scpython.mat','sc')
+
 hardware=load_hardware(hardwareN,hardware);
 
 save hardware

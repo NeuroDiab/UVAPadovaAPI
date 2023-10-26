@@ -52,12 +52,11 @@ class VirtualPatientT1DMS:
         """
         self.BGinit = BGinit
         self.patient = patient_name
-        start_time = time.time()
         self.eng = matlab.engine.start_matlab()
-        print(time.time()-start_time)
         path = "C:/T1DMS_Install/UVa PadovaT1DM Simulator v3.2.1"
         self.eng.cd(path, nargout=0)
         self.Quest = Quest(**self.eng.load_quest(self.patient))
+        print("Patient info:"+self.patient+" basal:%.2f" % self.Quest.basal +" fasting BG:%.2f" % self.Quest.fastingBG)
 
     def simulatePatient(self, simulation_data: dict):
         """ Simulates the patient based on the data given in the simulation_data argument.
@@ -76,7 +75,6 @@ class VirtualPatientT1DMS:
         self.sc = simulation_data['Lscenario']
 
         simulation_data['Lscenario']['BGinit'] = self.BGinit
-        print(self.sc)
         start_time = time.time()
         res_aux = self.eng.connect_function(self.sc,
                           self.patient,
@@ -87,7 +85,7 @@ class VirtualPatientT1DMS:
                           self.bck_meal_announce,
                           self.bck_SQinsulin,
                           self.ind)
-        print(time.time()-start_time)
+        print("T1DMS simulation time: " + str(time.time()-start_time))
         self.result = res_aux
         self.bg = np.asarray(self.result[0]['G']['signals']['values'])
 
